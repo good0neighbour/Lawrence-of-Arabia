@@ -26,11 +26,13 @@ public class FourDirectionPlayerControl : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main.transform;
-        _camera.localRotation = Quaternion.Euler(
+        Quaternion rot = Quaternion.Euler(
             Constants.FD_CAM_ROT_OFFSET - Mathf.Atan(Constants.FD_CAM_OFFSET.x / Constants.FD_CAM_OFFSET.y) / Mathf.PI * 180.0f,
             0.0f,
             0.0f
         );
+        _camera.localRotation = rot;
+        transform.localRotation = rot;
     }
 
 
@@ -53,11 +55,5 @@ public class FourDirectionPlayerControl : MonoBehaviour
             transform.position + new Vector3(0.0f, Constants.FD_CAM_OFFSET.x, Constants.FD_CAM_OFFSET.y),
             Constants.FD_CAM_SPEED
         );
-    }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.gameObject.name);
     }
 }
