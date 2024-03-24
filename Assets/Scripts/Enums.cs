@@ -2,6 +2,11 @@ public enum Characters
 {
     Player,
     Phi,
+    Cocoro,
+    Delta,
+    Koi,
+    Nonya,
+    Ryu,
     None
 }
 

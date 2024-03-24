@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ba76353eae35e4da86a8fca3538f45, type: 3}
+  m_Name: TestDialogue 1
+  m_EditorClassIdentifier: 
+  _dialogues:
+  - Name: 6
+    NameColour: 6
+    ImageDirection: 0
+    Text: Wanna play tag?
+    Branches: []
+  - Name: 4
+    NameColour: 6
+    ImageDirection: 1
+    Text: Sure.
+    Branches: []
+  - Name: 2
+    NameColour: 6
+    ImageDirection: 1
+    Text: Can I join?
+    Branches: []
+  - Name: 6
+    NameColour: 6
+    ImageDirection: 0
+    Text: Of course.
+    Branches: []
+  - Name: 6
+    NameColour: 6
+    ImageDirection: 0
+    Text: Do you want to join too, boss?
+    Branches: []
+  - Name: 1
+    NameColour: 4
+    ImageDirection: 0
+    Text: Looks like they want you to join playing tag.
+    Branches: []
+  - Name: 1
+    NameColour: 4
+    ImageDirection: 0
+    Text: Would you join?
+    Branches: []
+  - Name: 0
+    NameColour: 2
+    ImageDirection: 0
+    Text: 
+    Branches:
+    - Text: Yeah, whatever.
+      Branch: {fileID: 11400000, guid: d0a1480e06158b841b1522719abe5cf7, type: 2}
+    - Text: Sure.
+      Branch: {fileID: 11400000, guid: d0a1480e06158b841b1522719abe5cf7, type: 2}

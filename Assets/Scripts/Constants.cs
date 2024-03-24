@@ -19,6 +19,7 @@ public class Constants
     public const float ENEMY_URGENT_MOVESTOP_POSI = 0.4f;
     public const float ENEMY_URGENT_JUMP_POSI = 0.3f;
     public const float ENEMY_ANIM_MULT = 2.0f;
+    public const float ENEMY_URGENT_SPEED = 3.0f;
 
     // Camera Settings
     public const float HOR_CAM_SPEED = 0.03f;

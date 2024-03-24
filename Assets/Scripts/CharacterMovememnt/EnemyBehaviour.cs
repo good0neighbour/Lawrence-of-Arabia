@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class EnemyBehaviour : HorizontalMovement
@@ -25,6 +26,7 @@ public class EnemyBehaviour : HorizontalMovement
     [Header("References")]
     [SerializeField] private SpriteRenderer _sprite = null;
     [SerializeField] private RectTransform _sightUI = null;
+    [SerializeField] private Image _notice = null;
     [SerializeField] private Animator _animator = null;
     private GameDelegate _behavDel = null;
     private BehaviourTree _behav = new BehaviourTree();
@@ -33,6 +35,7 @@ public class EnemyBehaviour : HorizontalMovement
     private byte _enemyState = Constants.ENEMY_SILENCE;
     private float _playerDis = 0.0f;
     private float _velocity = 0.0f;
+    private float _urgentMeter = 0.0f;
     private float _timer = 0.0f;
     private bool _isGroundedMem = true;
     private bool _paused = true;
@@ -52,6 +55,14 @@ public class EnemyBehaviour : HorizontalMovement
         {
             _paused = false;
         }
+    }
+
+
+    public void UrgentStart()
+    {
+        StateChange(Constants.ENEMY_URGENT);
+        Destroy(_sightUI.gameObject);
+        _acceleration *= Constants.ENEMY_URGENT_ACC_MULT;
     }
 
 
@@ -305,7 +316,30 @@ public class EnemyBehaviour : HorizontalMovement
             case Constants.ENEMY_SILENCE:
                 if (_playerDis < _silenceSight)
                 {
-                    return DetectPlayer(_silenceSightAngle, _silenceSight);
+                    switch (DetectPlayer(_silenceSightAngle, _silenceSight))
+                    {
+                        case Constants.SUCCESS:
+                            UrgentMeterChange(_urgentMeter + DeltaTime * Constants.ENEMY_URGENT_SPEED);
+                            if (_urgentMeter >= 1.0f)
+                            {
+                                return Constants.SUCCESS;
+                            }
+                            else
+                            {
+                                return Constants.FAILURE;
+                            }
+
+                        case Constants.FAILURE:
+                            if (_urgentMeter > 0.0f)
+                            {
+                                UrgentMeterChange(_urgentMeter - DeltaTime * Constants.ENEMY_URGENT_SPEED);
+                            }
+                            return Constants.FAILURE;
+                    }
+                }
+                if (_urgentMeter > 0.0f)
+                {
+                    UrgentMeterChange(_urgentMeter - DeltaTime * Constants.ENEMY_URGENT_SPEED);
                 }
                 return Constants.FAILURE;
 
@@ -394,9 +428,7 @@ public class EnemyBehaviour : HorizontalMovement
 
     private byte UrgentAlert()
     {
-        StateChange(Constants.ENEMY_URGENT);
-        Destroy(_sightUI.gameObject);
-        _acceleration *= Constants.ENEMY_URGENT_ACC_MULT;
+        MapManager.Instance.UrgentAlert();
         return Constants.SUCCESS;
     }
 
@@ -482,6 +514,21 @@ public class EnemyBehaviour : HorizontalMovement
         }
         _enemyState = state;
         _timer = 0.0f;
+    }
+
+
+    private void UrgentMeterChange(float value)
+    {
+        _urgentMeter = value;
+        if (_urgentMeter < 0.0f)
+        {
+            _urgentMeter = 0.0f;
+        }
+        else if (_urgentMeter > 1.0f)
+        {
+            _urgentMeter = 1.0f;
+        }
+        _notice.fillAmount = _urgentMeter;
     }
 
 

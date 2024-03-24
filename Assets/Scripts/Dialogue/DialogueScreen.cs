@@ -16,12 +16,13 @@ public class DialogueScreen : MonoBehaviour
     [SerializeField] private Transform _charImageTrans = null;
     [SerializeField] private Transform _buttonParent = null;
     private List<DialogueScript.Dialogue> _script = null;
-    private List<GameObject> _buttons = new List<GameObject>();
+    private List<ButtonRef> _buttons = new List<ButtonRef>();
     private GameManager.CharacterData[] _characterData;
     private CharImageDir _imageDir = CharImageDir.Left;
     private Characters _prevChar = Characters.None;
     private byte _dialogueIndex = 0;
     private sbyte _animationState = 0;
+    private sbyte _btnFocus = -1;
     private bool _playerStandby = false;
 
 
@@ -41,8 +42,16 @@ public class DialogueScreen : MonoBehaviour
 
     public void DialogueButtonSelect()
     {
+        ButtonFunctioning((sbyte)EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex());
+    }
+
+
+
+    /* ==================== Private Methods ==================== */
+
+    private void ButtonFunctioning(sbyte btnNum)
+    {
         DialogueScript.Dialogue current = _script[_dialogueIndex];
-        byte btnNum = (byte)EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
 
         // Player choice
         _dialogueTexts[0].text = $"<color={current.NameColour.ToString()}><b>{current.Name.ToString()}</b></color>\n{current.Branches[btnNum].Text}";
@@ -61,18 +70,16 @@ public class DialogueScreen : MonoBehaviour
 
         // Disable player dialogue buttons
         _buttonParent.gameObject.SetActive(false);
-        foreach (GameObject btn in _buttons)
+        foreach (ButtonRef btn in _buttons)
         {
-            btn.SetActive(false);
+            btn.ButtonObject.SetActive(false);
         }
 
         // Resume dialogue
         _playerStandby = false;
+        _btnFocus = -1;
     }
 
-
-
-    /* ==================== Private Methods ==================== */
 
     private void TextMoving()
     {
@@ -287,27 +294,80 @@ public class DialogueScreen : MonoBehaviour
         {
             if (i > _buttons.Count - 1)
             {
-                _buttons.Add(Instantiate(_buttons[0], _buttonParent));
+                GameObject newBtn = Instantiate(_buttons[0].ButtonObject, _buttonParent);
+                _buttons.Add(new ButtonRef(
+                    newBtn,
+                    newBtn.GetComponent<Image>(),
+                    newBtn.GetComponentInChildren<TextMeshProUGUI>()
+                ));
             }
-            _buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = current.Branches[i].Text;
-            _buttons[i].SetActive(true);
+            _buttons[i].ButtonText.text = current.Branches[i].Text;
+            _buttons[i].ButtonImage.color = Color.white;
+            _buttons[i].ButtonObject.SetActive(true);
+        }
+    }
+
+
+    private void SetButtonFocus(sbyte index)
+    {
+        for (byte i = 0; i < _buttons.Count; ++i)
+        {
+            if (i == index)
+            {
+                _buttons[i].ButtonImage.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
+            }
+            else
+            {
+                _buttons[i].ButtonImage.color = Color.white;
+            }
         }
     }
 
 
     private void Awake()
     {
-        _buttons.Add(_buttonParent.GetChild(0).gameObject);
+        GameObject btn = _buttonParent.GetChild(0).gameObject;
+        _buttons.Add(new ButtonRef(
+            btn,
+            btn.GetComponent<Image>(),
+            btn.GetComponentInChildren<TextMeshProUGUI>()
+        ));
         gameObject.SetActive(false);
     }
 
 
     private void Update()
     {
+        #region Player Selection Standby
         if (_playerStandby)
         {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                --_btnFocus;
+                if (_btnFocus < 0)
+                {
+                    _btnFocus = (sbyte)(_script[_dialogueIndex].Branches.Count - 1);
+                }
+                SetButtonFocus(_btnFocus);
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                ++_btnFocus;
+                if (_btnFocus >= _script[_dialogueIndex].Branches.Count)
+                {
+                    _btnFocus = 0;
+                }
+                SetButtonFocus(_btnFocus);
+            }
+            else if (_btnFocus >= 0
+                && (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F)))
+            {
+                ButtonFunctioning(_btnFocus);
+            }
+
             return;
         }
+        #endregion
 
         if (Input.anyKeyDown)
         {
@@ -352,6 +412,25 @@ public class DialogueScreen : MonoBehaviour
         if ((_animationState & Constants.DIALOGUE_IMAGE_MOVING) > 0)
         {
             ImageMoving();
+        }
+    }
+
+
+
+    /* ==================== Struct ==================== */
+
+    private struct ButtonRef
+    {
+        public GameObject ButtonObject;
+        public Image ButtonImage;
+        public TextMeshProUGUI ButtonText;
+
+
+        public ButtonRef(GameObject btnObject, Image btnImage, TextMeshProUGUI btnText)
+        {
+            ButtonObject = btnObject;
+            ButtonImage = btnImage;
+            ButtonText = btnText;
         }
     }
 }

@@ -71,7 +71,7 @@ public class MapTrigger : MonoBehaviour
                 return;
 
             case TriggerTypes.Interact:
-                CanvasPlayController.Instance.SetInteractBtnActive(ActiveTrigger);
+                HorizontalPlayerControl.Instance.SetInteractBtnActive(ActiveTrigger);
                 return;
 
             default:
@@ -92,7 +92,7 @@ public class MapTrigger : MonoBehaviour
                 return;
 
             case TriggerTypes.Interact:
-                CanvasPlayController.Instance.SetInteractBtnInactive();
+                HorizontalPlayerControl.Instance.SetInteractBtnInactive();
                 return;
 
             default:

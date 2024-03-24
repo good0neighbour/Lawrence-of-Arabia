@@ -6,7 +6,6 @@ public class CanvasPlayController : MonoBehaviour
 
     [SerializeField] private Joystick _joystick = null;
     [SerializeField] private GameObject[] _buttons = null;
-    private GameDelegate _onInteract = null;
 
     public static CanvasPlayController Instance
     {
@@ -30,31 +29,23 @@ public class CanvasPlayController : MonoBehaviour
         switch (index)
         {
             case Constants.BUTTON_ATTACK:
-                Debug.Log("Player Attack");
+                HorizontalPlayerControl.Instance.Attack();
                 return;
 
             case Constants.BUTTON_INTERACT:
-                _onInteract.Invoke();
+                HorizontalPlayerControl.Instance.Interact();
                 return;
 
             case Constants.BUTTON_EXTRA:
-                Debug.Log("Extra Function");
+                HorizontalPlayerControl.Instance.Extra();
                 return;
         }
     }
 
 
-    public void SetInteractBtnActive(GameDelegate action)
+    public void SetInteractBtnActive(bool active)
     {
-        _buttons[Constants.BUTTON_INTERACT].SetActive(true);
-        _onInteract = action;
-    }
-
-
-    public void SetInteractBtnInactive()
-    {
-        _buttons[Constants.BUTTON_INTERACT].SetActive(false);
-        _onInteract = null;
+        _buttons[Constants.BUTTON_INTERACT].SetActive(active);
     }
 
 

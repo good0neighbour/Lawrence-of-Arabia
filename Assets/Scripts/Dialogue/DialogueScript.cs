@@ -7,7 +7,7 @@ public class DialogueScript : ScriptableObject
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] private List<Dialogue> _dialogues = null;
+    [SerializeField] private List<Dialogue> _dialogues = new List<Dialogue>();
 
 
 

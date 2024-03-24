@@ -41,6 +41,9 @@ public class MapManager : MonoBehaviour
         // Play controller UI
         _controller.SetControllerActive(!pause);
 
+        // Player
+        HorizontalPlayerControl.Instance.PausePlayerControl(pause);
+
         // Enemy
         foreach (EnemyBehaviour enemy in _enemies)
         {
@@ -63,6 +66,15 @@ public class MapManager : MonoBehaviour
         if (CheckConditions(_defeatedConditions))
         {
             Debug.Log("Defeated");
+        }
+    }
+
+
+    public void UrgentAlert()
+    {
+        foreach (EnemyBehaviour enemy in _enemies)
+        {
+            enemy.UrgentStart();
         }
     }
 

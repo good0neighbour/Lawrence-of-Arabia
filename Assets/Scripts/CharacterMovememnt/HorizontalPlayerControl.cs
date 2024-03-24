@@ -1,6 +1,6 @@
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
-[RequireComponent (typeof(Animator))]
 public class HorizontalPlayerControl : HorizontalMovement
 {
     /* ==================== Fields ==================== */
@@ -9,8 +9,70 @@ public class HorizontalPlayerControl : HorizontalMovement
     [SerializeField] private Joystick _joystick = null;
     [SerializeField] private Animator _animator = null;
     [SerializeField] private Transform _camera = null;
+    private GameDelegate _onInteract = null;
     private bool _jumpAvailable = true;
     private bool _isGroundedMem = true;
+    private bool _paused = true;
+    private bool _interaction = false;
+
+    public static HorizontalPlayerControl Instance
+    {
+        get;
+        private set;
+    }
+
+
+
+    /* ==================== Public Methods ==================== */
+
+    public void Attack()
+    {
+        Debug.Log("Player Attack");
+    }
+
+
+    public void Interact()
+    {
+        _onInteract.Invoke();
+    }
+
+
+    public void Extra()
+    {
+        Debug.Log("Extra Function");
+    }
+
+
+    public void PausePlayerControl(bool pause)
+    {
+        _paused = pause;
+    }
+
+
+    public void SetInteractBtnActive(GameDelegate action)
+    {
+        CanvasPlayController.Instance.SetInteractBtnActive(true);
+        _interaction = true;
+        _onInteract = action;
+    }
+
+
+    public void SetInteractBtnInactive()
+    {
+        CanvasPlayController.Instance.SetInteractBtnActive(false);
+        _interaction = false;
+        _onInteract = null;
+    }
+
+
+
+    /* ==================== Protected Methods ==================== */
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Instance = this;
+    }
 
 
 
@@ -18,6 +80,7 @@ public class HorizontalPlayerControl : HorizontalMovement
 
     private void Update()
     {
+        #region Always Functioning
         Vector2 joystick = _joystick.JoystickWeight;
 
         // Jump
@@ -70,6 +133,25 @@ public class HorizontalPlayerControl : HorizontalMovement
         {
             _animator.SetBool("IsGrounded", true);
             _isGroundedMem = true;
+        }
+        #endregion
+
+        if (_paused)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Attack();
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Extra();
+        }
+        else if (_interaction && Input.GetKeyDown(KeyCode.E))
+        {
+            Interact();
         }
     }
 }

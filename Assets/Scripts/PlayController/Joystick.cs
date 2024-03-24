@@ -12,7 +12,7 @@ public class Joystick : MonoBehaviour
     private Vector2 _joystickControl = Vector2.zero;
     private sbyte _directionX = 0;
     private sbyte _directionY = 0;
-    private byte _joystickState = Constants.JOYSTICK_STANDINGBY;
+    private byte _joystickState = Constants.JOYSTICK_UNAVAILABLE;
     private float _handleDistance = 0.0f;
 
     public Vector2 JoystickWeight
