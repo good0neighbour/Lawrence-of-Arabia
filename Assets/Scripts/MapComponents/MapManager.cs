@@ -21,6 +21,12 @@ public class MapManager : MonoBehaviour
         private set;
     }
 
+    public static ObjectPool ObjectPool
+    {
+        get;
+        private set;
+    }
+
     public string MapName
     {
         get
@@ -132,6 +138,9 @@ public class MapManager : MonoBehaviour
     {
         // Singletop pattern
         Instance = this;
+
+        // ObjectPool
+        ObjectPool = new ObjectPool(transform.Find("ObjectPool"));
 
         // Find all enemies
         foreach (EnemyBehaviour enemy in transform.Find("Enemies").GetComponentsInChildren<EnemyBehaviour>())

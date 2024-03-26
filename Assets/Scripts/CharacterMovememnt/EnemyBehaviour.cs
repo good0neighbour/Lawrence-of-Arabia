@@ -6,21 +6,29 @@ public class EnemyBehaviour : HorizontalMovement
 {
     /* ==================== Fields ==================== */
 
-    [Header("Enemy Settings")]
+    [Header("Movement")]
+    [SerializeField] private float _moveSpeed = 0.1f;
+    [SerializeField] private float _acceleration = 0.05f;
+    [Header("Sight")]
     [Tooltip("It squares when game starts.")]
-    [SerializeField] private float _silenceSight = 3.0f;
+    [SerializeField] private float _silenceSightRange = 2.0f;
     [Tooltip("Degree. It becomes half radian when game starts.")]
     [SerializeField] private float _silenceSightAngle = 45.0f;
     [Tooltip("It squares when game starts.")]
-    [SerializeField] private float _urgentSight = 7.0f;
+    [SerializeField] private float _urgentSightRange = 4.0f;
+    [SerializeField] private float _sightHight = 0.6f;
+    [Header("Attack")]
     [Tooltip("It squares when game starts.")]
-    [SerializeField] private float _attackRange = 3.0f;
+    [SerializeField] private float _attackRange = 1.0f;
     [SerializeField] private float _attackTimer = 1.0f;
     [Tooltip("Degree. It becomes half radian when game starts.")]
     [SerializeField] private float _attackAngle = 15.0f;
-    [SerializeField] private float _moveSpeed = 0.1f;
-    [SerializeField] private float _acceleration = 0.01f;
-    [SerializeField] private float _sightHight = 0.6f;
+    [Header("Attack Effect")]
+    [SerializeField] private Vector2 _atkEftStartPos = new Vector2(0.5f, 0.5f);
+    [SerializeField] private float _atkEftVelocity = 1.0f;
+    [SerializeField] private float _atkEftLifeTime = 0.5f;
+    [SerializeField] private GameObject _atkEftPrefab = null;
+    [Header("Misc")]
     [Tooltip("It pushes when player approches in this range. It squares when game starts.")]
     [SerializeField] private float _pushingRange = 0.5f;
     [Header("References")]
@@ -74,8 +82,8 @@ public class EnemyBehaviour : HorizontalMovement
         base.Awake();
 
         // Precalculation
-        _silenceSight = _silenceSight * _silenceSight;
-        _urgentSight = _urgentSight * _urgentSight;
+        _silenceSightRange = _silenceSightRange * _silenceSightRange;
+        _urgentSightRange = _urgentSightRange * _urgentSightRange;
         _attackRange = _attackRange * _attackRange;
         _pushingRange = _pushingRange * _pushingRange;
         _silenceSightAngle = _silenceSightAngle / 360.0f * Mathf.PI;
@@ -108,7 +116,7 @@ public class EnemyBehaviour : HorizontalMovement
             .Sequence() // Urgent
                 .Action(() =>
                 {
-                    if (_playerDis > _urgentSight)
+                    if (_playerDis > _urgentSightRange)
                         switch (_enemyState)
                         {
                             case Constants.ENEMY_ATTACK:
@@ -314,9 +322,9 @@ public class EnemyBehaviour : HorizontalMovement
         switch (_enemyState)
         {
             case Constants.ENEMY_SILENCE:
-                if (_playerDis < _silenceSight)
+                if (_playerDis < _silenceSightRange)
                 {
-                    switch (DetectPlayer(_silenceSightAngle, _silenceSight))
+                    switch (DetectPlayer(_silenceSightAngle, _silenceSightRange))
                     {
                         case Constants.SUCCESS:
                             UrgentMeterChange(_urgentMeter + DeltaTime * Constants.ENEMY_URGENT_SPEED);
@@ -435,7 +443,29 @@ public class EnemyBehaviour : HorizontalMovement
 
     private byte Attack()
     {
-        Debug.Log("Attack");
+        if (_atkEftPrefab != null)
+        {
+            Transform eft = MapManager.ObjectPool.GetObject(_atkEftPrefab);
+
+            if (_playerDir.x > 0.0f)
+            {
+                eft.position = new Vector3(
+                    transform.position.x + _atkEftStartPos.x,
+                    transform.position.y + _atkEftStartPos.y,
+                    0.0f
+                );
+            }
+            else
+            {
+                eft.position = new Vector3(
+                    transform.position.x - _atkEftStartPos.x,
+                    transform.position.y + _atkEftStartPos.y,
+                    0.0f
+                );
+            }
+
+            eft.GetComponent<AttackEffect>().StartEffect(_playerDir.normalized);
+        }
         return Constants.SUCCESS;
     }
 
@@ -529,6 +559,15 @@ public class EnemyBehaviour : HorizontalMovement
             _urgentMeter = 1.0f;
         }
         _notice.fillAmount = _urgentMeter;
+    }
+
+
+    private void Start()
+    {
+        if (_atkEftPrefab != null)
+        {
+            MapManager.ObjectPool.PoolPreparing(_atkEftPrefab);
+        }
     }
 
 

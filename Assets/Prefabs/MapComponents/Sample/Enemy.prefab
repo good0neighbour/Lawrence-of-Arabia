@@ -272,15 +272,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9f906da32c0e74faa9e4284611e017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _silenceSight: 2
+  _moveSpeed: 0.1
+  _acceleration: 0.05
+  _silenceSightRange: 2
   _silenceSightAngle: 45
-  _urgentSight: 4
+  _urgentSightRange: 4
+  _sightHight: 0.6
   _attackRange: 1
   _attackTimer: 1
   _attackAngle: 15
-  _moveSpeed: 0.1
-  _acceleration: 0.05
-  _sightHight: 0.6
+  _atkEftStartPos: {x: 0.5, y: 0.5}
+  _atkEftVelocity: 1
+  _atkEftLifeTime: 0.5
+  _atkEftPrefab: {fileID: 0}
   _pushingRange: 0.5
   _sprite: {fileID: 6341034802306731709}
   _sightUI: {fileID: 149890018565764852}
