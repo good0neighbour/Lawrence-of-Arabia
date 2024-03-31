@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class EventSceneBase : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] protected CutSceneAction[] Actions = null;
+    [SerializeField] protected List<CutSceneAction> Actions = null;
     protected byte Current = 0;
     private float _timer = 0.0f;
 
@@ -16,7 +17,7 @@ public abstract class EventSceneBase : MonoBehaviour
     public virtual void StartEventScene()
     {
 #if UNITY_EDITOR
-        if (Actions == null || Actions.Length == 0)
+        if (Actions == null || Actions.Count == 0)
         {
             Debug.LogError($"{name}: No even scene.");
             return;
@@ -33,6 +34,26 @@ public abstract class EventSceneBase : MonoBehaviour
     {
         enabled = resume;
     }
+
+
+#if UNITY_EDITOR
+    public List<CutSceneAction> GetActions()
+    {
+        return Actions;
+    }
+
+
+    public void AddAction(byte index)
+    {
+        Actions.Insert(index, new CutSceneAction());
+    }
+
+
+    public void DeleteAction(byte index)
+    {
+        Actions.RemoveAt(index);
+    }
+#endif
 
 
 
@@ -59,7 +80,7 @@ public abstract class EventSceneBase : MonoBehaviour
         if (_timer >= Actions[Current].Duration)
         {
             ++Current;
-            if (Current >= Actions.Length)
+            if (Current >= Actions.Count)
             {
                 enabled = false;
                 DialogueScreen.Instance.CloseDialogueScreen();
@@ -78,7 +99,7 @@ public abstract class EventSceneBase : MonoBehaviour
     /* ==================== Struct ==================== */
 
     [Serializable]
-    protected struct CutSceneAction
+    public struct CutSceneAction
     {
         public EvenSceneActions Action;
         public GameObject TargetObject;

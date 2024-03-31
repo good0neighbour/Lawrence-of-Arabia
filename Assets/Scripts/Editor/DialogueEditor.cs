@@ -60,6 +60,7 @@ public class DialogueEditor : Editor
         {
             _script.AddDialogue((byte)_diagolues.Count);
             _current = (byte)(_diagolues.Count - 1);
+            EditorUtility.SetDirty(_script);
         }
 
         EditorGUILayout.Space(20.0f);
@@ -71,11 +72,13 @@ public class DialogueEditor : Editor
         {
             _script.AddDialogue(_current);
             _current = (byte)(_diagolues.Count - 1);
+            EditorUtility.SetDirty(_script);
         }
         if (_current < _diagolues.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
         {
             _script.DeleteDialogue(_current);
             _current = (byte)(_diagolues.Count - 1);
+            EditorUtility.SetDirty(_script);
         }
         EditorGUILayout.EndHorizontal();
     }

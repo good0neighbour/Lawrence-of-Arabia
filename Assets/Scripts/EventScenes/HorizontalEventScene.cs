@@ -1,4 +1,4 @@
-public class HoriaontalEvenScene : EventSceneBase
+public class HoriaontalEventScene : EventSceneBase
 {
     /* ==================== Public Methods ==================== */
 

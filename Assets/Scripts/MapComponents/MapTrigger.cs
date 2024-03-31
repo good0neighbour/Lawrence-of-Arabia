@@ -41,7 +41,7 @@ public class MapTrigger : MonoBehaviour
 
                 case ActionTypes.StartEventScene:
 #if UNITY_EDITOR
-                    HoriaontalEvenScene eventScene = act.TargetObject.GetComponent<HoriaontalEvenScene>();
+                    HoriaontalEventScene eventScene = act.TargetObject.GetComponent<HoriaontalEventScene>();
                     if (eventScene == null)
                     {
                         Debug.LogError($"{gameObject.name} : Even scene is missing.");
