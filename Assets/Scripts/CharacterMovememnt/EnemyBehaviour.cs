@@ -100,9 +100,6 @@ public class EnemyBehaviour : HorizontalMovement
         _silenceSightAngle = _silenceSightAngle / 360.0f * Mathf.PI;
         _attackAngle = _attackAngle / 360.0f * Mathf.PI;
 
-        // Player Transform
-        _player = FindAnyObjectByType<HorizontalPlayerControl>().GetComponent<Transform>();
-
         // Behaviour Tree
         #region BehaviourTree
         _behav.Selector()
@@ -569,6 +566,10 @@ public class EnemyBehaviour : HorizontalMovement
 
     private void Start()
     {
+        // Player Transform
+        _player = HorizontalPlayerControl.Instance.transform;
+
+        // ObjectPool Prepare
         if (_atkEftPrefab != null)
         {
             MapManager.ObjectPool.PoolPreparing(_atkEftPrefab);

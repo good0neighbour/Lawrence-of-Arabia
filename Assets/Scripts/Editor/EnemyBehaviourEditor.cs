@@ -24,6 +24,7 @@ public class EnemyBehaviourEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             _character.Flip(_flip);
+            EditorUtility.SetDirty(_character);
         }
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Space(10.0f);

@@ -18,41 +18,42 @@ public class MapTrigger : MonoBehaviour
     {
         foreach (ActionInfo act in _actions)
         {
+#if UNITY_EDITOR
+            if (act.TargetObject == null)
+            {
+                Debug.LogError($"{gameObject.name} : Target object is missing.");
+                return;
+            }
+#endif
             switch (act.ActionType)
             {
                 case ActionTypes.Enable:
-#if UNITY_EDITOR
-                    if (act.TargetObject == null)
-                        Debug.LogError($"{gameObject.name} : Target object is missing.");
-#endif
                     act.TargetObject.SetActive(true);
                     break;
 
                 case ActionTypes.Disable:
-#if UNITY_EDITOR
-                    if (act.TargetObject == null)
-                        Debug.LogError($"{gameObject.name} : Target object is missing.");
-#endif
                     act.TargetObject.SetActive(false);
                     break;
 
                 case ActionTypes.Delete:
-#if UNITY_EDITOR
-                    if (act.TargetObject == null)
-                        Debug.LogError($"{gameObject.name} : Target object is missing.");
-#endif
                     Destroy(act.TargetObject);
                     break;
 
-                case ActionTypes.StartDialogue:
+                case ActionTypes.StartEventScene:
 #if UNITY_EDITOR
-                    if (act.DialogueScript == null)
-                        Debug.LogError($"{gameObject.name} : Dialogue script is missing.");
+                    HoriaontalEvenScene eventScene = act.TargetObject.GetComponent<HoriaontalEvenScene>();
+                    if (eventScene == null)
+                    {
+                        Debug.LogError($"{gameObject.name} : Even scene is missing.");
+                        return;
+                    }
+                    else
+                    {
+                        eventScene.StartEventScene();
+                    }
+#else
+                    act.TargetObject.GetComponent<HoriaontalEvenScene>().StartEventScene();
 #endif
-                    DialogueScreen.Instance.StartDialogue(act.DialogueScript);
-                    break;
-
-                default:
                     break;
             }
         }
@@ -107,11 +108,7 @@ public class MapTrigger : MonoBehaviour
     [Serializable]
     private struct ActionInfo
     {
-        [Tooltip("Select action type.")]
         public ActionTypes ActionType;
-        [Tooltip("Target object when ActionType is Enter, Exit or Delete.")]
         public GameObject TargetObject;
-        [Tooltip("Only available when ActionType is StartDialogue.")]
-        public DialogueScript DialogueScript;
     }
 }

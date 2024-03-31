@@ -4,13 +4,13 @@ public class HorizontalMovement : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
-    protected sbyte IsFlipNum = 1;
+    [SerializeField, HideInInspector] protected sbyte IsFlipNum = 1;
     protected float DeltaTime = 0.0f;
     protected bool IsGrounded = true;
     private GameDelegate _jumpState = null;
     private Collider2D _ignoredTerrain = null;
     private float _velocityY = 0.0f;
-    private bool _isFlip = false;
+    [SerializeField, HideInInspector] private bool _isFlip = false;
 
 
 

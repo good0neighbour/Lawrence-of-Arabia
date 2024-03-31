@@ -29,7 +29,7 @@ public class Constants
     public static readonly Vector2 FD_CAM_OFFSET = new Vector2(6.0f, -10.0f);
 
     // Dialogue Settings
-    public const sbyte TEXT_DISPLAY_NUM = 2;
+    public const sbyte TEXT_DISPLAY_NUM = 1;
     public const float TEXT_SPACING = 150.0f;
     public const float TEXT_SPEED = 300.0f;
     public const float TEXT_FADE_POW = 5.0f;

@@ -50,6 +50,7 @@ public class DialogueEditor : Editor
             if (EditorGUI.EndChangeCheck())
             {
                 _diagolues[i] = element;
+                EditorUtility.SetDirty(_script);
             }
 
             EditorGUILayout.Space(30.0f);
@@ -77,8 +78,6 @@ public class DialogueEditor : Editor
             _current = (byte)(_diagolues.Count - 1);
         }
         EditorGUILayout.EndHorizontal();
-
-        EditorUtility.SetDirty(_script);
     }
 
 
@@ -94,6 +93,7 @@ public class DialogueEditor : Editor
             if (EditorGUI.EndChangeCheck())
             {
                 element.Branches[i] = temp;
+                EditorUtility.SetDirty(_script);
             }
             EditorGUILayout.EndHorizontal();
         }

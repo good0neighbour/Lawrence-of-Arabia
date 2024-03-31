@@ -22,7 +22,10 @@ public class HorizontalPlayerControl : HorizontalMovement
 
     public Transform CameraPos
     {
-        get;
+        get
+        {
+            return _cameraPos;
+        }
     }
 
 
@@ -69,6 +72,13 @@ public class HorizontalPlayerControl : HorizontalMovement
     }
 
 
+    public override void Flip(bool flip)
+    {
+        base.Flip(flip);
+        _sprite.flipX = flip;
+    }
+
+
 
     /* ==================== Protected Methods ==================== */
 
@@ -107,7 +117,7 @@ public class HorizontalPlayerControl : HorizontalMovement
         }
 
         // Sprite flip, position
-        _sprite.flipX = SetPositionWithFlip(joystick.x);
+        SetPositionWithFlip(joystick.x);
 
         // Camera position
         _cameraPos.localPosition = new Vector3(

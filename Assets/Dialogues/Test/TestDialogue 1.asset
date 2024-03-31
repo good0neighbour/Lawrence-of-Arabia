@@ -46,7 +46,7 @@ MonoBehaviour:
   - Name: 1
     NameColour: 4
     ImageDirection: 0
-    Text: Would you join?
+    Text: Would you like to join?
     Branches: []
   - Name: 0
     NameColour: 2

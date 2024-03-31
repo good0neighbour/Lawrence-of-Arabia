@@ -44,7 +44,7 @@ public enum ActionTypes
     Enable,
     Disable,
     Delete,
-    StartDialogue
+    StartEventScene
 }
 
 
@@ -56,7 +56,7 @@ public enum GameEndTypes
 }
 
 
-public enum CutSceneActions
+public enum EvenSceneActions
 {
     CameraMove,
     NPCMove,
@@ -64,5 +64,6 @@ public enum CutSceneActions
     Enable,
     Disable,
     Destroy,
-    StartDialogue
+    StartDialogue,
+    CloseDialogue
 }
