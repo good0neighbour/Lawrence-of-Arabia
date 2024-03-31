@@ -1,4 +1,3 @@
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 public class HorizontalPlayerControl : HorizontalMovement
@@ -8,7 +7,7 @@ public class HorizontalPlayerControl : HorizontalMovement
     [SerializeField] private SpriteRenderer _sprite = null;
     [SerializeField] private Joystick _joystick = null;
     [SerializeField] private Animator _animator = null;
-    [SerializeField] private Transform _camera = null;
+    [SerializeField] private Transform _cameraPos = null;
     private GameDelegate _onInteract = null;
     private bool _jumpAvailable = true;
     private bool _isGroundedMem = true;
@@ -19,6 +18,11 @@ public class HorizontalPlayerControl : HorizontalMovement
     {
         get;
         private set;
+    }
+
+    public Transform CameraPos
+    {
+        get;
     }
 
 
@@ -106,14 +110,10 @@ public class HorizontalPlayerControl : HorizontalMovement
         _sprite.flipX = SetPositionWithFlip(joystick.x);
 
         // Camera position
-        _camera.position = Vector3.Lerp(
-            _camera.position,
-            transform.position + new Vector3(
-                Constants.HOR_CAM_OFFSET.x * IsFlipNum,
-                Constants.HOR_CAM_OFFSET.y,
-                0.0f
-            ),
-            Constants.HOR_CAM_SPEED
+        _cameraPos.localPosition = new Vector3(
+            Constants.HOR_CAM_OFFSET.x * IsFlipNum,
+            Constants.HOR_CAM_OFFSET.y,
+            0.0f
         );
 
         // Animation

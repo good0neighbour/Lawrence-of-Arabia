@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &243819917 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2203068095968316751, guid: 01e21bed83b5d184ebf9b99e18195126, type: 3}
+  m_PrefabInstance: {fileID: 6920654748821753701}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &246090213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -295,6 +300,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420034}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420035}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -453,6 +459,19 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1591ac6b53a4a941a36e41287762f7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 243819917}
 --- !u!1001 &572319416
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -461,6 +480,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1687161442}
     m_Modifications:
+    - target: {fileID: 149890018565764852, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000004371139
+      objectReference: {fileID: 0}
+    - target: {fileID: 149890018565764852, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: _atkEftPrefab
       value: 
@@ -513,6 +540,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Size.x
       value: 1.024
@@ -1501,6 +1532,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1687161442}
     m_Modifications:
+    - target: {fileID: 149890018565764852, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000004371139
+      objectReference: {fileID: 0}
+    - target: {fileID: 149890018565764852, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: _atkEftPrefab
       value: 
@@ -1553,6 +1592,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Size.x
       value: 1.024

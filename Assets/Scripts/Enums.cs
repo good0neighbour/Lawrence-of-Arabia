@@ -54,3 +54,15 @@ public enum GameEndTypes
     Disabled,
     Enabled
 }
+
+
+public enum CutSceneActions
+{
+    CameraMove,
+    NPCMove,
+    NPCJump,
+    Enable,
+    Disable,
+    Destroy,
+    StartDialogue
+}

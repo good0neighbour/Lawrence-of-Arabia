@@ -25,6 +25,11 @@ public class DialogueScreen : MonoBehaviour
     private sbyte _btnFocus = -1;
     private bool _playerStandby = false;
 
+    public static DialogueScreen Instance
+    {
+        get;
+        private set;
+    }
 
 
     /* ==================== Private Methods ==================== */
@@ -326,6 +331,7 @@ public class DialogueScreen : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         GameObject btn = _buttonParent.GetChild(0).gameObject;
         _buttons.Add(new ButtonRef(
             btn,

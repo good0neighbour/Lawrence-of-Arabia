@@ -49,7 +49,7 @@ public class MapTrigger : MonoBehaviour
                     if (act.DialogueScript == null)
                         Debug.LogError($"{gameObject.name} : Dialogue script is missing.");
 #endif
-                    FindAnyObjectByType<DialogueScreen>(FindObjectsInactive.Include).StartDialogue(act.DialogueScript);
+                    DialogueScreen.Instance.StartDialogue(act.DialogueScript);
                     break;
 
                 default:

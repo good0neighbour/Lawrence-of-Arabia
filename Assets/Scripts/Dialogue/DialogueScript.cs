@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DialogueScript", menuName = "Leviathan/DialogueScript")]
+[CreateAssetMenu(fileName = "DialogueScript", menuName = "Lawrence of Arabia/DialogueScript")]
 public class DialogueScript : ScriptableObject
 {
     /* ==================== Fields ==================== */

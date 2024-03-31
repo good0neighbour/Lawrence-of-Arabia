@@ -16,6 +16,29 @@ public class HorizontalMovement : MonoBehaviour
 
     /* ==================== Protected Methods ==================== */
 
+    public virtual void Flip(bool flip)
+    {
+        _isFlip = flip;
+        if (flip)
+        {
+            IsFlipNum = -1;
+        }
+        else
+        {
+            IsFlipNum = 1;
+        }
+    }
+
+
+    public bool Flip()
+    {
+        return _isFlip;
+    }
+
+
+
+    /* ==================== Protected Methods ==================== */
+
     /// <summary>
     /// Sets local position of character
     /// </summary>
@@ -61,7 +84,7 @@ public class HorizontalMovement : MonoBehaviour
 
 
     /// <summary>
-    /// Sets local position of character
+    /// Sets local position of character with flipping
     /// </summary>
     /// <returns>Returns X flip</returns>
     protected bool SetPositionWithFlip(float weightX)
@@ -71,13 +94,11 @@ public class HorizontalMovement : MonoBehaviour
         // Flip check
         if (weightX > 0.0f)
         {
-            _isFlip = false;
-            IsFlipNum = 1;
+            Flip(false);
         }
         else if (weightX < 0.0f)
         {
-            _isFlip = true;
-            IsFlipNum = -1;
+            Flip(true);
         }
 
         // Return

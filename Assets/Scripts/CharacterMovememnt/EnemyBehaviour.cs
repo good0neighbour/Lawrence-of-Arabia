@@ -25,8 +25,6 @@ public class EnemyBehaviour : HorizontalMovement
     [SerializeField] private float _attackAngle = 15.0f;
     [Header("Attack Effect")]
     [SerializeField] private Vector2 _atkEftStartPos = new Vector2(0.5f, 0.5f);
-    [SerializeField] private float _atkEftVelocity = 1.0f;
-    [SerializeField] private float _atkEftLifeTime = 0.5f;
     [SerializeField] private GameObject _atkEftPrefab = null;
     [Header("Misc")]
     [Tooltip("It pushes when player approches in this range. It squares when game starts.")]
@@ -71,6 +69,19 @@ public class EnemyBehaviour : HorizontalMovement
         StateChange(Constants.ENEMY_URGENT);
         Destroy(_sightUI.gameObject);
         _acceleration *= Constants.ENEMY_URGENT_ACC_MULT;
+    }
+
+
+    public override void Flip(bool flip)
+    {
+        base.Flip(flip);
+        _sprite.flipX = flip;
+        switch (_enemyState)
+        {
+            case Constants.ENEMY_SILENCE:
+                _sightUI.localRotation = Quaternion.Euler(0.0f, -90.0f * (-1.0f + IsFlipNum), 0.0f);
+                break;
+        }
     }
 
 
@@ -272,13 +283,7 @@ public class EnemyBehaviour : HorizontalMovement
         }
 
         // Position, Flip
-        _sprite.flipX = SetPositionWithFlip(_velocity);
-        switch (_enemyState)
-        {
-            case Constants.ENEMY_SILENCE:
-                _sightUI.localRotation = Quaternion.Euler(0.0f, -90.0f * (-1.0f + IsFlipNum), 0.0f);
-                break;
-        }
+        SetPositionWithFlip(_velocity);
 
         //Return
         return Constants.SUCCESS;
