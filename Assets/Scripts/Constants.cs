@@ -7,6 +7,9 @@ public class Constants
     public const float CHAR_JUMP_SPEED = 12.0f;
     public const float CHAR_MAX_FALLING_VEL = -12.0f;
     public const float CHAR_FEET_SIZE = 0.1f;
+    public const float CHAR_KNOCKBACK_AMOUNT = 1.0f;
+    public const float CHAR_KNOCKBACK_ACC = 3.0f;
+    public static readonly Vector2 CHAR_ATKEFT_POS = new Vector2(0.5f, 0.5f);
 
     // Enemy Settings
     public const float ENEMY_SILENCE_TIMER = 5.0f;
@@ -20,6 +23,8 @@ public class Constants
     public const float ENEMY_URGENT_JUMP_POSI = 0.3f;
     public const float ENEMY_ANIM_MULT = 2.0f;
     public const float ENEMY_URGENT_SPEED = 3.0f;
+    public const float ENEMY_SUSPICIOUS_TIME = 30.0f;
+    public const float ENEMY_SUSPICIOUS_RANGE = 2.0f;
 
     // Camera Settings
     public const float HOR_CAM_SPEED = 0.03f;
@@ -60,6 +65,7 @@ public class Constants
     public const int LAYER_D_GROUND = 3;
     public const int LAYER_D_WALL = 6;
     public const int LAYER_D_PLAYER = 7;
+    public const int LAYER_D_ENEMY = 8;
 
     // Character Movement State
     public const byte MOVE_LEFT_START = 0;
@@ -81,8 +87,9 @@ public class Constants
 
     // Enemy State
     public const byte ENEMY_SILENCE = 0;
-    public const byte ENEMY_URGENT = 1;
-    public const byte ENEMY_ATTACK = 2;
+    public const byte ENEMY_SUSPICIOUS = 1;
+    public const byte ENEMY_URGENT = 2;
+    public const byte ENEMY_ATTACK = 3;
 
     // Dialogue State
     public const sbyte DIALOGUE_TEXT_MOVING = 0b01;
@@ -98,6 +105,7 @@ public class Constants
     public const int LAYER_B_GROUND = 1 << LAYER_D_GROUND;
     public const int LAYER_B_WALL = 1 << LAYER_D_WALL;
     public const int LAYER_B_PLAYER = 1 << LAYER_D_PLAYER;
+    public const int LAYER_B_ENEMY = 1 << LAYER_D_ENEMY;
     public const int LAYER_B_TERRAIN = LAYER_B_GROUND | LAYER_B_WALL;
     public const float PRECAL_TEXT_ALPHA = TEXT_SPACING - TEXT_OFFSET;
     public const float IMAGE_LEFT_POS_START = IMAGE_LEFT_POS_END - IMAGE_MOVE_DIS;

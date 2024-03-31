@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HorizontalPlayerControl : HorizontalMovement
+public class HorizontalPlayerControl : HorizontalMovement, IHit
 {
     /* ==================== Fields ==================== */
 
@@ -8,7 +8,12 @@ public class HorizontalPlayerControl : HorizontalMovement
     [SerializeField] private Joystick _joystick = null;
     [SerializeField] private Animator _animator = null;
     [SerializeField] private Transform _cameraPos = null;
+    [SerializeField] private GameObject _atkEftPrefab = null;
+    [SerializeField] private sbyte _health = 10;
+    [SerializeField] private byte _armor = 1;
+    [SerializeField] private byte _damage = 4;
     private GameDelegate _onInteract = null;
+    private float _knockback = 0.0f;
     private bool _jumpAvailable = true;
     private bool _isGroundedMem = true;
     private bool _paused = true;
@@ -32,9 +37,47 @@ public class HorizontalPlayerControl : HorizontalMovement
 
     /* ==================== Public Methods ==================== */
 
+    public void Hit(byte damage, float direction)
+    {
+        // Deal damage
+        byte deal = (byte)(damage - _armor);
+        if (deal > 0)
+        {
+            _health = (sbyte)(_health - deal);
+        }
+
+        // Death
+        if (_health <= 0)
+        {
+            Debug.Log("Player low health");
+            return;
+        }
+
+        // KnockBack
+        if (direction >= 0.0f)
+        {
+            _knockback = Constants.CHAR_KNOCKBACK_AMOUNT;
+        }
+        else
+        {
+            _knockback = -Constants.CHAR_KNOCKBACK_AMOUNT;
+        }
+    }
+
+
     public void Attack()
     {
-        Debug.Log("Player Attack");
+        if (_atkEftPrefab != null)
+        {
+            Transform eft = MapManager.ObjectPool.GetObject(_atkEftPrefab);
+            eft.position = new Vector3(
+                transform.position.x + Constants.CHAR_ATKEFT_POS.x * IsFlipNum,
+                transform.position.y + Constants.CHAR_ATKEFT_POS.y,
+                0.0f
+            );
+
+            eft.GetComponent<AttackEffect>().StartEffect(new Vector2(IsFlipNum, 0.0f), _damage);
+        }
     }
 
 
@@ -92,6 +135,16 @@ public class HorizontalPlayerControl : HorizontalMovement
 
     /* ==================== Private Methods ==================== */
 
+    private void Start()
+    {
+        // ObjectPool Prepare
+        if (_atkEftPrefab != null)
+        {
+            MapManager.ObjectPool.PoolPreparing(_atkEftPrefab);
+        }
+    }
+
+
     private void Update()
     {
         #region Always Functioning
@@ -143,6 +196,37 @@ public class HorizontalPlayerControl : HorizontalMovement
         {
             _animator.SetBool("IsGrounded", true);
             _isGroundedMem = true;
+        }
+
+        // KnockBack
+        switch (_knockback)
+        {
+            case 0.0f:
+                break;
+
+            default:
+                transform.localPosition = new Vector3(
+                    transform.localPosition.x + _knockback * DeltaTime,
+                    transform.localPosition.y,
+                    0.0f
+                );
+                if (_knockback > 0.0f)
+                {
+                    _knockback -= Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    if (_knockback < 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                else
+                {
+                    _knockback += Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    if (_knockback > 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                break;
         }
         #endregion
 

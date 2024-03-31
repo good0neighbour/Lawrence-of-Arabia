@@ -85,6 +85,12 @@ public class MapManager : MonoBehaviour
     }
 
 
+    public void EnemyDeathReport(EnemyBehaviour reporter)
+    {
+        _enemies.Remove(reporter);
+    }
+
+
 
     /* ==================== Private Methods ==================== */
 

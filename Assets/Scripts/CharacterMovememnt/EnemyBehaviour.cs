@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class EnemyBehaviour : HorizontalMovement
+public class EnemyBehaviour : HorizontalMovement, IHit
 {
     /* ==================== Fields ==================== */
 
@@ -17,10 +17,14 @@ public class EnemyBehaviour : HorizontalMovement
     [Tooltip("It squares when game starts.")]
     [SerializeField] private float _urgentSightRange = 4.0f;
     [SerializeField] private float _sightHight = 0.6f;
+    [Header("Defence")]
+    [SerializeField] private sbyte _health = 10;
+    [SerializeField] private byte _armor = 1;
     [Header("Attack")]
     [Tooltip("It squares when game starts.")]
     [SerializeField] private float _attackRange = 1.0f;
     [SerializeField] private float _attackTimer = 1.0f;
+    [SerializeField] private byte _attackDamage = 1;
     [Tooltip("Degree. It becomes half radian when game starts.")]
     [SerializeField] private float _attackAngle = 15.0f;
     [Header("Attack Effect")]
@@ -42,13 +46,54 @@ public class EnemyBehaviour : HorizontalMovement
     private float _playerDis = 0.0f;
     private float _velocity = 0.0f;
     private float _urgentMeter = 0.0f;
+    private float _knockback = 0.0f;
     private float _timer = 0.0f;
+    private float _suspiciousTimer = 0.0f;
     private bool _isGroundedMem = true;
     private bool _paused = true;
 
 
 
     /* ==================== Public Methods ==================== */
+
+    public void Hit(byte damage, float direction)
+    {
+        // Deal damage
+        byte deal = (byte)(damage - _armor);
+        if (deal > 0)
+        {
+            _health = (sbyte)(_health - deal);
+        }
+
+        // Death
+        if (_health <= 0)
+        {
+            MapManager.Instance.EnemyDeathReport(this);
+            Destroy(gameObject);
+            return;
+        }
+
+        // KnockBack
+        if (direction >= 0.0f)
+        {
+            _knockback = Constants.CHAR_KNOCKBACK_AMOUNT;
+        }
+        else
+        {
+            _knockback = -Constants.CHAR_KNOCKBACK_AMOUNT;
+        }
+
+        // Suspicious start
+        if (_enemyState == Constants.ENEMY_SILENCE)
+        {
+            foreach (Collider2D enemy in Physics2D.OverlapCircleAll((Vector2)transform.position, Constants.ENEMY_SUSPICIOUS_RANGE, Constants.LAYER_B_ENEMY))
+            {
+                enemy.GetComponent<EnemyBehaviour>().SuspiciousStart();
+            }
+            SuspiciousStart();
+        }
+    }
+
 
     public void SetEnemyPause(bool pause)
     {
@@ -72,6 +117,14 @@ public class EnemyBehaviour : HorizontalMovement
     }
 
 
+    public void SuspiciousStart()
+    {
+        StateChange(Constants.ENEMY_SUSPICIOUS);
+        _sightUI.gameObject.SetActive(false);
+        _acceleration *= Constants.ENEMY_URGENT_ACC_MULT;
+    }
+
+
     public override void Flip(bool flip)
     {
         base.Flip(flip);
@@ -79,6 +132,7 @@ public class EnemyBehaviour : HorizontalMovement
         switch (_enemyState)
         {
             case Constants.ENEMY_SILENCE:
+            case Constants.ENEMY_SUSPICIOUS:
                 _sightUI.localRotation = Quaternion.Euler(0.0f, -90.0f * (-1.0f + IsFlipNum), 0.0f);
                 break;
         }
@@ -121,6 +175,29 @@ public class EnemyBehaviour : HorizontalMovement
                     .Action(UrgentAlert)
                     .Back()
                 .Back()
+            .SubSequence(Constants.FAILURE) // Suspicious
+                .Action(() =>
+                {
+                    switch (_enemyState)
+                    {
+                        case Constants.ENEMY_SUSPICIOUS:
+                            return Constants.SUCCESS;
+                        default:
+                            return Constants.FAILURE;
+                    }
+                })
+                .Action(() =>
+                {
+                    _suspiciousTimer += DeltaTime;
+                    if (_suspiciousTimer >= Constants.ENEMY_SUSPICIOUS_TIME)
+                    {
+                        StateChange(Constants.ENEMY_SILENCE);
+                        _sightUI.gameObject.SetActive(true);
+                        _acceleration /= Constants.ENEMY_URGENT_ACC_MULT;
+                    }
+                    return Constants.SUCCESS;
+                })
+                .Back()
             .Sequence() // Urgent
                 .Action(() =>
                 {
@@ -153,6 +230,10 @@ public class EnemyBehaviour : HorizontalMovement
                     else
                         switch (_enemyState)
                         {
+                            case Constants.ENEMY_SUSPICIOUS:
+                                StateChange(Constants.ENEMY_ATTACK);
+                                MapManager.Instance.UrgentAlert();
+                                return Constants.FAILURE;
                             case Constants.ENEMY_ATTACK:
                                 return Constants.FAILURE;
                             default:
@@ -466,7 +547,11 @@ public class EnemyBehaviour : HorizontalMovement
                 );
             }
 
-            eft.GetComponent<AttackEffect>().StartEffect(_playerDir.normalized);
+            eft.GetComponent<AttackEffect>().StartEffect(_playerDir.normalized, _attackDamage);
+        }
+        if (_enemyState == Constants.ENEMY_SUSPICIOUS)
+        {
+            MapManager.Instance.UrgentAlert();
         }
         return Constants.SUCCESS;
     }
@@ -606,6 +691,37 @@ public class EnemyBehaviour : HorizontalMovement
         {
             _animator.SetBool("IsGrounded", true);
             _isGroundedMem = true;
+        }
+
+        // KnockBack
+        switch (_knockback)
+        {
+            case 0.0f:
+                break;
+
+            default:
+                transform.localPosition = new Vector3(
+                    transform.localPosition.x + _knockback * DeltaTime,
+                    transform.localPosition.y,
+                    0.0f
+                );
+                if (_knockback > 0.0f)
+                {
+                    _knockback -= Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    if (_knockback < 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                else
+                {
+                    _knockback += Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    if (_knockback > 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                break;
         }
     }
 }

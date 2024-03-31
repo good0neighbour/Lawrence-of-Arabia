@@ -488,6 +488,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 204849078333544746, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: _isFlip
       value: 1
@@ -495,6 +499,10 @@ PrefabInstance:
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: IsFlipNum
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: _attackRange
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: _atkEftPrefab
@@ -540,14 +548,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 781740034043143010, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 867637165696621083, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Name
       value: Enemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 867637165696621083, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712093480289563515, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4626522654742233729, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 5014136896583141331, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -567,6 +591,10 @@ PrefabInstance:
     - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8716133178230166991, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1645,6 +1673,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1687161442}
     m_Modifications:
+    - target: {fileID: 204849078333544746, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: _attackRange
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: _atkEftPrefab
       value: 
@@ -1689,14 +1725,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 781740034043143010, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 867637165696621083, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 867637165696621083, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712093480289563515, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4626522654742233729, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 5014136896583141331, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Size.x
       value: 1.024
@@ -1712,6 +1764,10 @@ PrefabInstance:
     - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8716133178230166991, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1749,6 +1805,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 204849078333544746, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: _isFlip
       value: 1
@@ -1756,6 +1816,10 @@ PrefabInstance:
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: IsFlipNum
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: _attackRange
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 302462603025433725, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: _atkEftPrefab
@@ -1801,14 +1865,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 781740034043143010, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 867637165696621083, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 867637165696621083, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712093480289563515, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4626522654742233729, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 5014136896583141331, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -1828,6 +1908,10 @@ PrefabInstance:
     - target: {fileID: 6341034802306731709, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8716133178230166991, guid: e52f9f1ef7329d3478d0b985c5a9da04, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2069,6 +2153,10 @@ PrefabInstance:
       propertyPath: _joystick
       value: 
       objectReference: {fileID: 826337707}
+    - target: {fileID: 506031472479836807, guid: 01e21bed83b5d184ebf9b99e18195126, type: 3}
+      propertyPath: _atkEftPrefab
+      value: 
+      objectReference: {fileID: 4338510690568851413, guid: 49db3972efd4e2348a71e51197554263, type: 3}
     - target: {fileID: 3366004933093319015, guid: 01e21bed83b5d184ebf9b99e18195126, type: 3}
       propertyPath: m_FlipX
       value: 0

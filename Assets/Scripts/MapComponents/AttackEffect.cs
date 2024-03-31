@@ -6,9 +6,11 @@ public class AttackEffect : MonoBehaviour
 
     [SerializeField] private float _velocity = 1.0f;
     [SerializeField] private float _lifeTime = 1.0f;
+    [SerializeField] private LayerMask _targetLayer;
     private GameObject _prefab = null;
     private Vector2 _direction = Vector2.zero;
     private float _timer = 0.0f;
+    private byte _damage = 0;
 
 
 
@@ -20,9 +22,10 @@ public class AttackEffect : MonoBehaviour
     }
 
 
-    public void StartEffect(Vector2 direction)
+    public void StartEffect(Vector2 direction, byte damage)
     {
         _direction = direction;
+        _damage = damage;
     }
 
 
@@ -56,5 +59,16 @@ public class AttackEffect : MonoBehaviour
         );
 
         _timer += deltaTime;
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((1 << collision.gameObject.layer & _targetLayer.value) > 0)
+        {
+            collision.GetComponent<IHit>().Hit(_damage, _direction.x);
+            MapManager.ObjectPool.ReturnObject(_prefab, gameObject);
+            _timer = 0.0f;
+        }
     }
 }

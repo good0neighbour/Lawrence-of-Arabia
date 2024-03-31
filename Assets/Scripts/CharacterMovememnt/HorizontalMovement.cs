@@ -87,7 +87,7 @@ public class HorizontalMovement : MonoBehaviour
     /// Sets local position of character with flipping
     /// </summary>
     /// <returns>Returns X flip</returns>
-    protected bool SetPositionWithFlip(float weightX)
+    protected void SetPositionWithFlip(float weightX)
     {
         SetPosition(weightX);
 
@@ -100,9 +100,6 @@ public class HorizontalMovement : MonoBehaviour
         {
             Flip(true);
         }
-
-        // Return
-        return _isFlip;
     }
 
 
