@@ -8,6 +8,8 @@ public class DialogueEditor : Editor
     private List<DialogueScript.Dialogue> _diagolues = null;
     private DialogueScript _script = null;
     private byte _current = 0;
+    private byte _switchFrom = 0;
+    private byte _switchTo = 0;
 
 
     private void OnEnable()
@@ -23,7 +25,9 @@ public class DialogueEditor : Editor
         for (byte i = 0; i < _diagolues.Count; ++i)
         {
             DialogueScript.Dialogue element = _diagolues[i];
+
             EditorGUILayout.LabelField($"Index {i.ToString()}");
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
             EditorGUI.BeginChangeCheck();
@@ -78,6 +82,18 @@ public class DialogueEditor : Editor
         {
             _script.DeleteDialogue(_current);
             _current = (byte)(_diagolues.Count - 1);
+            EditorUtility.SetDirty(_script);
+        }
+
+        EditorGUILayout.Space(20.0f);
+
+        EditorGUILayout.LabelField("Move From", GUILayout.MaxWidth(70.0f));
+        _switchFrom = (byte)EditorGUILayout.IntField(_switchFrom, GUILayout.MaxWidth(30.0f));
+        EditorGUILayout.LabelField("To", GUILayout.MaxWidth(20.0f));
+        _switchTo = (byte)EditorGUILayout.IntField(_switchTo, GUILayout.MaxWidth(30.0f));
+        if (_switchFrom < _diagolues.Count && _switchTo < _diagolues.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
+        {
+            _script.MoveDialogue(_switchFrom, _switchTo);
             EditorUtility.SetDirty(_script);
         }
         EditorGUILayout.EndHorizontal();

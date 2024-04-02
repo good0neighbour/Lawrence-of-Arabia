@@ -48,10 +48,14 @@ public class Constants
     public const float JOYSTICK_CONTROL_SPEED = 10.0f;
     public const float JOYSTICK_JUMP_WEIGHT = 0.3f;
 
-    // Player Button Setting
+    // Player Button Settings
     public const byte BUTTON_ATTACK = 0;
     public const byte BUTTON_INTERACT = 1;
     public const byte BUTTON_EXTRA = 2;
+
+    // Story Scene Settins
+    public const float CUTSCN_FADEIN_SPEED = 1.0f;
+    public const float CUTSCN_SKIP_SPEED = 0.75f;
 
     // Physics
     public const float GRAVITY_ACCELERATION = -50.0f;

@@ -5,9 +5,11 @@ using UnityEditor;
 [CustomEditor(typeof(HoriaontalEventScene))]
 public class HoriaontalEventSceneEditor : Editor
 {
-    private List<EventSceneBase.CutSceneAction> _actions = null;
+    private List<EventSceneBase.EventSceneAction> _actions = null;
     private HoriaontalEventScene _scene = null;
     private byte _current = 0;
+    private byte _switchFrom = 0;
+    private byte _switchTo = 0;
 
 
     private void OnEnable()
@@ -22,13 +24,16 @@ public class HoriaontalEventSceneEditor : Editor
     {
         for (byte i = 0; i < _actions.Count; ++i)
         {
-            EventSceneBase.CutSceneAction element = _actions[i];
+            EventSceneBase.EventSceneAction element = _actions[i];
+
             EditorGUILayout.LabelField($"Index {i.ToString()}");
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Action Type", GUILayout.MaxWidth(120.0f));
             EditorGUI.BeginChangeCheck();
             element.Action = (EvenSceneActions)EditorGUILayout.EnumPopup(element.Action, GUILayout.MaxWidth(120.0f));
             EditorGUILayout.EndHorizontal();
+
             switch (element.Action)
             {
                 case EvenSceneActions.CameraMove:
@@ -91,6 +96,7 @@ public class HoriaontalEventSceneEditor : Editor
                 case EvenSceneActions.CloseDialogue:
                     break;
             }
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Duration", GUILayout.MaxWidth(120.0f));
             element.Duration = EditorGUILayout.FloatField(element.Duration);
@@ -126,6 +132,18 @@ public class HoriaontalEventSceneEditor : Editor
         {
             _scene.DeleteAction(_current);
             _current = (byte)(_actions.Count - 1);
+            EditorUtility.SetDirty(_scene);
+        }
+
+        EditorGUILayout.Space(20.0f);
+
+        EditorGUILayout.LabelField("Move From", GUILayout.MaxWidth(70.0f));
+        _switchFrom = (byte)EditorGUILayout.IntField(_switchFrom, GUILayout.MaxWidth(30.0f));
+        EditorGUILayout.LabelField("To", GUILayout.MaxWidth(20.0f));
+        _switchTo = (byte)EditorGUILayout.IntField(_switchTo, GUILayout.MaxWidth(30.0f));
+        if (_switchFrom < _actions.Count && _switchTo < _actions.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
+        {
+            _scene.MoveAction(_switchFrom, _switchTo);
             EditorUtility.SetDirty(_scene);
         }
         EditorGUILayout.EndHorizontal();

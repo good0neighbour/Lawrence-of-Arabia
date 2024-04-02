@@ -67,3 +67,15 @@ public enum EvenSceneActions
     StartDialogue,
     CloseDialogue
 }
+
+
+public enum CutSceneActions
+{
+    FadeIn,
+    FadeOut,
+    Enable,
+    Disable,
+    Destroy,
+    LoadScene,
+    Wait
+}
