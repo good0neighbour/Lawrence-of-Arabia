@@ -1,103 +1,88 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MapTrigger : MonoBehaviour
+public class MapTrigger : TriggerBase
 {
     /* ==================== Fields ==================== */
 
-    [Tooltip("Select condition of this trigger.")]
-    [SerializeField] private TriggerTypes _triggerType;
-    [Tooltip("Add actions of this trigger.")]
-    [SerializeField] private ActionInfo[] _actions = null;
+    [SerializeField] private List<ConditionInfo> _conditions = new List<ConditionInfo>();
+
+
+
+    /* ==================== Public Methods ==================== */
+
+    public void CheckConditions()
+    {
+        if (CheckConditions(_conditions))
+        {
+            ActiveTrigger();
+        }
+    }
+
+
+    public void DestroyReport(byte index, GameObject delete)
+    {
+        _conditions[index].Targets.Remove(delete);
+    }
 
 
 
     /* ==================== Private Methods ==================== */
 
-    private void ActiveTrigger()
+    private bool CheckConditions(List<ConditionInfo> conditionList)
     {
-        foreach (ActionInfo act in _actions)
+        foreach (ConditionInfo condition in conditionList)
         {
-#if UNITY_EDITOR
-            if (act.TargetObject == null)
+            switch (condition.Condition)
             {
-                Debug.LogError($"{gameObject.name} : Target object is missing.");
-                return;
-            }
-#endif
-            switch (act.ActionType)
-            {
-                case ActionTypes.Enable:
-                    act.TargetObject.SetActive(true);
-                    break;
-
-                case ActionTypes.Disable:
-                    act.TargetObject.SetActive(false);
-                    break;
-
-                case ActionTypes.Delete:
-                    Destroy(act.TargetObject);
-                    break;
-
-                case ActionTypes.StartEventScene:
-#if UNITY_EDITOR
-                    HoriaontalEventScene eventScene = act.TargetObject.GetComponent<HoriaontalEventScene>();
-                    if (eventScene == null)
+                case ConditionTypes.Destroyed:
+                    if (condition.Targets.Count > 0)
                     {
-                        Debug.LogError($"{gameObject.name} : Even scene is missing.");
-                        return;
+                        return false;
                     }
-                    else
+                    break;
+
+                case ConditionTypes.Disabled:
+                    foreach (GameObject target in condition.Targets)
                     {
-                        eventScene.StartEventScene();
+                        switch (target.activeSelf)
+                        {
+                            case true:
+                                return false;
+                        }
                     }
-#else
-                    act.TargetObject.GetComponent<HoriaontalEvenScene>().StartEventScene();
-#endif
+                    break;
+
+                case ConditionTypes.Enabled:
+                    foreach (GameObject target in condition.Targets)
+                    {
+                        switch (target.activeSelf)
+                        {
+                            case false:
+                                return false;
+                        }
+                    }
                     break;
             }
         }
+        return true;
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Awake()
     {
-        switch (_triggerType)
+        // Victory conditions
+        for (byte i = 0; i < _conditions.Count; ++i)
         {
-            case TriggerTypes.Enter:
-                if (collision.gameObject.layer == Constants.LAYER_D_PLAYER)
-                {
-                    ActiveTrigger();
-                }
-                return;
-
-            case TriggerTypes.Interact:
-                HorizontalPlayerControl.Instance.SetInteractBtnActive(ActiveTrigger);
-                return;
-
-            default:
-                return;
-        }
-    }
-
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        switch (_triggerType)
-        {
-            case TriggerTypes.Exit:
-                if (collision.gameObject.layer == Constants.LAYER_D_PLAYER)
-                {
-                    ActiveTrigger();
-                }
-                return;
-
-            case TriggerTypes.Interact:
-                HorizontalPlayerControl.Instance.SetInteractBtnInactive();
-                return;
-
-            default:
-                return;
+            foreach (GameObject target in _conditions[i].Targets)
+            {
+                target.AddComponent<ConditionCheck>().InitializeCondition(
+                    this,
+                    _conditions[i].Condition,
+                    i
+                );
+            }
         }
     }
 
@@ -106,9 +91,71 @@ public class MapTrigger : MonoBehaviour
     /* ==================== Struct ==================== */
 
     [Serializable]
-    private struct ActionInfo
+    private struct ConditionInfo
     {
-        public ActionTypes ActionType;
-        public GameObject TargetObject;
+        public ConditionTypes Condition;
+        public List<GameObject> Targets;
+    }
+
+
+
+    /* ==================== Class ==================== */
+
+    private class ConditionCheck : MonoBehaviour
+    {
+        private MapTrigger _belong;
+        private ConditionTypes _condition;
+        private byte _index;
+
+
+        public void InitializeCondition(MapTrigger belong, ConditionTypes condition, byte index)
+        {
+            _belong = belong;
+            _condition = condition;
+            _index = index;
+        }
+
+
+        private void OnDestroy()
+        {
+            switch (_condition)
+            {
+                case ConditionTypes.Destroyed:
+                    _belong.DestroyReport(_index, gameObject);
+                    _belong.CheckConditions();
+                    return;
+
+                default:
+                    return;
+            }
+        }
+
+
+        private void OnDisable()
+        {
+            switch (_condition)
+            {
+                case ConditionTypes.Disabled:
+                    _belong.CheckConditions();
+                    return;
+
+                default:
+                    return;
+            }
+        }
+
+
+        private void OnEnable()
+        {
+            switch (_condition)
+            {
+                case ConditionTypes.Enabled:
+                    _belong.CheckConditions();
+                    return;
+
+                default:
+                    return;
+            }
+        }
     }
 }

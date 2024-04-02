@@ -44,11 +44,12 @@ public enum ActionTypes
     Enable,
     Disable,
     Delete,
-    StartEventScene
+    StartEventScene,
+    LoadNextScene
 }
 
 
-public enum GameEndTypes
+public enum ConditionTypes
 {
     Destroyed,
     Disabled,
@@ -65,7 +66,8 @@ public enum EvenSceneActions
     Disable,
     Destroy,
     StartDialogue,
-    CloseDialogue
+    CloseDialogue,
+    LoadNextScene
 }
 
 

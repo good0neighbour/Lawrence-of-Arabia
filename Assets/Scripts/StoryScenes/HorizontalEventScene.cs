@@ -54,6 +54,10 @@ public class HoriaontalEventScene : EventSceneBase
             case EvenSceneActions.CloseDialogue:
                 DialogueScreen.Instance.CloseDialogueScreen();
                 return;
+
+            case EvenSceneActions.LoadNextScene:
+                MapManager.Instance.LoadNextScene();
+                return;
         }
     }
 }

@@ -94,6 +94,7 @@ public class HoriaontalEventSceneEditor : Editor
                     break;
 
                 case EvenSceneActions.CloseDialogue:
+                case EvenSceneActions.LoadNextScene:
                     break;
             }
 
