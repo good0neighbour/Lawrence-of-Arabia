@@ -15,6 +15,19 @@ public class EventNPCMovement : HorizontalMovement
     private float _goalPosX = 0.0f;
     private bool _isGroundedMem = true;
 
+    public override bool Flip
+    {
+        get
+        {
+            return base.Flip;
+        }
+        set
+        {
+            base.Flip = value;
+            _sprite.flipX = value;
+        }
+    }
+
 
 
     /* ==================== Public Methods ==================== */
@@ -43,13 +56,6 @@ public class EventNPCMovement : HorizontalMovement
         {
             Jump(false);
         }
-    }
-
-
-    public override void Flip(bool flip)
-    {
-        base.Flip(flip);
-        _sprite.flipX = flip;
     }
 
 

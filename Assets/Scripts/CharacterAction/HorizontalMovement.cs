@@ -12,27 +12,24 @@ public class HorizontalMovement : MonoBehaviour
     private float _velocityY = 0.0f;
     [SerializeField, HideInInspector] private bool _isFlip = false;
 
-
-
-    /* ==================== Protected Methods ==================== */
-
-    public virtual void Flip(bool flip)
+    public virtual bool Flip
     {
-        _isFlip = flip;
-        if (flip)
+        get
         {
-            IsFlipNum = -1;
+            return _isFlip;
         }
-        else
+        set
         {
-            IsFlipNum = 1;
+            _isFlip = value;
+            if (value)
+            {
+                IsFlipNum = -1;
+            }
+            else
+            {
+                IsFlipNum = 1;
+            }
         }
-    }
-
-
-    public bool Flip()
-    {
-        return _isFlip;
     }
 
 
@@ -94,11 +91,11 @@ public class HorizontalMovement : MonoBehaviour
         // Flip check
         if (weightX > 0.0f)
         {
-            Flip(false);
+            Flip = false;
         }
         else if (weightX < 0.0f)
         {
-            Flip(true);
+            Flip = true;
         }
     }
 

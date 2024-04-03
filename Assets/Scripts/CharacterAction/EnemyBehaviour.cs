@@ -56,6 +56,26 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     private bool _isGroundedMem = true;
     private bool _paused = true;
 
+    public override bool Flip
+    {
+        get
+        {
+            return base.Flip;
+        }
+        set
+        {
+            base.Flip = value;
+            _sprite.flipX = value;
+            switch (_enemyState)
+            {
+                case Constants.ENEMY_SILENCE:
+                case Constants.ENEMY_SUSPICIOUS:
+                    _sightUI.localRotation = Quaternion.Euler(0.0f, -90.0f * (-1.0f + IsFlipNum), 0.0f);
+                    break;
+            }
+        }
+    }
+
 
 
     /* ==================== Public Methods ==================== */
@@ -138,20 +158,6 @@ public class EnemyBehaviour : HorizontalMovement, IHit
         StateChange(Constants.ENEMY_SUSPICIOUS);
         _sightUI.gameObject.SetActive(false);
         _acceleration *= Constants.ENEMY_URGENT_ACC_MULT;
-    }
-
-
-    public override void Flip(bool flip)
-    {
-        base.Flip(flip);
-        _sprite.flipX = flip;
-        switch (_enemyState)
-        {
-            case Constants.ENEMY_SILENCE:
-            case Constants.ENEMY_SUSPICIOUS:
-                _sightUI.localRotation = Quaternion.Euler(0.0f, -90.0f * (-1.0f + IsFlipNum), 0.0f);
-                break;
-        }
     }
 
 

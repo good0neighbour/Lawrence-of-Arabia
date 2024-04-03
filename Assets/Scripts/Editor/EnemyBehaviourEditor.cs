@@ -11,7 +11,7 @@ public class EnemyBehaviourEditor : Editor
     private void OnEnable()
     {
         _character = (EnemyBehaviour)target;
-        _flip = _character.Flip();
+        _flip = _character.Flip;
     }
 
 
@@ -23,8 +23,8 @@ public class EnemyBehaviourEditor : Editor
         _flip = EditorGUILayout.Toggle(_flip);
         if (EditorGUI.EndChangeCheck())
         {
-            Undo.RecordObject(_character, "EnemyBehaviour: Modify property");
-            _character.Flip(_flip);
+            _character.Flip = _flip;
+            EditorUtility.SetDirty(_character);
         }
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Space(10.0f);

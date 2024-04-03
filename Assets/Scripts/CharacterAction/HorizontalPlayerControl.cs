@@ -33,6 +33,19 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         }
     }
 
+    public override bool Flip
+    {
+        get
+        {
+            return base.Flip;
+        }
+        set
+        {
+            base.Flip = value;
+            _sprite.flipX = value;
+        }
+    }
+
 
 
     /* ==================== Public Methods ==================== */
@@ -112,13 +125,6 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         CanvasPlayController.Instance.SetInteractBtnActive(false);
         _interaction = false;
         _onInteract = null;
-    }
-
-
-    public override void Flip(bool flip)
-    {
-        base.Flip(flip);
-        _sprite.flipX = flip;
     }
 
 
