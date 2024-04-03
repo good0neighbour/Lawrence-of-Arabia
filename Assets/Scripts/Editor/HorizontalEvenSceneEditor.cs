@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Codice.Client.BaseCommands;
 
 [CustomEditor(typeof(HoriaontalEventScene))]
 public class HoriaontalEventSceneEditor : Editor
@@ -39,57 +40,57 @@ public class HoriaontalEventSceneEditor : Editor
                 case EvenSceneActions.CameraMove:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target Position", GUILayout.MaxWidth(120.0f));
-                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), false);
+                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
                 case EvenSceneActions.NPCMove:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), false);
+                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target X Position", GUILayout.MaxWidth(120.0f));
-                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), false);
+                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
                 case EvenSceneActions.NPCJump:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), false);
+                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
                     EditorGUILayout.EndHorizontal();
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target Y Position", GUILayout.MaxWidth(120.0f));
-                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), false);
+                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
                 case EvenSceneActions.Enable:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target Object", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), false);
+                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
                 case EvenSceneActions.Disable:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target Object", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), false);
+                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
                 case EvenSceneActions.Destroy:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target Object", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), false);
+                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
                 case EvenSceneActions.StartDialogue:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Dialogue Script", GUILayout.MaxWidth(120.0f));
-                    element.DialogueScript = (DialogueScript)EditorGUILayout.ObjectField(element.DialogueScript, typeof(DialogueScript), false);
+                    element.DialogueScript = (DialogueScript)EditorGUILayout.ObjectField(element.DialogueScript, typeof(DialogueScript), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
@@ -112,10 +113,12 @@ public class HoriaontalEventSceneEditor : Editor
             EditorGUILayout.Space(20.0f);
         }
 
-        if (GUILayout.Button("Add a dialogue to end", GUILayout.MinHeight(30.0f)))
+        if (GUILayout.Button("Add an Action to end", GUILayout.MinHeight(30.0f)))
         {
+            Undo.RecordObject(_scene, $"{_scene.name}: EventScene action added");
             _scene.AddAction((byte)_actions.Count);
             _current = (byte)(_actions.Count - 1);
+            _scene.ActionList = _actions;
         }
 
         EditorGUILayout.Space(20.0f);
@@ -125,15 +128,17 @@ public class HoriaontalEventSceneEditor : Editor
         _current = (byte)EditorGUILayout.IntField(_current, GUILayout.MaxWidth(30.0f));
         if (_current <= _actions.Count && GUILayout.Button("Add here", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_scene, $"{_scene.name}: EventScene action added");
             _scene.AddAction(_current);
             _current = (byte)(_actions.Count - 1);
-            EditorUtility.SetDirty(_scene);
+            _scene.ActionList = _actions;
         }
         if (_current < _actions.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_scene, $"{_scene.name}: EventScene action deleted");
             _scene.DeleteAction(_current);
             _current = (byte)(_actions.Count - 1);
-            EditorUtility.SetDirty(_scene);
+            _scene.ActionList = _actions;
         }
 
         EditorGUILayout.Space(20.0f);
@@ -144,8 +149,9 @@ public class HoriaontalEventSceneEditor : Editor
         _switchTo = (byte)EditorGUILayout.IntField(_switchTo, GUILayout.MaxWidth(30.0f));
         if (_switchFrom < _actions.Count && _switchTo < _actions.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_scene, $"{_scene.name}: EventScene action moved");
             _scene.MoveAction(_switchFrom, _switchTo);
-            EditorUtility.SetDirty(_scene);
+            _scene.ActionList = _actions;
         }
         EditorGUILayout.EndHorizontal();
     }

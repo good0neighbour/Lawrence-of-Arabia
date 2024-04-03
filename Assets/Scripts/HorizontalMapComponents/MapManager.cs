@@ -62,7 +62,7 @@ public class MapManager : MonoBehaviour
     {
         foreach (EnemyBehaviour enemy in _enemies)
         {
-            enemy.UrgentStart();
+            enemy.ReceiveUrgentAlert();
         }
     }
 

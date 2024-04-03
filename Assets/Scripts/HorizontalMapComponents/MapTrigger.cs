@@ -8,6 +8,16 @@ public class MapTrigger : TriggerBase
 
     [SerializeField] private List<ConditionInfo> _conditions = new List<ConditionInfo>();
 
+#if UNITY_EDITOR
+    public List<ConditionInfo> Conditions
+    {
+        set
+        {
+            _conditions = value;
+        }
+    }
+#endif
+
 
 
     /* ==================== Public Methods ==================== */
@@ -25,6 +35,36 @@ public class MapTrigger : TriggerBase
     {
         _conditions[index].Targets.Remove(delete);
     }
+
+
+#if UNITY_EDITOR
+    public List<ConditionInfo> GetConditions()
+    {
+        return _conditions;
+    }
+
+
+    public void AddConditions(byte index)
+    {
+        ConditionInfo temp = new ConditionInfo();
+        temp.Targets = new List<GameObject>();
+        _conditions.Insert(index, temp);
+    }
+
+
+    public void DeleteConditions(byte index)
+    {
+        _conditions.RemoveAt(index);
+    }
+
+
+    public void MoveConditions(byte from, byte to)
+    {
+        ConditionInfo temp = _conditions[from];
+        _conditions.RemoveAt(from);
+        _conditions.Insert(to, temp);
+    }
+#endif
 
 
 
@@ -91,10 +131,22 @@ public class MapTrigger : TriggerBase
     /* ==================== Struct ==================== */
 
     [Serializable]
-    private struct ConditionInfo
+    public struct ConditionInfo
     {
         public ConditionTypes Condition;
         public List<GameObject> Targets;
+
+
+        public void AddTarget()
+        {
+            Targets.Add(null);
+        }
+
+
+        public void DeleteTarget()
+        {
+            Targets.RemoveAt(Targets.Count - 1);
+        }
     }
 
 

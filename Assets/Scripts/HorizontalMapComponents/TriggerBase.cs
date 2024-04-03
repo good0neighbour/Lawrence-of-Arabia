@@ -1,12 +1,22 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerBase : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
-    [Tooltip("Add actions of this trigger.")]
-    [SerializeField] protected TriggerAction[] _actions = null;
+    [SerializeField] protected List<TriggerAction> Actions = null;
+
+#if UNITY_EDITOR
+    public List<TriggerAction> ActionsList
+    {
+        set
+        {
+            Actions = value;
+        }
+    }
+#endif
 
 
 
@@ -14,7 +24,7 @@ public class TriggerBase : MonoBehaviour
 
     protected void ActiveTrigger()
     {
-        foreach (TriggerAction act in _actions)
+        foreach (TriggerAction act in Actions)
         {
 #if UNITY_EDITOR
             if (act.TargetObject == null)
@@ -35,6 +45,10 @@ public class TriggerBase : MonoBehaviour
 
                 case ActionTypes.Delete:
                     Destroy(act.TargetObject);
+                    break;
+
+                case ActionTypes.PlayerTeleport:
+                    HorizontalPlayerControl.Instance.transform.position = act.TargetObject.transform.position;
                     break;
 
                 case ActionTypes.StartEventScene:
@@ -62,11 +76,39 @@ public class TriggerBase : MonoBehaviour
     }
 
 
+#if UNITY_EDITOR
+    public List<TriggerAction> GetActions()
+    {
+        return Actions;
+    }
+
+
+    public void AddAction(byte index)
+    {
+        Actions.Insert(index, new TriggerAction());
+    }
+
+
+    public void DeleteAction(byte index)
+    {
+        Actions.RemoveAt(index);
+    }
+
+
+    public void MoveAction(byte from, byte to)
+    {
+        TriggerAction temp = Actions[from];
+        Actions.RemoveAt(from);
+        Actions.Insert(to, temp);
+    }
+#endif
+
+
 
     /* ==================== Struct ==================== */
 
     [Serializable]
-    protected struct TriggerAction
+    public struct TriggerAction
     {
         public ActionTypes ActionType;
         public GameObject TargetObject;

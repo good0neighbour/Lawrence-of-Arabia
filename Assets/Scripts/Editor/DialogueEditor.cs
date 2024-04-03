@@ -62,9 +62,10 @@ public class DialogueEditor : Editor
 
         if (GUILayout.Button("Add a dialogue to end", GUILayout.MinHeight(30.0f)))
         {
+            Undo.RecordObject(_script, $"{_script.name}: DialogueScript dialogue added");
             _script.AddDialogue((byte)_diagolues.Count);
             _current = (byte)(_diagolues.Count - 1);
-            EditorUtility.SetDirty(_script);
+            _script.Dialogues = _diagolues;
         }
 
         EditorGUILayout.Space(20.0f);
@@ -74,15 +75,17 @@ public class DialogueEditor : Editor
         _current = (byte)EditorGUILayout.IntField(_current, GUILayout.MaxWidth(30.0f));
         if (_current <= _diagolues.Count && GUILayout.Button("Add here", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_script, $"{_script.name}: DialogueScript dialogue added");
             _script.AddDialogue(_current);
             _current = (byte)(_diagolues.Count - 1);
-            EditorUtility.SetDirty(_script);
+            _script.Dialogues = _diagolues;
         }
         if (_current < _diagolues.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_script, $"{_script.name}: DialogueScript dialogue deleted");
             _script.DeleteDialogue(_current);
             _current = (byte)(_diagolues.Count - 1);
-            EditorUtility.SetDirty(_script);
+            _script.Dialogues = _diagolues;
         }
 
         EditorGUILayout.Space(20.0f);
@@ -93,8 +96,9 @@ public class DialogueEditor : Editor
         _switchTo = (byte)EditorGUILayout.IntField(_switchTo, GUILayout.MaxWidth(30.0f));
         if (_switchFrom < _diagolues.Count && _switchTo < _diagolues.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_script, $"{_script.name}: DialogueScript dialogue moved");
             _script.MoveDialogue(_switchFrom, _switchTo);
-            EditorUtility.SetDirty(_script);
+            _script.Dialogues = _diagolues;
         }
         EditorGUILayout.EndHorizontal();
     }
@@ -120,11 +124,11 @@ public class DialogueEditor : Editor
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Add a branch to end"))
         {
-            element.AddBranch((byte)element.Branches.Count);
+            element.AddBranch();
         }
         if (GUILayout.Button("Delete branch at end"))
         {
-            element.DeleteBranch((byte)(element.Branches.Count - 1));
+            element.DeleteBranch();
         }
         EditorGUILayout.EndHorizontal();
     }

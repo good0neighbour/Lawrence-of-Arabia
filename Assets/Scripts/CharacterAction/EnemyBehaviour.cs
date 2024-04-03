@@ -31,6 +31,10 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     [SerializeField] private Vector2 _atkEftStartPos = new Vector2(0.5f, 0.5f);
     [SerializeField] private GameObject _atkEftPrefab = null;
     [Header("Misc")]
+    [Tooltip("Reports to other enemies when it sees player.")]
+    [SerializeField] private bool _sendUrgentReport = true;
+    [Tooltip("Receives report from other enemies.")]
+    [SerializeField] private bool _receiveUrgentReport = true;
     [Tooltip("It pushes when player approches in this range. It squares when game starts.")]
     [SerializeField] private float _pushingRange = 0.5f;
     [Header("References")]
@@ -112,8 +116,20 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     public void UrgentStart()
     {
         StateChange(Constants.ENEMY_URGENT);
-        Destroy(_sightUI.gameObject);
+        if (_sightUI != null)
+        {
+            Destroy(_sightUI.gameObject);
+        }
         _acceleration *= Constants.ENEMY_URGENT_ACC_MULT;
+    }
+
+
+    public void ReceiveUrgentAlert()
+    {
+        if (_receiveUrgentReport)
+        {
+            UrgentStart();
+        }
     }
 
 
@@ -519,7 +535,14 @@ public class EnemyBehaviour : HorizontalMovement, IHit
 
     private byte UrgentAlert()
     {
-        MapManager.Instance.UrgentAlert();
+        if (_sendUrgentReport)
+        {
+            MapManager.Instance.UrgentAlert();
+        }
+        else
+        {
+            UrgentStart();
+        }
         return Constants.SUCCESS;
     }
 

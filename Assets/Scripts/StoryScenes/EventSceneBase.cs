@@ -10,6 +10,16 @@ public abstract class EventSceneBase : MonoBehaviour
     protected byte Current = 0;
     private float _timer = 0.0f;
 
+#if UNITY_EDITOR
+    public List<EventSceneAction> ActionList
+    {
+        set
+        {
+            Actions = value;
+        }
+    }
+#endif
+
 
 
     /* ==================== Public Methods ==================== */

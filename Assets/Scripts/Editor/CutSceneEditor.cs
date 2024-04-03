@@ -29,7 +29,7 @@ public class CutSceneEditor : Editor
             CutScene.CutSceneAction element = _actions[i];
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField($"Index {i.ToString()}", GUILayout.MaxWidth(45.0f), GUILayout.MinWidth(45.0f));
+            EditorGUILayout.LabelField($"Index {i.ToString()}", GUILayout.MaxWidth(60.0f), GUILayout.MinWidth(60.0f));
             EditorGUI.BeginChangeCheck();
             element.Action = (CutSceneActions)EditorGUILayout.EnumPopup(element.Action, GUILayout.MaxWidth(90.0f), GUILayout.MinWidth(90.0f));
             EditorGUILayout.Space(10.0f, false);
@@ -38,7 +38,8 @@ public class CutSceneEditor : Editor
             {
                 case CutSceneActions.FadeIn:
                 case CutSceneActions.FadeOut:
-                    EditorGUILayout.LabelField("Image", GUILayout.MaxWidth(80.0f));
+                    EditorGUILayout.LabelField("Target", GUILayout.MaxWidth(80.0f));
+                    EditorGUILayout.LabelField("Image", GUILayout.MaxWidth(40.0f));
                     element.TargetImage = (Image)EditorGUILayout.ObjectField(element.TargetImage, typeof(Image), true);
                     EditorGUILayout.LabelField("Text", GUILayout.MaxWidth(30.0f));
                     element.TargetText = (TextMeshProUGUI)EditorGUILayout.ObjectField(element.TargetText, typeof(TextMeshProUGUI), true);
@@ -58,7 +59,7 @@ public class CutSceneEditor : Editor
 
                 case CutSceneActions.Wait:
                     EditorGUILayout.LabelField("Duration", GUILayout.MaxWidth(80.0f));
-                    element.Duration = EditorGUILayout.FloatField(element.Duration, GUILayout.MaxWidth(50.0f));
+                    element.Duration = EditorGUILayout.FloatField(element.Duration);
                     break;
             }
 
@@ -76,10 +77,12 @@ public class CutSceneEditor : Editor
             EditorGUILayout.Space(5.0f);
         }
 
-        if (GUILayout.Button("Add a dialogue to end", GUILayout.MinHeight(30.0f)))
+        if (GUILayout.Button("Add an Action to end", GUILayout.MinHeight(30.0f)))
         {
+            Undo.RecordObject(_scene, $"{_scene.name}: CutScene action added");
             _scene.AddAction((byte)_actions.Count);
             _current = (byte)(_actions.Count - 1);
+            _scene.Actions = _actions;
         }
 
         EditorGUILayout.Space(20.0f);
@@ -89,15 +92,17 @@ public class CutSceneEditor : Editor
         _current = (byte)EditorGUILayout.IntField(_current, GUILayout.MaxWidth(30.0f));
         if (_current <= _actions.Count && GUILayout.Button("Add here", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_scene, $"{_scene.name}: CutScene action added");
             _scene.AddAction(_current);
             _current = (byte)(_actions.Count - 1);
-            EditorUtility.SetDirty(_scene);
+            _scene.Actions = _actions;
         }
         if (_current < _actions.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_scene, $"{_scene.name}: CutScene action deleted");
             _scene.DeleteAction(_current);
             _current = (byte)(_actions.Count - 1);
-            EditorUtility.SetDirty(_scene);
+            _scene.Actions = _actions;
         }
 
         EditorGUILayout.Space(20.0f);
@@ -108,8 +113,9 @@ public class CutSceneEditor : Editor
         _switchTo = (byte)EditorGUILayout.IntField(_switchTo, GUILayout.MaxWidth(30.0f));
         if (_switchFrom < _actions.Count && _switchTo < _actions.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
         {
+            Undo.RecordObject(_scene, $"{_scene.name}: CutScene action moved");
             _scene.MoveAction(_switchFrom, _switchTo);
-            EditorUtility.SetDirty(_scene);
+            _scene.Actions = _actions;
         }
         EditorGUILayout.EndHorizontal();
     }

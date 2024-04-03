@@ -241,7 +241,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &322387437
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -744,8 +744,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: _triggerType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
       propertyPath: _actions.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[0].ActionType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[1].ActionType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[2].ActionType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
       propertyPath: _actions.Array.data[0].ActionType
@@ -755,6 +775,18 @@ PrefabInstance:
       propertyPath: _actions.Array.data[1].ActionType
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[0].TargetObject
+      value: 
+      objectReference: {fileID: 1632704692}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[1].TargetObject
+      value: 
+      objectReference: {fileID: 616456291}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[2].TargetObject
+      value: 
+      objectReference: {fileID: 748256523}
     - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
       propertyPath: _actions.Array.data[0].TargetObject
       value: 
@@ -1489,7 +1521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4719c67ae69184db8b49261c4942c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actions:
+  Actions:
   - ActionType: 0
     TargetObject: {fileID: 322387436}
   _conditions:
@@ -1551,8 +1583,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
       propertyPath: _actions.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[1].ActionType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[2].ActionType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
       propertyPath: _actions.Array.data[0].ActionType
@@ -1566,6 +1610,18 @@ PrefabInstance:
       propertyPath: _actions.Array.data[2].ActionType
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[0].TargetObject
+      value: 
+      objectReference: {fileID: 616456291}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[1].TargetObject
+      value: 
+      objectReference: {fileID: 1632704692}
+    - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
+      propertyPath: Actions.Array.data[2].TargetObject
+      value: 
+      objectReference: {fileID: 1573005384}
     - target: {fileID: 8918293342406636542, guid: 9a4b19a621903844da3ec3a64dd75284, type: 3}
       propertyPath: _actions.Array.data[0].TargetObject
       value: 

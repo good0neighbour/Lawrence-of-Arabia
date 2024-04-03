@@ -44,6 +44,7 @@ public enum ActionTypes
     Enable,
     Disable,
     Delete,
+    PlayerTeleport,
     StartEventScene,
     LoadNextScene
 }

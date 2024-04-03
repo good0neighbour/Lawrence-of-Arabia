@@ -7,6 +7,20 @@ public class PlayerTrigger : TriggerBase
     [Tooltip("Select condition of this trigger.")]
     [SerializeField] private TriggerTypes _triggerType;
 
+#if UNITY_EDITOR
+    public TriggerTypes TriggerType
+    {
+        get
+        {
+            return _triggerType;
+        }
+        set
+        {
+            _triggerType = value;
+        }
+    }
+#endif
+
 
 
     /* ==================== Private Methods ==================== */

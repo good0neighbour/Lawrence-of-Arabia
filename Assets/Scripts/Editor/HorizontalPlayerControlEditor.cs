@@ -23,8 +23,8 @@ public class HorizontalPlayerControlEditor : Editor
         _flip = EditorGUILayout.Toggle(_flip);
         if (EditorGUI.EndChangeCheck())
         {
+            Undo.RecordObject(_character, "HorizontalPlayerControl: Modify property");
             _character.Flip(_flip);
-            EditorUtility.SetDirty(_character);
         }
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Space(10.0f);

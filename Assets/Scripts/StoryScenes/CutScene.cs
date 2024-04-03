@@ -17,6 +17,16 @@ public class CutScene : MonoBehaviour
     private float _skip = 0.0f;
     private bool _skipPressed = false;
 
+#if UNITY_EDITOR
+    public List<CutSceneAction> Actions
+    {
+        set
+        {
+            _actions = value;
+        }
+    }
+#endif
+
 
 
     /* ==================== Public Methods ==================== */
