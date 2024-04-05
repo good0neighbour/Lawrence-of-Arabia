@@ -80,10 +80,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a094638fe49cd044bbc2bbee369bf3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsFlipNum: 1
+  _isFlip: 0
   _sprite: {fileID: 3366004933093319015}
   _joystick: {fileID: 0}
   _animator: {fileID: 1568041047570051967}
   _cameraPos: {fileID: 2203068095968316751}
+  _atkEftPrefab: {fileID: 0}
+  _health: 100
+  _armor: 1
+  _damage: 4
 --- !u!95 &1568041047570051967
 Animator:
   serializedVersion: 5

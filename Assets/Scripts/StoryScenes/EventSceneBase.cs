@@ -6,7 +6,7 @@ public abstract class EventSceneBase : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] protected List<EventSceneAction> Actions = null;
+    [SerializeField] protected List<EventSceneAction> Actions = new List<EventSceneAction>();
     protected byte Current = 0;
     private float _timer = 0.0f;
 

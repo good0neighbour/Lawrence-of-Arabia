@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class HorizontalMovement : MonoBehaviour
 {
@@ -63,20 +64,7 @@ public class HorizontalMovement : MonoBehaviour
         );
 
         // Wall detecting
-        pos = (Vector2)transform.position;
-        if (null != Physics2D.OverlapArea(
-            pos + new Vector2(-0.48f, 0.1f),
-            pos + new Vector2(0.48f, 0.05f),
-            Constants.LAYER_B_WALL
-        ))
-        {
-            pos = (Vector2)transform.localPosition;
-            transform.localPosition = new Vector3(
-                Mathf.Round(pos.x + 0.5f) - 0.5f,
-                pos.y,
-                0.0f
-            );
-        }
+        WallBlocking();
     }
 
 
@@ -106,6 +94,11 @@ public class HorizontalMovement : MonoBehaviour
         {
             if (isUpJump)
             {
+                if (DetectIsCeiled())
+                {
+                    // Cannot up jump under BaseGround
+                    return;
+                }
                 _velocityY = Constants.CHAR_JUMP_SPEED;
                 _jumpState = JumpUp;
                 IsGrounded = false;
@@ -115,6 +108,7 @@ public class HorizontalMovement : MonoBehaviour
                 _ignoredTerrain = DetectGround();
                 if (_ignoredTerrain.tag.Equals("BaseGround"))
                 {
+                    // Cannot down jump on BaseGround
                     _ignoredTerrain = null;
                     return;
                 }
@@ -133,6 +127,64 @@ public class HorizontalMovement : MonoBehaviour
 
 
     /* ==================== Private Methods ==================== */
+
+    private void WallBlocking()
+    {
+        Vector2 pos = (Vector2)transform.position;
+        switch (IsFlipNum)
+        {
+            case 1:
+                if (null == Physics2D.OverlapArea(
+                pos + new Vector2(0.0f, 0.5f),
+                    pos + new Vector2(0.48f, 0.4f),
+                    Constants.LAYER_B_WALL
+                ))
+                {
+                    return;
+                }
+                break;
+
+            case -1:
+                if (null == Physics2D.OverlapArea(
+                pos + new Vector2(-0.48f, 0.5f),
+                    pos + new Vector2(0.0f, 0.4f),
+                    Constants.LAYER_B_WALL
+                ))
+                {
+                    return;
+                }
+                break;
+        }
+        pos = (Vector2)transform.localPosition;
+        transform.localPosition = new Vector3(
+            Mathf.Round(pos.x + 0.5f) - 0.5f,
+            pos.y,
+            0.0f
+        );
+    }
+
+
+    private bool DetectIsCeiled()
+    {
+        Collider2D ceiling = Physics2D.OverlapArea(
+            (Vector2)transform.position + new Vector2(-Constants.CHAR_FEET_SIZE, 1.01f),
+            (Vector2)transform.position + new Vector2(Constants.CHAR_FEET_SIZE, 0.99f),
+            Constants.LAYER_B_TERRAIN
+        );
+        if (ceiling == null)
+        {
+            return false;
+        }
+        else if (ceiling.tag.Equals("BaseGround"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     private Collider2D DetectGround()
     {

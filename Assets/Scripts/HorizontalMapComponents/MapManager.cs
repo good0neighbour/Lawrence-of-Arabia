@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour
@@ -13,7 +15,11 @@ public class MapManager : MonoBehaviour
     [Header("Next Scene")]
     [Tooltip("Next scene comes after completing this map.")]
     [SerializeField] private string _nextSceneName = null;
+    [SerializeField] private Image _blackScreen = null;
+    [SerializeField] private TextMeshProUGUI _mapNameText = null;
+    private GameDelegate _delegate = null;
     private List<EnemyBehaviour> _enemies = new List<EnemyBehaviour>();
+    private float _timer = 0.0f;
 
     public static MapManager Instance
     {
@@ -75,12 +81,119 @@ public class MapManager : MonoBehaviour
 
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(_nextSceneName);
+        PauseGame(true);
+        _timer = 1.0f;
+        _delegate += BlackScreenFadeIn;
     }
 
 
 
     /* ==================== Private Methods ==================== */
+
+    private void BlackScreenFadeOut()
+    {
+        if (_timer < 1.0f)
+        {
+            _timer += Time.deltaTime;
+            if (_timer >= 1.0f)
+            {
+                _blackScreen.color = new Color(
+                    0.0f,
+                    0.0f,
+                    0.0f,
+                    0.0f
+                );
+                PauseGame(false);
+            }
+            else
+            {
+                _blackScreen.color = new Color(
+                    0.0f,
+                    0.0f,
+                    0.0f,
+                    Mathf.Cos(_timer * Mathf.PI) * 0.5f + 0.5f
+                );
+            }
+        }
+        else if (_timer < 2.0f)
+        {
+            _timer += Time.deltaTime;
+            if (_timer >= 2.0f)
+            {
+                _mapNameText.color = new Color(
+                    1.0f,
+                    1.0f,
+                    1.0f,
+                    1.0f
+                );
+            }
+            else
+            {
+                _mapNameText.color = new Color(
+                    1.0f,
+                    1.0f,
+                    1.0f,
+                    Mathf.Cos(_timer * Mathf.PI) * 0.5f + 0.5f
+                );
+            }
+        }
+        else if (_timer > 3.0f)
+        {
+            _timer += Time.deltaTime;
+            if (_timer >= 4.0f)
+            {
+                Destroy(_mapNameText.gameObject);
+                _delegate -= BlackScreenFadeOut;
+            }
+            else
+            {
+                _mapNameText.color = new Color(
+                    1.0f,
+                    1.0f,
+                    1.0f,
+                    Mathf.Cos((_timer + 1.0f) * Mathf.PI) * 0.5f + 0.5f
+                );
+            }
+        }
+        else
+        {
+            _timer += Time.deltaTime;
+        }
+    }
+
+
+    private void BlackScreenFadeIn()
+    {
+        if (_timer < 2.0f)
+        {
+            _timer += Time.deltaTime;
+            if (_timer >= 2.0f)
+            {
+                _blackScreen.color = new Color(
+                    0.0f,
+                    0.0f,
+                    0.0f,
+                    1.0f
+                );
+                _delegate = null;
+                SceneManager.LoadScene(_nextSceneName);
+            }
+            else
+            {
+                _blackScreen.color = new Color(
+                    0.0f,
+                    0.0f,
+                    0.0f,
+                    Mathf.Cos(_timer * Mathf.PI) * 0.5f + 0.5f
+                );
+            }
+        }
+        else
+        {
+            _timer += Time.deltaTime;
+        }
+    }
+
 
     private void Awake()
     {
@@ -95,12 +208,20 @@ public class MapManager : MonoBehaviour
         {
             _enemies.Add(enemy);
         }
+
+        // Black screen
+        _blackScreen.color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+        _mapNameText.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        _mapNameText.text = MapName;
+
+        // Delegate
+        _delegate += _joystick.JoystickUpdate;
+        _delegate += BlackScreenFadeOut;
     }
 
 
     private void Update()
     {
-        // Always functioning
-        _joystick.JoystickUpdate();
+        _delegate.Invoke();
     }
 }

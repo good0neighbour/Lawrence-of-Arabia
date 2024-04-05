@@ -12,8 +12,8 @@ public class Constants
     public static readonly Vector2 CHAR_ATKEFT_POS = new Vector2(0.5f, 0.5f);
 
     // Enemy Settings
-    public const float ENEMY_SILENCE_TIMER = 5.0f;
-    public const float ENEMY_URGENT_TIMER = 1.0f;
+    public const float ENEMY_SILENCE_TIMER = 3.0f;
+    public const float ENEMY_URGENT_TIMER = 0.5f;
     public const float ENEMY_MOVE_POSI = 0.1f;
     public const float ENEMY_JUMP_POSI = 0.03f;
     public const float ENEMY_MOVESTOP_POSI = 0.4f;

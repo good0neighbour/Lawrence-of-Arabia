@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Codice.Client.BaseCommands;
 
 [CustomEditor(typeof(HoriaontalEventScene))]
 public class HoriaontalEventSceneEditor : Editor
