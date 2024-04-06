@@ -67,6 +67,12 @@ public class DialogueScreen : MonoBehaviour
     }
 
 
+    public void DeleteInstance()
+    {
+        Instance = null;
+    }
+
+
 
     /* ==================== Private Methods ==================== */
 

@@ -10,7 +10,6 @@ public class MapManager : MonoBehaviour
 
     [SerializeField] private string _mapName = null;
     [Header("References")]
-    [SerializeField] private CanvasPlayController _controller = null;
     [SerializeField] private Joystick _joystick = null;
     [Header("Next Scene")]
     [Tooltip("Next scene comes after completing this map.")]
@@ -51,7 +50,7 @@ public class MapManager : MonoBehaviour
     public void PauseGame(bool pause)
     {
         // Play controller UI
-        _controller.SetControllerActive(!pause);
+        CanvasPlayController.Instance.SetControllerActive(!pause);
 
         // Player
         HorizontalPlayerControl.Instance.PausePlayerControl(pause);
@@ -176,6 +175,7 @@ public class MapManager : MonoBehaviour
                     1.0f
                 );
                 _delegate = null;
+                DeleteInstance();
                 SceneManager.LoadScene(_nextSceneName);
             }
             else
@@ -192,6 +192,16 @@ public class MapManager : MonoBehaviour
         {
             _timer += Time.deltaTime;
         }
+    }
+
+
+    private void DeleteInstance()
+    {
+        Instance = null;
+        HorizontalPlayerControl.Instance.DeleteInstance();
+        CanvasPlayController.Instance.DeleteInstance();
+        DialogueScreen.Instance.DeleteInstance();
+        CameraHorizontalMovement.Instance.DeleteInstance();
     }
 
 
@@ -212,7 +222,7 @@ public class MapManager : MonoBehaviour
         // Black screen
         _blackScreen.color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
         _mapNameText.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-        _mapNameText.text = MapName;
+        _mapNameText.text = _mapName;
 
         // Delegate
         _delegate += _joystick.JoystickUpdate;

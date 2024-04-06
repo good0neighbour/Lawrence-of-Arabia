@@ -26,19 +26,26 @@ public class CanvasPlayController : MonoBehaviour
 
     public void ButtonClick(int index)
     {
-        switch (index)
+        if (HorizontalPlayerControl.Instance == null)
         {
-            case Constants.BUTTON_ATTACK:
-                HorizontalPlayerControl.Instance.Attack();
-                return;
+            FourDirectionPlayerControl.Instance.Interact();
+        }
+        else
+        {
+            switch (index)
+            {
+                case Constants.BUTTON_ATTACK:
+                    HorizontalPlayerControl.Instance.Attack();
+                    return;
 
-            case Constants.BUTTON_INTERACT:
-                HorizontalPlayerControl.Instance.Interact();
-                return;
+                case Constants.BUTTON_INTERACT:
+                    HorizontalPlayerControl.Instance.Interact();
+                    return;
 
-            case Constants.BUTTON_EXTRA:
-                HorizontalPlayerControl.Instance.Extra();
-                return;
+                case Constants.BUTTON_EXTRA:
+                    HorizontalPlayerControl.Instance.Extra();
+                    return;
+            }
         }
     }
 
@@ -49,12 +56,23 @@ public class CanvasPlayController : MonoBehaviour
     }
 
 
+    public void DeleteInstance()
+    {
+        Instance = null;
+    }
+
+
 
     /* ==================== Private Methods ==================== */
 
     private void Awake()
     {
         Instance = this;
+    }
+
+
+    private void Start()
+    {
         gameObject.SetActive(false);
     }
 }

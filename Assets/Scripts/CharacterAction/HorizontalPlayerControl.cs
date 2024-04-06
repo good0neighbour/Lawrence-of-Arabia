@@ -128,6 +128,12 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
+    public void DeleteInstance()
+    {
+        Instance = null;
+    }
+
+
 
     /* ==================== Protected Methods ==================== */
 

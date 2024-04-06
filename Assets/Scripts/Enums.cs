@@ -63,6 +63,7 @@ public enum EvenSceneActions
     CameraMove,
     NPCMove,
     NPCJump,
+    NPCLookAtPlayer,
     Enable,
     Disable,
     Destroy,
@@ -81,4 +82,10 @@ public enum CutSceneActions
     Destroy,
     LoadScene,
     Wait
+}
+
+public enum FDInteractionTypes
+{
+    Enable,
+    StartEventScene
 }

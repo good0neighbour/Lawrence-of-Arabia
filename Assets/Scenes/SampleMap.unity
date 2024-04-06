@@ -994,7 +994,7 @@ MonoBehaviour:
     TargetTransform: {fileID: 748256524}
     Duration: 1
     DialogueScript: {fileID: 0}
-  - Action: 6
+  - Action: 7
     TargetObject: {fileID: 0}
     TargetTransform: {fileID: 0}
     Duration: 0
@@ -1252,7 +1252,7 @@ MonoBehaviour:
     TargetTransform: {fileID: 2105634344}
     Duration: 0
     DialogueScript: {fileID: 0}
-  - Action: 6
+  - Action: 7
     TargetObject: {fileID: 0}
     TargetTransform: {fileID: 0}
     Duration: 0
@@ -1774,22 +1774,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mapName: Sample Map
-  _controller: {fileID: 1703209664}
   _joystick: {fileID: 826337707}
   _nextSceneName: 
   _blackScreen: {fileID: 428631252}
   _mapNameText: {fileID: 987714978}
---- !u!114 &1703209664 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6636362913922744925, guid: ebd4953da2fd063469fdcada0fcaa240, type: 3}
-  m_PrefabInstance: {fileID: 8991316440386316491}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abb5b2f7cd1ea3e449a2bc37bccf9b4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1732779374
 GameObject:
   m_ObjectHideFlags: 0

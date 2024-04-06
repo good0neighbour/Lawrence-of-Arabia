@@ -343,7 +343,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
                             new Vector2(
                                 transform.position.x,
                                 transform.position.y + 1.0f
-                            ), 0.1f, Constants.LAYER_B_GROUND))
+                            ), 0.1f, Constants.LAYER_B_PLATFORM))
                         {
                             Jump(true);
                         }
@@ -354,7 +354,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
                             new Vector2(
                                 transform.position.x,
                                 transform.position.y - 1.0f
-                            ), 0.1f, Constants.LAYER_B_GROUND))
+                            ), 0.1f, Constants.LAYER_B_PLATFORM))
                         {
                             Jump(false);
                         }
@@ -492,7 +492,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
                         new Vector2(
                             transform.position.x,
                             transform.position.y + 1.0f
-                        ), 0.1f, Constants.LAYER_B_GROUND))
+                        ), 0.1f, Constants.LAYER_B_PLATFORM))
                         {
                             Jump(true);
                         }
@@ -503,7 +503,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
                         new Vector2(
                             transform.position.x,
                             transform.position.y - 1.0f
-                        ), 0.1f, Constants.LAYER_B_GROUND))
+                        ), 0.1f, Constants.LAYER_B_PLATFORM))
                         {
                             Jump(false);
                         }

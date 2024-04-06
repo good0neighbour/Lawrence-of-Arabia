@@ -65,6 +65,13 @@ public class HoriaontalEventSceneEditor : Editor
                     EditorGUILayout.EndHorizontal();
                     break;
 
+                case EvenSceneActions.NPCLookAtPlayer:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
+                    EditorGUILayout.EndHorizontal();
+                    break;
+
                 case EvenSceneActions.Enable:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target Object", GUILayout.MaxWidth(120.0f));

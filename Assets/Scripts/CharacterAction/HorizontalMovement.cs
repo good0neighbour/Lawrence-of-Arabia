@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class HorizontalMovement : MonoBehaviour
 {
@@ -106,7 +105,8 @@ public class HorizontalMovement : MonoBehaviour
             else
             {
                 _ignoredTerrain = DetectGround();
-                if (_ignoredTerrain.tag.Equals("BaseGround"))
+                //if (_ignoredTerrain.tag.Equals("BaseGround"))
+                if (_ignoredTerrain.CompareTag("BaseGround"))
                 {
                     // Cannot down jump on BaseGround
                     _ignoredTerrain = null;
@@ -175,7 +175,7 @@ public class HorizontalMovement : MonoBehaviour
         {
             return false;
         }
-        else if (ceiling.tag.Equals("BaseGround"))
+        else if (ceiling.CompareTag("BaseGround"))
         {
             return true;
         }

@@ -34,6 +34,10 @@ public class HoriaontalEventScene : EventSceneBase
                 Actions[Current].TargetObject.GetComponent<EventNPCMovement>().NPCJump(Actions[Current].TargetTransform.position.y);
                 return;
 
+            case EvenSceneActions.NPCLookAtPlayer:
+                Actions[Current].TargetObject.GetComponent<EventNPCMovement>().NPCLookAtPlayer();
+                return;
+
             case EvenSceneActions.Enable:
                 Actions[Current].TargetObject.SetActive(true);
                 return;

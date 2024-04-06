@@ -29,6 +29,12 @@ public class CameraHorizontalMovement : MonoBehaviour
     }
 
 
+    public void DeleteInstance()
+    {
+        Instance = null;
+    }
+
+
 
     /* ==================== Private Methods ==================== */
 

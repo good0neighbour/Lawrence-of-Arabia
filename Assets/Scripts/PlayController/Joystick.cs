@@ -21,7 +21,17 @@ public class Joystick : MonoBehaviour
         private set;
     }
 
+    /// <summary>
+    /// Normalized distance
+    /// </summary>
     public float JoystickDistance
+    {
+        get;
+        private set;
+    }
+
+
+    public bool JoystickPressing
     {
         get;
         private set;
@@ -37,6 +47,7 @@ public class Joystick : MonoBehaviour
         _initialHandlePosition = _handle.localPosition;
         _joystickStateDel = JoystickDrag;
         _joystickState = Constants.JOYSTICK_DRAGGING;
+        JoystickPressing = true;
     }
 
 
@@ -57,6 +68,7 @@ public class Joystick : MonoBehaviour
         }
 
         _joystickState = Constants.JOYSTICK_STANDINGBY;
+        JoystickPressing = false;
     }
 
 
@@ -239,6 +251,7 @@ public class Joystick : MonoBehaviour
                 _initialPosition = _joystickControl - JoystickWeight;
                 _handleDistance = length;
                 _joystickState = Constants.JOYSTICK_KEYBOARD;
+                JoystickPressing = true;
                 return;
         }
     }

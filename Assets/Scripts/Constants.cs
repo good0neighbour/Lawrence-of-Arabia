@@ -9,6 +9,7 @@ public class Constants
     public const float CHAR_FEET_SIZE = 0.1f;
     public const float CHAR_KNOCKBACK_AMOUNT = 1.0f;
     public const float CHAR_KNOCKBACK_ACC = 3.0f;
+    public const float CHAR_INTERACTION_DISTANCE = 0.01f;
     public static readonly Vector2 CHAR_ATKEFT_POS = new Vector2(0.5f, 0.5f);
 
     // Enemy Settings
@@ -28,7 +29,7 @@ public class Constants
 
     // Camera Settings
     public const float HOR_CAM_SPEED = 0.03f;
-    public const float FD_CAM_SPEED = 0.3f;
+    public const float FD_CAM_SPEED = 0.03f;
     public const float FD_CAM_ROT_OFFSET = -2.0F;
     public static readonly Vector2 HOR_CAM_OFFSET = new Vector2(1.0f, 1.0f);
     public static readonly Vector2 FD_CAM_OFFSET = new Vector2(6.0f, -10.0f);
@@ -106,11 +107,11 @@ public class Constants
     public const byte FAILURE = 0;
 
     // Precalculation
-    public const int LAYER_B_GROUND = 1 << LAYER_D_GROUND;
+    public const int LAYER_B_PLATFORM = 1 << LAYER_D_GROUND;
     public const int LAYER_B_WALL = 1 << LAYER_D_WALL;
     public const int LAYER_B_PLAYER = 1 << LAYER_D_PLAYER;
     public const int LAYER_B_ENEMY = 1 << LAYER_D_ENEMY;
-    public const int LAYER_B_TERRAIN = LAYER_B_GROUND | LAYER_B_WALL;
+    public const int LAYER_B_TERRAIN = LAYER_B_PLATFORM | LAYER_B_WALL;
     public const float PRECAL_TEXT_ALPHA = TEXT_SPACING - TEXT_OFFSET;
     public const float IMAGE_LEFT_POS_START = IMAGE_LEFT_POS_END - IMAGE_MOVE_DIS;
     public const float IMAGE_RIGHT_POS_END = -IMAGE_LEFT_POS_END;

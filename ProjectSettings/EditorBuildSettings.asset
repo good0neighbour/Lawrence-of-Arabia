@@ -6,18 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/CutScenes/Intro/Intro0.unity
+    path: Assets/Scenes/Intro/CS_Intro0.unity
     guid: f2e63a97b8dd18e4d9923e9f2925c2fd
   - enabled: 1
-    path: Assets/Scenes/HorizontalMaps/Intro/Intro0_Sneaking.unity
+    path: Assets/Scenes/Intro/HM_Intro0_Sneaking.unity
     guid: ae32fe16243ea96428070551c9ab9c30
   - enabled: 1
-    path: Assets/Scenes/CutScenes/Intro/Intro1.unity
+    path: Assets/Scenes/Intro/CS_Intro1.unity
     guid: 421fb6aba52d3104e9667e0c5a4503f8
   - enabled: 1
     path: Assets/Scenes/SampleMap.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Scenes/MainTown.unity
-    guid: 44a46d74b1b8b7443b8c0a866edc1dd9
   m_configObjects: {}
