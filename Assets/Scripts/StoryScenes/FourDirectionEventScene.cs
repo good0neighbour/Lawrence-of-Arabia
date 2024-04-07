@@ -32,8 +32,12 @@ public class FourDirectionEventScene : EventSceneBase
                 Actions[Current].TargetObject.GetComponent<EventNPCMovementFD>().SetGoal(Actions[Current].TargetTransform.position);
                 return;
 
-            case EvenSceneActions.NPCLookAtPlayer:
-                Actions[Current].TargetObject.GetComponent<EventNPCMovementFD>().NPCLookAtPlayer();
+            case EvenSceneActions.NPCLookAt:
+                Actions[Current].TargetObject.GetComponent<EventNPCMovementFD>().NPCLookAt(Actions[Current].TargetTransform);
+                return;
+
+            case EvenSceneActions.PlayerLookAt:
+                FourDirectionPlayerControl.Instance.PlayerLookAt(Actions[Current].TargetTransform);
                 return;
 
             case EvenSceneActions.Enable:

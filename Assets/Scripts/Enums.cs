@@ -1,13 +1,8 @@
-public enum Characters
+public enum DialogueTypes
 {
-    Player,
-    Phi,
-    Cocoro,
-    Delta,
-    Koi,
-    Nonya,
-    Ryu,
-    None
+    Narration,
+    Talk,
+    Selection
 }
 
 
@@ -63,7 +58,8 @@ public enum EvenSceneActions
     CameraMove,
     NPCMove,
     NPCJump,
-    NPCLookAtPlayer,
+    NPCLookAt,
+    PlayerLookAt,
     Enable,
     Disable,
     Destroy,

@@ -58,10 +58,21 @@ public class FourDirectionEventSceneEditor : Editor
                     EditorGUILayout.LabelField("Cannot jump in FourDirection map.");
                     break;
 
-                case EvenSceneActions.NPCLookAtPlayer:
+                case EvenSceneActions.NPCLookAt:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
                     element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Look at", GUILayout.MaxWidth(120.0f));
+                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
+                    EditorGUILayout.EndHorizontal();
+                    break;
+
+                case EvenSceneActions.PlayerLookAt:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Look at", GUILayout.MaxWidth(120.0f));
+                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 

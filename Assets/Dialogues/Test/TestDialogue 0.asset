@@ -13,13 +13,17 @@ MonoBehaviour:
   m_Name: TestDialogue 0
   m_EditorClassIdentifier: 
   _dialogues:
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: This is test dialogue.
     Branches: []
-  - Name: 0
+  - Type: 2
+    Name: Phi
     NameColour: 2
+    Image: {fileID: 21300000, guid: 10905e1cd2f3a654f9761e9c0ae91563, type: 3}
     ImageDirection: 0
     Text: 
     Branches:
@@ -27,13 +31,17 @@ MonoBehaviour:
       Branch: {fileID: 11400000, guid: 9bc6c350956c08f49b3519daf1c1d67d, type: 2}
     - Text: I see.
       Branch: {fileID: 0}
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: Do you need anything, boss?
     Branches: []
-  - Name: 0
+  - Type: 2
+    Name: Phi
     NameColour: 2
+    Image: {fileID: 21300000, guid: 10905e1cd2f3a654f9761e9c0ae91563, type: 3}
     ImageDirection: 0
     Text: 
     Branches:
@@ -41,18 +49,24 @@ MonoBehaviour:
       Branch: {fileID: 11400000, guid: c69e5aaa7c6ecf446b11514dd00b70ca, type: 2}
     - Text: I want potato salad.
       Branch: {fileID: 0}
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: You got it.
     Branches: []
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: Anything else you need?
     Branches: []
-  - Name: 0
+  - Type: 2
+    Name: Phi
     NameColour: 2
+    Image: {fileID: 21300000, guid: 10905e1cd2f3a654f9761e9c0ae91563, type: 3}
     ImageDirection: 0
     Text: 
     Branches:

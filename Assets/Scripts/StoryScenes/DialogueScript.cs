@@ -70,8 +70,10 @@ public class DialogueScript : ScriptableObject
     [Serializable]
     public struct Dialogue
     {
-        public Characters Name;
+        public DialogueTypes Type;
+        public string Name;
         public NameColours NameColour;
+        public Sprite Image;
         public CharImageDir ImageDirection;
         public string Text;
         public List<BranchDialogue> Branches;

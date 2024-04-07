@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +12,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
     [SerializeField] private Transform _sprite = null;
     [SerializeField] private Transform _camPos = null;
     private GameDelegate _interaction = null;
-    private IInteractableObject _interactableObject = null;
+    private List<InteractableObjectBase> _interactableObject = new List<InteractableObjectBase>();
     private Vector2 _interactionPoint = Vector2.zero;
     private float _defaultSpeed = 0.0f;
     private float _defaultAcc = 0.0f;
@@ -56,26 +57,44 @@ public class FourDirectionPlayerControl : MonoBehaviour
 
     public void Interact()
     {
-        _interactionPoint = _interactableObject.GetFixedPosition();
+        _interactionPoint = _interactableObject[_interactableObject.Count - 1].GetInteractionPos();
         PlayerSetDestination(_interactionPoint.x, _interactionPoint.y);
-        _interaction = _interactableObject.Interaction;
+        _interaction = _interactableObject[_interactableObject.Count - 1].Interaction;
         _isReserved = true;
     }
 
 
-    public void SetInteractionActive(IInteractableObject target)
+    public void SetInteractionActive(InteractableObjectBase target, bool active)
     {
-        CanvasPlayController.Instance.SetInteractBtnActive(true);
-        _interactableObject = target;
-        _isInteractable = true;
+        if (active)
+        {
+            CanvasPlayController.Instance.SetInteractBtnActive(true);
+            _interactableObject.Add(target);
+            _isInteractable = true;
+        }
+        else
+        {
+            _interactableObject.Remove(target);
+            if (_interactableObject.Count == 0)
+            {
+                CanvasPlayController.Instance.SetInteractBtnActive(false);
+                _isInteractable = false;
+            }
+        }
     }
 
 
-    public void SetInteractionInactive()
+    public void PlayerLookAt(Transform target)
     {
-        CanvasPlayController.Instance.SetInteractBtnActive(false);
-        _interactableObject = null;
-        _isInteractable = false;
+        _agent.velocity = Vector3.zero;
+        if (target.position.x >= transform.position.x)
+        {
+            _sprite.localRotation = Quaternion.Euler(_defaultRot, 0f, 0f);
+        }
+        else
+        {
+            _sprite.localRotation = Quaternion.Euler(-_defaultRot, 180f, 0f);
+        }
     }
 
 
@@ -125,6 +144,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
             );
             if (temp.x * temp.x + temp.y * temp.y <= Constants.CHAR_INTERACTION_DISTANCE)
             {
+                _agent.ResetPath();
                 _interaction.Invoke();
                 _interaction = null;
                 _isReserved = false;
@@ -184,7 +204,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
             else if (hit.collider.includeLayers == Constants.LAYER_B_PLATFORM)
             {
                 // Interact
-                _interactableObject = hit.collider.GetComponent<IInteractableObject>();
+                _interactableObject.Add(hit.collider.GetComponent<InteractableObjectBase>());
                 Interact();
             }
         }

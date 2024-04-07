@@ -13,43 +13,59 @@ MonoBehaviour:
   m_Name: TestDialogue 1
   m_EditorClassIdentifier: 
   _dialogues:
-  - Name: 6
+  - Type: 1
+    Name: Ryu
     NameColour: 6
+    Image: {fileID: 21300000, guid: 416429aa60be77d45b9f54605939d418, type: 3}
     ImageDirection: 0
     Text: Wanna play tag?
     Branches: []
-  - Name: 4
+  - Type: 1
+    Name: Koi
     NameColour: 6
+    Image: {fileID: 21300000, guid: 699318b04b833ec4bbdd874a2f1104f2, type: 3}
     ImageDirection: 1
     Text: Sure.
     Branches: []
-  - Name: 2
+  - Type: 1
+    Name: Cocoro
     NameColour: 6
+    Image: {fileID: 21300000, guid: d821dccb919a8d14eb76040588f49837, type: 3}
     ImageDirection: 1
     Text: Can I join?
     Branches: []
-  - Name: 6
+  - Type: 1
+    Name: Ryu
     NameColour: 6
+    Image: {fileID: 21300000, guid: 416429aa60be77d45b9f54605939d418, type: 3}
     ImageDirection: 0
     Text: Of course.
     Branches: []
-  - Name: 6
+  - Type: 1
+    Name: Ryu
     NameColour: 6
+    Image: {fileID: 21300000, guid: 416429aa60be77d45b9f54605939d418, type: 3}
     ImageDirection: 0
     Text: Do you want to join too, boss?
     Branches: []
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: Looks like they want you to join playing tag.
     Branches: []
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: Would you like to join?
     Branches: []
-  - Name: 0
+  - Type: 2
+    Name: Phi
     NameColour: 2
+    Image: {fileID: 21300000, guid: 10905e1cd2f3a654f9761e9c0ae91563, type: 3}
     ImageDirection: 0
     Text: 
     Branches:

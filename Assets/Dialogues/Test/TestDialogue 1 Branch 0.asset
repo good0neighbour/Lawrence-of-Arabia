@@ -13,13 +13,17 @@ MonoBehaviour:
   m_Name: TestDialogue 1 Branch 0
   m_EditorClassIdentifier: 
   _dialogues:
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: Then, let's begin.
     Branches: []
-  - Name: 6
+  - Type: 1
+    Name: Ryu
     NameColour: 6
+    Image: {fileID: 21300000, guid: 416429aa60be77d45b9f54605939d418, type: 3}
     ImageDirection: 0
     Text: Yay.
     Branches: []

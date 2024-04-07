@@ -48,12 +48,19 @@ public class TriggerBase : MonoBehaviour
                     break;
 
                 case ActionTypes.PlayerTeleport:
-                    HorizontalPlayerControl.Instance.transform.position = act.TargetObject.transform.position;
+                    if (HorizontalPlayerControl.Instance == null)
+                    {
+                        FourDirectionPlayerControl.Instance.transform.position = act.TargetObject.transform.position;
+                    }
+                    else
+                    {
+                        HorizontalPlayerControl.Instance.transform.position = act.TargetObject.transform.position;
+                    }
                     break;
 
                 case ActionTypes.StartEventScene:
 #if UNITY_EDITOR
-                    HoriaontalEventScene eventScene = act.TargetObject.GetComponent<HoriaontalEventScene>();
+                    IEventScene eventScene = act.TargetObject.GetComponent<IEventScene>();
                     if (eventScene == null)
                     {
                         Debug.LogError($"{gameObject.name} : Even scene is missing.");
@@ -64,7 +71,7 @@ public class TriggerBase : MonoBehaviour
                         eventScene.StartEventScene();
                     }
 #else
-                    act.TargetObject.GetComponent<HoriaontalEvenScene>().StartEventScene();
+                    act.TargetObject.GetComponent<IEventScene>().StartEventScene();
 #endif
                     break;
 

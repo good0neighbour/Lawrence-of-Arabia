@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EventSceneBase : MonoBehaviour
+public abstract class EventSceneBase : MonoBehaviour, IEventScene
 {
     /* ==================== Fields ==================== */
 

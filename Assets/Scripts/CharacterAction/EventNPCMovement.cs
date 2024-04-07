@@ -59,9 +59,9 @@ public class EventNPCMovement : HorizontalMovement
     }
 
 
-    public void NPCLookAtPlayer()
+    public void NPCLookAt(Transform target)
     {
-        if (HorizontalPlayerControl.Instance.transform.position.x - transform.position.x >= 0.0f)
+        if (target.position.x >= transform.position.x)
         {
             Flip = false;
         }

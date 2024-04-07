@@ -37,7 +37,7 @@ public class PlayerTrigger : TriggerBase
                 return;
 
             case TriggerTypes.Interact:
-                HorizontalPlayerControl.Instance.SetInteractBtnActive(ActiveTrigger);
+                HorizontalPlayerControl.Instance.SetInteractBtnActive(ActiveTrigger, true);
                 return;
 
             default:
@@ -58,7 +58,7 @@ public class PlayerTrigger : TriggerBase
                 return;
 
             case TriggerTypes.Interact:
-                HorizontalPlayerControl.Instance.SetInteractBtnInactive();
+                HorizontalPlayerControl.Instance.SetInteractBtnActive(ActiveTrigger, false);
                 return;
 
             default:

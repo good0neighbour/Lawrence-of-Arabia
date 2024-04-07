@@ -17,10 +17,9 @@ public class DialogueScreen : MonoBehaviour
     [SerializeField] private Transform _buttonParent = null;
     private List<DialogueScript.Dialogue> _script = null;
     private List<ButtonRef> _buttons = new List<ButtonRef>();
-    private GameManager.CharacterData[] _characterData = null;
     private EventSceneBase _curEvent = null;
     private CharImageDir _imageDir = CharImageDir.Left;
-    private Characters _prevChar = Characters.None;
+    private Sprite _prevChar = null;
     private byte _dialogueIndex = 0;
     private sbyte _animationState = 0;
     private sbyte _btnFocus = -1;
@@ -39,7 +38,6 @@ public class DialogueScreen : MonoBehaviour
     {
         _curEvent = curEvent;
         _script = script.GetDialogueScript();
-        _characterData = GameManager.Instance.GetCharacterData();
         gameObject.SetActive(true);
         enabled = true;
         NextDialogue();
@@ -63,7 +61,7 @@ public class DialogueScreen : MonoBehaviour
         }
         _charImage.sprite = null;
         _charImage.color = new Color();
-        _prevChar = Characters.None;
+        _prevChar = null;
     }
 
 
@@ -81,9 +79,23 @@ public class DialogueScreen : MonoBehaviour
         DialogueScript.Dialogue current = _script[_dialogueIndex];
 
         // Player choice
-        _dialogueTexts[0].text = $"<color={current.NameColour.ToString()}><b>{current.Name.ToString()}</b></color>\n{current.Branches[btnNum].Text}";
-        _charImage.sprite = null;
-        _charImage.color = new Color();
+        if (string.IsNullOrEmpty(current.Name))
+        {
+            _dialogueTexts[0].text = current.Text;
+            _charImage.sprite = null;
+            _charImage.color = new Color();
+        }
+        else
+        {
+            _dialogueTexts[0].text = $"<color={current.NameColour.ToString()}><b>{current.Name}</b></color>\n{current.Branches[btnNum].Text}";
+            if (_prevChar != current.Image)
+            {
+                _imageDir = current.ImageDirection;
+                _charImage.sprite = current.Image;
+                _prevChar = current.Image;
+                ImagePosInit();
+            }
+        }
 
         // Insert branch dialogue
         List<DialogueScript.Dialogue> branchDialogue = current.Branches[btnNum].Branch?.GetDialogueScript();
@@ -276,38 +288,28 @@ public class DialogueScreen : MonoBehaviour
     {
         DialogueScript.Dialogue current = _script[_dialogueIndex];
 
-        switch (current.Name)
+        switch (current.Type)
         {
-            case Characters.None:
+            case DialogueTypes.Narration:
                 _dialogueTexts[0].text = current.Text;
                 _charImage.sprite = null;
                 _charImage.color = new Color();
                 break;
 
-            case Characters.Player:
+            case DialogueTypes.Selection:
                 PlayerDialogueButtonShow(current);
                 break;
 
-            default:
-                _dialogueTexts[0].text = $"<color={current.NameColour.ToString()}><b>{current.Name.ToString()}</b></color>\n{current.Text}";
-                _imageDir = current.ImageDirection;
-                _charImage.sprite = _characterData[(int)current.Name].FullImage;
-                break;
-        }
-
-        if (_prevChar != current.Name)
-        {
-            _prevChar = current.Name;
-            switch (_prevChar)
-            {
-                case Characters.Player:
-                case Characters.None:
-                    break;
-
-                default:
+            case DialogueTypes.Talk:
+                _dialogueTexts[0].text = $"<color={current.NameColour.ToString()}><b>{current.Name}</b></color>\n{current.Text}";
+                if (_prevChar != current.Image)
+                {
+                    _imageDir = current.ImageDirection;
+                    _charImage.sprite = current.Image;
+                    _prevChar = current.Image;
                     ImagePosInit();
-                    break;
-            }
+                }
+                break;
         }
     }
 

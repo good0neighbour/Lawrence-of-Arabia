@@ -22,9 +22,10 @@ public class EventNPCMovementFD : MonoBehaviour
     }
 
 
-    public void NPCLookAtPlayer()
+    public void NPCLookAt(Transform target)
     {
-        if (FourDirectionPlayerControl.Instance.transform.position.x - transform.position.x >= 0.0f)
+        _agent.velocity = Vector3.zero;
+        if (target.position.x >= transform.position.x)
         {
             _sprite.localRotation = Quaternion.Euler(_defaultRot, 0f, 0f);
         }

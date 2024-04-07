@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HorizontalPlayerControl : HorizontalMovement, IHit
@@ -12,7 +13,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     [SerializeField] private sbyte _health = 10;
     [SerializeField] private byte _armor = 1;
     [SerializeField] private byte _damage = 4;
-    private GameDelegate _onInteract = null;
+    private List<GameDelegate> _onInteract = new List<GameDelegate>();
     private float _knockback = 0.0f;
     private bool _jumpAvailable = true;
     private bool _isGroundedMem = true;
@@ -96,7 +97,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     public void Interact()
     {
-        _onInteract.Invoke();
+        _onInteract[_onInteract.Count - 1].Invoke();
     }
 
 
@@ -112,19 +113,36 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
-    public void SetInteractBtnActive(GameDelegate action)
+    public void SetInteractBtnActive(GameDelegate action, bool active)
     {
-        CanvasPlayController.Instance.SetInteractBtnActive(true);
-        _interaction = true;
-        _onInteract = action;
+        if (active)
+        {
+            CanvasPlayController.Instance.SetInteractBtnActive(true);
+            _interaction = true;
+            _onInteract.Add(action);
+        }
+        else
+        {
+            _onInteract.Remove(action);
+            if (_onInteract.Count == 0)
+            {
+                CanvasPlayController.Instance.SetInteractBtnActive(false);
+                _interaction = false;
+            }
+        }
     }
 
 
-    public void SetInteractBtnInactive()
+    public void PlayerLookAt(Transform target)
     {
-        CanvasPlayController.Instance.SetInteractBtnActive(false);
-        _interaction = false;
-        _onInteract = null;
+        if (target.position.x >= transform.position.x)
+        {
+            Flip = false;
+        }
+        else
+        {
+            Flip = true;
+        }
     }
 
 

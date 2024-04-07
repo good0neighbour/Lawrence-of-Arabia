@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Intro_DialogueWithPhi
   m_EditorClassIdentifier: 
   _dialogues:
-  - Name: 1
+  - Type: 0
+    Name: 
     NameColour: 4
+    Image: {fileID: 0}
     ImageDirection: 0
-    Text: 
+    Text: This is my daughter.
     Branches: []

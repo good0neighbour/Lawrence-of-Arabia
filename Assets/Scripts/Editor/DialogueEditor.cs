@@ -29,24 +29,93 @@ public class DialogueEditor : Editor
             EditorGUILayout.LabelField($"Index {i.ToString()}");
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
+            EditorGUILayout.LabelField("Type", GUILayout.MaxWidth(30.0f));
             EditorGUI.BeginChangeCheck();
-            element.Name = (Characters)EditorGUILayout.EnumPopup(element.Name, GUILayout.MaxWidth(100.0f));
-            EditorGUILayout.Space(10.0f);
-            EditorGUILayout.LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
-            element.NameColour = (NameColours)EditorGUILayout.EnumPopup(element.NameColour, GUILayout.MaxWidth(100.0f));
-            EditorGUILayout.Space(10.0f);
-            EditorGUILayout.LabelField("Image Direction", GUILayout.MaxWidth(100.0f));
-            element.ImageDirection = (CharImageDir)EditorGUILayout.EnumPopup(element.ImageDirection, GUILayout.MaxWidth(100.0f));
-            EditorGUILayout.EndHorizontal();
-
-            switch (_diagolues[i].Name)
+            element.Type = (DialogueTypes)EditorGUILayout.EnumPopup(element.Type, GUILayout.MaxWidth(80.0f));
+            if (EditorGUI.EndChangeCheck())
             {
-                case Characters.Player:
+                _diagolues[i] = element;
+                EditorUtility.SetDirty(_script);
+            }
+
+            switch (_diagolues[i].Type)
+            {
+                case DialogueTypes.Selection:
+
+                    EditorGUILayout.Space(10.0f, false);
+                    EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
+
+                    EditorGUI.BeginChangeCheck();
+                    element.Name = EditorGUILayout.TextField(element.Name, GUILayout.MaxWidth(70.0f));
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        element.Image = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{element.Name}FullImage.PNG");
+                        _diagolues[i] = element;
+                        EditorUtility.SetDirty(_script);
+                    }
+
+                    EditorGUILayout.Space(10.0f, false);
+                    EditorGUILayout.LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
+                    EditorGUI.BeginChangeCheck();
+                    element.NameColour = (NameColours)EditorGUILayout.EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
+                    EditorGUILayout.Space(10.0f, false);
+                    if (element.Image == null)
+                    {
+                        if (string.IsNullOrEmpty(element.Name))
+                        {
+                            EditorGUILayout.LabelField("This dialogue will function like narration.");
+                        }
+                        else
+                        {
+                            EditorStyles.label.normal.textColor = new Color(1.0f, 0.2f, 0.2f);
+                            EditorGUILayout.LabelField("『Character image isn't loaded. Input Name correctly.『");
+                            EditorStyles.label.normal.textColor = Color.white;
+                        }
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
+                        element.ImageDirection = (CharImageDir)EditorGUILayout.EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
+                    }
+                    EditorGUILayout.EndHorizontal();
                     ShowBranches(ref element);
                     break;
 
-                default:
+                case DialogueTypes.Narration:
+                    EditorGUILayout.EndHorizontal();
+                    element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    break;
+
+                case DialogueTypes.Talk:
+                    EditorGUILayout.Space(10.0f, false);
+                    EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
+
+                    EditorGUI.BeginChangeCheck();
+                    element.Name = EditorGUILayout.TextField(element.Name, GUILayout.MaxWidth(70.0f));
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        element.Image = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{element.Name}FullImage.png");
+                        _diagolues[i] = element;
+                        EditorUtility.SetDirty(_script);
+                    }
+
+                    EditorGUILayout.Space(10.0f, false);
+                    EditorGUILayout.LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
+                    EditorGUI.BeginChangeCheck();
+                    element.NameColour = (NameColours)EditorGUILayout.EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
+                    EditorGUILayout.Space(10.0f, false);
+                    if (element.Image == null)
+                    {
+                        EditorStyles.label.normal.textColor = new Color(1.0f, 0.2f, 0.2f);
+                        EditorGUILayout.LabelField("『Character image isn't loaded. Input Name correctly.『");
+                        EditorStyles.label.normal.textColor = Color.white;
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
+                        element.ImageDirection = (CharImageDir)EditorGUILayout.EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
+                    }
+                    EditorGUILayout.EndHorizontal();
                     element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
                     break;
             }

@@ -13,18 +13,24 @@ MonoBehaviour:
   m_Name: TestDialogue 0 Branch 1
   m_EditorClassIdentifier: 
   _dialogues:
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: Some food, I think?
     Branches: []
-  - Name: 1
+  - Type: 1
+    Name: Delta
     NameColour: 4
+    Image: {fileID: 21300000, guid: 332d7891cc166a84cb9ab9b3fd4626bd, type: 3}
     ImageDirection: 0
     Text: Do you want something to eat?
     Branches: []
-  - Name: 0
+  - Type: 2
+    Name: 0
     NameColour: 2
+    Image: {fileID: 21300000, guid: 10905e1cd2f3a654f9761e9c0ae91563, type: 3}
     ImageDirection: 0
     Text: 
     Branches:

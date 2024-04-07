@@ -994,7 +994,7 @@ MonoBehaviour:
     TargetTransform: {fileID: 748256524}
     Duration: 1
     DialogueScript: {fileID: 0}
-  - Action: 7
+  - Action: 8
     TargetObject: {fileID: 0}
     TargetTransform: {fileID: 0}
     Duration: 0
@@ -1252,7 +1252,7 @@ MonoBehaviour:
     TargetTransform: {fileID: 2105634344}
     Duration: 0
     DialogueScript: {fileID: 0}
-  - Action: 7
+  - Action: 8
     TargetObject: {fileID: 0}
     TargetTransform: {fileID: 0}
     Duration: 0
