@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class CanvasPlayController : MonoBehaviour
 {
@@ -6,6 +9,8 @@ public class CanvasPlayController : MonoBehaviour
 
     [SerializeField] private Joystick _joystick = null;
     [SerializeField] private GameObject[] _buttons = null;
+    [SerializeField] private CharBtnRef[] _characterBtns = null;
+    private byte _curChar = 0;
 
     public static CanvasPlayController Instance
     {
@@ -56,6 +61,58 @@ public class CanvasPlayController : MonoBehaviour
     }
 
 
+    public void SetCharacterButtons(CharacterData.Character[] characters)
+    {
+        // Set character Buttons
+        for (byte i = 0; i < characters.Length; ++i)
+        {
+            _characterBtns[i].Button.gameObject.SetActive(true);
+            _characterBtns[i].Button.Find("CharacterImage").GetComponent<Image>().sprite = characters[i].Sprite;
+            _characterBtns[i].Button.Find("CharacterName").GetComponent<TextMeshProUGUI>().text = characters[i].ToString();
+            _characterBtns[i].HealthGage.fillAmount = 1.0f;
+        }
+
+        //Set default Character
+        _characterBtns[0].Button.localScale = new Vector3(
+            Constants.PLAYCON_SELECTED_CHAR_SCALE,
+            Constants.PLAYCON_SELECTED_CHAR_SCALE,
+            Constants.PLAYCON_SELECTED_CHAR_SCALE
+        );
+    }
+
+
+    public void ButtonCharacter(int index)
+    {
+        HorizontalPlayerControl.Instance.CharacterChange((byte)index);
+    }
+
+
+    public void CharacterChange(byte index)
+    {
+        _characterBtns[_curChar].Button.localScale = Vector3.one;
+        _curChar = index;
+        _characterBtns[index].Button.localScale = new Vector3(
+            Constants.PLAYCON_SELECTED_CHAR_SCALE,
+            Constants.PLAYCON_SELECTED_CHAR_SCALE,
+            Constants.PLAYCON_SELECTED_CHAR_SCALE
+        );
+    }
+
+
+    public void SetCharacterHealthGage(byte index, float amount)
+    {
+        if (amount == 0.0f)
+        {
+            _characterBtns[index].HealthGage.fillAmount = 0.0f;
+            _characterBtns[index].KIA.SetActive(true);
+        }
+        else
+        {
+            _characterBtns[index].HealthGage.fillAmount = amount;
+        }
+    }
+
+
     public void DeleteInstance()
     {
         Instance = null;
@@ -74,5 +131,17 @@ public class CanvasPlayController : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(false);
+    }
+
+
+
+    /* ==================== Struct ==================== */
+
+    [Serializable]
+    private struct CharBtnRef
+    {
+        public Image HealthGage;
+        public GameObject KIA;
+        public Transform Button;
     }
 }

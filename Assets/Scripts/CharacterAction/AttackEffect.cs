@@ -38,7 +38,7 @@ public class AttackEffect : MonoBehaviour
 
         if (_timer >= _lifeTime)
         {
-            MapManager.ObjectPool.ReturnObject(_prefab, gameObject);
+            StageManager.ObjectPool.ReturnObject(_prefab, gameObject);
             _timer = 0.0f;
             return;
         }
@@ -67,7 +67,7 @@ public class AttackEffect : MonoBehaviour
         if ((1 << collision.gameObject.layer & _targetLayer.value) > 0)
         {
             collision.GetComponent<IHit>().Hit(_damage, _direction.x);
-            MapManager.ObjectPool.ReturnObject(_prefab, gameObject);
+            StageManager.ObjectPool.ReturnObject(_prefab, gameObject);
             _timer = 0.0f;
         }
     }

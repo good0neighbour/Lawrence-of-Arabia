@@ -80,8 +80,45 @@ public enum CutSceneActions
     Wait
 }
 
+
 public enum FDInteractionTypes
 {
     Enable,
     StartEventScene
+}
+
+
+public enum Characters
+{
+    Lawrence,
+    Phi
+}
+
+
+public enum CharacterStatus
+{
+    None,
+    Active,
+    Away,
+    Injury,
+    MIA,
+    KIA
+}
+
+
+public enum CharacterTypes
+{
+    Essential,
+    Normal
+}
+
+
+public enum CharacterWeapons
+{
+    Pistol,
+    Rifle,
+    AutomaticRifle,
+    Shotgun,
+    SniperRifle,
+    Machinegun
 }

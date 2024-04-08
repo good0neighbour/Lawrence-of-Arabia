@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MapTrigger))]
+[CustomEditor(typeof(StageTrigger))]
 public class MapTriggerEditor : Editor
 {
-    private MapTrigger _trigger = null;
-    private List<MapTrigger.ConditionInfo> _conditions = null;
+    private StageTrigger _trigger = null;
+    private List<StageTrigger.ConditionInfo> _conditions = null;
     private List<TriggerBase.TriggerAction> _actions = null;
     private byte _conCurrent = 0;
     private byte _conSwitchFrom = 0;
@@ -18,7 +18,7 @@ public class MapTriggerEditor : Editor
 
     private void OnEnable()
     {
-        _trigger = (MapTrigger)target;
+        _trigger = (StageTrigger)target;
         _actions = _trigger.GetActions();
         _conditions = _trigger.GetConditions();
         _conCurrent = (byte)(_conditions.Count - 1);
@@ -31,7 +31,7 @@ public class MapTriggerEditor : Editor
         EditorGUILayout.LabelField("Conditions");
         for (byte i = 0; i < _conditions.Count; ++i)
         {
-            MapTrigger.ConditionInfo con = _conditions[i];
+            StageTrigger.ConditionInfo con = _conditions[i];
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField($"Index {i}:", GUILayout.MaxWidth(100.0f));

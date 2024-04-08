@@ -92,7 +92,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
         // Death
         if (_health <= 0)
         {
-            MapManager.Instance.EnemyDeathReport(this);
+            StageManager.Instance.EnemyDeathReport(this);
             Destroy(gameObject);
             return;
         }
@@ -169,6 +169,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
         base.Awake();
 
         // Precalculation
+        _silenceSightRange += Constants.CHAR_RADIUS;
         _silenceSightRange = _silenceSightRange * _silenceSightRange;
         _urgentSightRange = _urgentSightRange * _urgentSightRange;
         _attackRange = _attackRange * _attackRange;
@@ -254,7 +255,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
                         {
                             case Constants.ENEMY_SUSPICIOUS:
                                 StateChange(Constants.ENEMY_ATTACK);
-                                MapManager.Instance.UrgentAlert();
+                                StageManager.Instance.UrgentAlert();
                                 return Constants.FAILURE;
                             case Constants.ENEMY_ATTACK:
                                 return Constants.FAILURE;
@@ -543,7 +544,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     {
         if (_sendUrgentReport)
         {
-            MapManager.Instance.UrgentAlert();
+            StageManager.Instance.UrgentAlert();
         }
         else
         {
@@ -557,7 +558,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     {
         if (_atkEftPrefab != null)
         {
-            Transform eft = MapManager.ObjectPool.GetObject(_atkEftPrefab);
+            Transform eft = StageManager.ObjectPool.GetObject(_atkEftPrefab);
 
             if (_playerDir.x > 0.0f)
             {
@@ -580,7 +581,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
         }
         if (_enemyState == Constants.ENEMY_SUSPICIOUS)
         {
-            MapManager.Instance.UrgentAlert();
+            StageManager.Instance.UrgentAlert();
         }
         return Constants.SUCCESS;
     }
@@ -686,7 +687,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
         // ObjectPool Prepare
         if (_atkEftPrefab != null)
         {
-            MapManager.ObjectPool.PoolPreparing(_atkEftPrefab);
+            StageManager.ObjectPool.PoolPreparing(_atkEftPrefab);
         }
     }
 

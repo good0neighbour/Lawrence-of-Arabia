@@ -10,10 +10,10 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     [SerializeField] private Animator _animator = null;
     [SerializeField] private Transform _cameraPos = null;
     [SerializeField] private GameObject _atkEftPrefab = null;
-    [SerializeField] private sbyte _health = 10;
-    [SerializeField] private byte _armor = 1;
-    [SerializeField] private byte _damage = 4;
+    [SerializeField] private ParticleSystem _charChangeEft = null;
     private List<GameDelegate> _onInteract = new List<GameDelegate>();
+    private CurrentCharacter[] _characters = null;
+    private byte _charIndex = byte.MaxValue;
     private float _knockback = 0.0f;
     private bool _jumpAvailable = true;
     private bool _isGroundedMem = true;
@@ -54,15 +54,20 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     public void Hit(byte damage, float direction)
     {
         // Deal damage
-        byte deal = (byte)(damage - _armor);
+        byte deal = (byte)(damage - _characters[_charIndex].Armor);
         if (deal > 0)
         {
-            _health = (sbyte)(_health - deal);
+            _characters[_charIndex].Health = (sbyte)(_characters[_charIndex].Health - deal);
+            CanvasPlayController.Instance.SetCharacterHealthGage(
+                _charIndex,
+                (float)_characters[_charIndex].Health / _characters[_charIndex].MaxHealth
+            );
         }
 
         // Death
-        if (_health <= 0)
+        if (_characters[_charIndex].Health <= 0)
         {
+            CanvasPlayController.Instance.SetCharacterHealthGage(_charIndex, 0.0f);
             Debug.Log("Player low health");
             return;
         }
@@ -83,14 +88,14 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     {
         if (_atkEftPrefab != null)
         {
-            Transform eft = MapManager.ObjectPool.GetObject(_atkEftPrefab);
+            Transform eft = StageManager.ObjectPool.GetObject(_atkEftPrefab);
             eft.position = new Vector3(
                 transform.position.x + Constants.CHAR_ATKEFT_POS.x * IsFlipNum,
                 transform.position.y + Constants.CHAR_ATKEFT_POS.y,
                 0.0f
             );
 
-            eft.GetComponent<AttackEffect>().StartEffect(new Vector2(IsFlipNum, 0.0f), _damage);
+            //eft.GetComponent<AttackEffect>().StartEffect(new Vector2(IsFlipNum, 0.0f), _damage);
         }
     }
 
@@ -146,6 +151,49 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
+    public void SetCharacters(CharacterData.Character[] characters)
+    {
+        // Set character local data
+        _characters = new CurrentCharacter[characters.Length];
+        for (byte i = 0; i < characters.Length; ++i)
+        {
+            _characters[i].MaxHealth = characters[i].CurHealth;
+            _characters[i].Health = characters[i].CurHealth;
+            _characters[i].Armor = characters[i].CurArmor;
+            _characters[i].Damage = characters[i].CurDamage;
+            _characters[i].Sprite = characters[i].Sprite;
+        }
+
+        // Send character data to controller
+        CanvasPlayController.Instance.SetCharacterButtons(characters);
+
+        // Set default character
+        CharacterChange(0);
+    }
+
+
+    public void CharacterChange(byte index)
+    {
+        // Not change
+        if (_charIndex == index)
+        {
+            return;
+        }
+
+        // Change character
+        _sprite.sprite = _characters[index].Sprite;
+
+        // Current character index
+        _charIndex = index;
+
+        // Successfully changed character
+        CanvasPlayController.Instance.CharacterChange(index);
+
+        // Effect play
+        _charChangeEft.Play();
+    }
+
+
     public void DeleteInstance()
     {
         Instance = null;
@@ -170,7 +218,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         // ObjectPool Prepare
         if (_atkEftPrefab != null)
         {
-            MapManager.ObjectPool.PoolPreparing(_atkEftPrefab);
+            StageManager.ObjectPool.PoolPreparing(_atkEftPrefab);
         }
     }
 
@@ -260,11 +308,13 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         }
         #endregion
 
+        // Not functioning while game is paused
         if (_paused)
         {
             return;
         }
 
+        // Character actions
         if (Input.GetKeyDown(KeyCode.F))
         {
             Attack();
@@ -277,5 +327,37 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         {
             Interact();
         }
+
+        // Switch character
+        else if (Input.GetKeyDown(KeyCode.Alpha1)
+            && _characters[0].Health > 0)
+        {
+            CharacterChange(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)
+            && _characters.Length > 1
+            && _characters[1].Health > 0)
+        {
+            CharacterChange(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3)
+            && _characters.Length > 2
+            && _characters[2].Health > 0)
+        {
+            CharacterChange(2);
+        }
+    }
+
+
+
+    /* ==================== Struct ==================== */
+
+    private struct CurrentCharacter
+    {
+        public int MaxHealth;
+        public int Health;
+        public ushort Armor;
+        public ushort Damage;
+        public Sprite Sprite;
     }
 }

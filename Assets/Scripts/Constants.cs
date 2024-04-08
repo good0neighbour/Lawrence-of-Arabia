@@ -10,6 +10,7 @@ public class Constants
     public const float CHAR_KNOCKBACK_AMOUNT = 1.0f;
     public const float CHAR_KNOCKBACK_ACC = 3.0f;
     public const float CHAR_INTERACTION_DISTANCE = 0.01f;
+    public const float CHAR_RADIUS = 0.5f;
     public static readonly Vector2 CHAR_ATKEFT_POS = new Vector2(0.5f, 0.5f);
 
     // Enemy Settings
@@ -49,6 +50,9 @@ public class Constants
     public const float JOYSTICK_CONTROL_SPEED = 10.0f;
     public const float JOYSTICK_JUMP_WEIGHT = 0.3f;
 
+    // Play Controller settings
+    public const float PLAYCON_SELECTED_CHAR_SCALE = 1.2f;
+
     // Player Button Settings
     public const byte BUTTON_ATTACK = 0;
     public const byte BUTTON_INTERACT = 1;
@@ -57,6 +61,9 @@ public class Constants
     // Story Scene Settins
     public const float CUTSCN_FADEIN_SPEED = 1.0f;
     public const float CUTSCN_SKIP_SPEED = 0.75f;
+
+    // Horizontal Stage Settings
+    public const byte HS_MAX_CHARACTER = 3;
 
     // Physics
     public const float GRAVITY_ACCELERATION = -50.0f;

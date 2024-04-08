@@ -411,8 +411,8 @@ MonoBehaviour:
   _health: 100
   _armor: 1
   _attackRange: 4
-  _attackTimer: 0.2
-  _attackDamage: 1
+  _attackTimer: 0.5
+  _attackDamage: 10
   _attackAngle: 90
   _atkEftStartPos: {x: 0.5, y: 0.8}
   _atkEftPrefab: {fileID: 4338510690568851413, guid: e2927dad797c6774baa4b11b053be9e0, type: 3}
