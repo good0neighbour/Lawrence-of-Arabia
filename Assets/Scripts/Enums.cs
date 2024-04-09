@@ -108,8 +108,8 @@ public enum CharacterStatus
 
 public enum CharacterTypes
 {
-    Essential,
-    Normal
+    Normal,
+    Essential
 }
 
 
@@ -120,7 +120,8 @@ public enum CharacterWeapons
     AutomaticRifle,
     Shotgun,
     SniperRifle,
-    Machinegun
+    Machinegun,
+    None
 }
 
 

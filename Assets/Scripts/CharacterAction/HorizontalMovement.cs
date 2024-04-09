@@ -41,8 +41,6 @@ public class HorizontalMovement : MonoBehaviour
     /// </summary>
     protected void SetPosition(float weightX)
     {
-        Vector2 pos;
-
         // Delta time limit
         if (Time.deltaTime >= Constants.DELTA_TIME_LIMIT)
         {
@@ -55,15 +53,29 @@ public class HorizontalMovement : MonoBehaviour
 
         // Position
         _jumpState.Invoke();
-        pos = (Vector2)transform.localPosition;
         transform.localPosition = new Vector3(
-            pos.x + weightX * DeltaTime * Constants.CHAR_VEL,
-            pos.y + _velocityY * DeltaTime,
+            transform.localPosition.x + weightX * DeltaTime * Constants.CHAR_VEL,
+            transform.localPosition.y + _velocityY * DeltaTime,
             0.0f
         );
 
         // Wall detecting
-        WallBlocking();
+        switch (Physics2D.OverlapArea(
+                (Vector2)transform.position + new Vector2(-0.48f, 0.5f),
+                (Vector2)transform.position + new Vector2(0.48f, 0.4f),
+                Constants.LAYER_B_WALL))
+        {
+            case null:
+                return;
+
+            default:
+                transform.localPosition = new Vector3(
+                    Mathf.Round(transform.localPosition.x + 0.5f) - 0.5f,
+                    transform.localPosition.y,
+                    0.0f
+                );
+                break;
+        }
     }
 
 
@@ -127,41 +139,6 @@ public class HorizontalMovement : MonoBehaviour
 
 
     /* ==================== Private Methods ==================== */
-
-    private void WallBlocking()
-    {
-        Vector2 pos = (Vector2)transform.position;
-        switch (IsFlipNum)
-        {
-            case 1:
-                if (null == Physics2D.OverlapArea(
-                pos + new Vector2(0.0f, 0.5f),
-                    pos + new Vector2(0.48f, 0.4f),
-                    Constants.LAYER_B_WALL
-                ))
-                {
-                    return;
-                }
-                break;
-
-            case -1:
-                if (null == Physics2D.OverlapArea(
-                pos + new Vector2(-0.48f, 0.5f),
-                    pos + new Vector2(0.0f, 0.4f),
-                    Constants.LAYER_B_WALL
-                ))
-                {
-                    return;
-                }
-                break;
-        }
-        pos = (Vector2)transform.localPosition;
-        transform.localPosition = new Vector3(
-            Mathf.Round(pos.x + 0.5f) - 0.5f,
-            pos.y,
-            0.0f
-        );
-    }
 
 
     private bool DetectIsCeiled()

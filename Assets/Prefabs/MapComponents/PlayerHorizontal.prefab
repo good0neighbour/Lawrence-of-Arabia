@@ -10038,7 +10038,7 @@ Transform:
   m_GameObject: {fileID: 7702380380235115669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 30, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10065,8 +10065,9 @@ MonoBehaviour:
   _joystick: {fileID: 0}
   _animator: {fileID: 6293058727956807477}
   _cameraPos: {fileID: 5433596542237892238}
-  _atkEftPrefab: {fileID: 4338510690568851413, guid: 49db3972efd4e2348a71e51197554263, type: 3}
+  _atkEftPrefab: {fileID: 1090842009549223629, guid: 3722caa139e5a414e80f66924d6e1f23, type: 3}
   _charChangeEft: {fileID: 4471704265576410988}
+  _bloodEftPrefab: {fileID: 5748454816918499764, guid: 2efd9c288108cdf4db78febd35c97cc9, type: 3}
 --- !u!95 &6293058727956807477
 Animator:
   serializedVersion: 5

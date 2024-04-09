@@ -361,7 +361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6980839697220654051}
-  - component: {fileID: 3276771320066516202}
+  - component: {fileID: 2894895688907851507}
   - component: {fileID: 7611757172665709901}
   - component: {fileID: 4587813510897411327}
   m_Layer: 0
@@ -388,7 +388,7 @@ Transform:
   - {fileID: 2811512902250427380}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3276771320066516202
+--- !u!114 &2894895688907851507
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6413352163022958007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad9f906da32c0e74faa9e4284611e017, type: 3}
+  m_Script: {fileID: 11500000, guid: 3621d42b4e19c2a4d81d469faefc20bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsFlipNum: 1
@@ -412,10 +412,8 @@ MonoBehaviour:
   _armor: 1
   _attackRange: 4
   _attackTimer: 0.5
-  _attackDamage: 10
+  AttackDamage: 1
   _attackAngle: 90
-  _atkEftStartPos: {x: 0.5, y: 0.8}
-  _atkEftPrefab: {fileID: 4338510690568851413, guid: e2927dad797c6774baa4b11b053be9e0, type: 3}
   _sendUrgentReport: 1
   _receiveUrgentReport: 1
   _pushingRange: 0.5
@@ -423,6 +421,8 @@ MonoBehaviour:
   _sightUI: {fileID: 2811512902250427380}
   _notice: {fileID: 2440198798585319385}
   _animator: {fileID: 7611757172665709901}
+  _atkEftPrefab: {fileID: 1090842009549223629, guid: 3722caa139e5a414e80f66924d6e1f23, type: 3}
+  _attackPos: {x: 0.3, y: 0.8}
 --- !u!95 &7611757172665709901
 Animator:
   serializedVersion: 5

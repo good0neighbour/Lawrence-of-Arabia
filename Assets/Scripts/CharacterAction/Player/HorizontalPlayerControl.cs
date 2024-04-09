@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,14 +12,17 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     [SerializeField] private Transform _cameraPos = null;
     [SerializeField] private GameObject _atkEftPrefab = null;
     [SerializeField] private ParticleSystem _charChangeEft = null;
+    [SerializeField] private GameObject _bloodEftPrefab = null;
     private List<GameDelegate> _onInteract = new List<GameDelegate>();
     private CurrentCharacter[] _characters = null;
     private byte _charIndex = byte.MaxValue;
     private float _knockback = 0.0f;
+    private float _immuneTimer = 0.0f;
     private bool _jumpAvailable = true;
     private bool _isGroundedMem = true;
     private bool _paused = true;
     private bool _interaction = false;
+    private bool _immune = false;
 
     public static HorizontalPlayerControl Instance
     {
@@ -53,23 +57,46 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     public void Hit(byte damage, float direction)
     {
-        // Deal damage
+        if (_immune)
+        {
+            return;
+        }
+
         byte deal = (byte)(damage - _characters[_charIndex].Armor);
         if (deal > 0)
         {
+            // Deal damage
             _characters[_charIndex].Health = (sbyte)(_characters[_charIndex].Health - deal);
             CanvasPlayController.Instance.SetCharacterHealthGage(
                 _charIndex,
                 (float)_characters[_charIndex].Health / _characters[_charIndex].MaxHealth
             );
-        }
 
-        // Death
-        if (_characters[_charIndex].Health <= 0)
-        {
-            CanvasPlayController.Instance.SetCharacterHealthGage(_charIndex, 0.0f);
-            Debug.Log("Player low health");
-            return;
+            // Death
+            if (_characters[_charIndex].Health <= 0)
+            {
+                // Death notice
+                CanvasPlayController.Instance.SetCharacterHealthGage(_charIndex, 0.0f);
+
+                // Death knockBack
+                if (direction >= 0.0f)
+                {
+                    _knockback = Constants.CHAR_KNOCKBACK_AMOUNT * 2.0f;
+                }
+                else
+                {
+                    _knockback = -Constants.CHAR_KNOCKBACK_AMOUNT * 2.0f;
+                }
+
+                // Death standby
+                StageManagerBase.Instance.PauseGame(true);
+                StartCoroutine(DeathStandBy());
+                _immune = true;
+                _immuneTimer = 0.0f;
+
+                // Ends here
+                return;
+            }
         }
 
         // KnockBack
@@ -81,6 +108,15 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         {
             _knockback = -Constants.CHAR_KNOCKBACK_AMOUNT;
         }
+
+        // Blood effect
+        Transform bloodTrans = StageManagerBase.ObjectPool.GetObject(_bloodEftPrefab);
+        bloodTrans.position = new Vector3(
+            transform.position.x,
+            transform.position.y + Constants.CHAR_RADIUS,
+            0.0f
+        );
+        bloodTrans.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f * direction);
     }
 
 
@@ -165,6 +201,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             _characters[i].Armor = data[(int)characters[i]].CurArmor;
             _characters[i].Damage = data[(int)characters[i]].CurDamage;
             _characters[i].Sprite = data[(int)characters[i]].Sprite;
+            _characters[i].Type = data[(int)characters[i]].Type;
         }
 
         // Set default character
@@ -213,12 +250,46 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     /* ==================== Private Methods ==================== */
 
+    private IEnumerator DeathStandBy()
+    {
+        // Stand by
+        float timer = 0.0f;
+        while (timer < 1.0f)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Check current situation
+        if (_characters[_charIndex].Type != CharacterTypes.Essential)
+        {
+            for (byte i = 0; i < _characters.Length; ++i)
+            {
+                if (_characters[i].Health > 0)
+                {
+                    CharacterChange(i);
+                    StageManagerBase.Instance.PauseGame(false);
+                    yield break;
+                }
+            }
+
+            // All characters killed in action
+            Debug.Log("All character has been killed in action.");
+            yield break;
+        }
+
+        // Essential character killed in action
+        Debug.Log("Essential character has been killed in action.");
+    }
+
+
     private void Start()
     {
         // ObjectPool Prepare
         if (_atkEftPrefab != null)
         {
             StageManagerBase.ObjectPool.PoolPreparing(_atkEftPrefab);
+            StageManagerBase.ObjectPool.PoolPreparing(_bloodEftPrefab);
         }
     }
 
@@ -314,6 +385,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             return;
         }
 
+        #region Input
         // Character actions
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -346,6 +418,17 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         {
             CharacterChange(2);
         }
+        #endregion
+
+        // Immune timer
+        if (_immune)
+        {
+            _immuneTimer += DeltaTime;
+            if (_immuneTimer >= Constants.CHAR_IMMUNE_TIME)
+            {
+                _immune = false;
+            }
+        }
     }
 
 
@@ -359,5 +442,6 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         public ushort Armor;
         public ushort Damage;
         public Sprite Sprite;
+        public CharacterTypes Type;
     }
 }

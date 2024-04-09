@@ -5,12 +5,13 @@ public class Constants
     // Character Settings
     public const float CHAR_VEL = 4.0f;
     public const float CHAR_JUMP_SPEED = 12.0f;
-    public const float CHAR_MAX_FALLING_VEL = -12.0f;
+    public const float CHAR_MAX_FALLING_VEL = -10.0f;
     public const float CHAR_FEET_SIZE = 0.1f;
-    public const float CHAR_KNOCKBACK_AMOUNT = 1.0f;
-    public const float CHAR_KNOCKBACK_ACC = 3.0f;
+    public const float CHAR_KNOCKBACK_AMOUNT = 2.0f;
+    public const float CHAR_KNOCKBACK_ACC = 6.0f;
     public const float CHAR_INTERACTION_DISTANCE = 0.01f;
     public const float CHAR_RADIUS = 0.5f;
+    public const float CHAR_IMMUNE_TIME = 3.0f;
     public static readonly Vector2 CHAR_ATKEFT_POS = new Vector2(0.5f, 0.5f);
 
     // Enemy Settings
@@ -21,7 +22,7 @@ public class Constants
     public const float ENEMY_MOVESTOP_POSI = 0.4f;
     public const float ENEMY_URGENT_ACC_MULT = 5.0f;
     public const float ENEMY_URGENT_MOVE_POSI = 0.6f;
-    public const float ENEMY_URGENT_MOVESTOP_POSI = 0.4f;
+    public const float ENEMY_URGENT_MOVESTOP_POSI = 0.2f;
     public const float ENEMY_URGENT_JUMP_POSI = 0.3f;
     public const float ENEMY_ANIM_MULT = 2.0f;
     public const float ENEMY_URGENT_SPEED = 3.0f;

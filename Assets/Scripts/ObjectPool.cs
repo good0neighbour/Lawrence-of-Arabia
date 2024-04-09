@@ -28,7 +28,7 @@ public class ObjectPool
         {
             GameObject ob = Object.Instantiate(prefab, _parent);
             ob.SetActive(false);
-            ob.GetComponent<AttackEffect>().InitializeEffect(prefab);
+            ob.GetComponent<PoolObjectBase>().InitializeEffect(prefab);
             _pools.Add(prefab, new Queue<GameObject>());
             _pools[prefab].Enqueue(ob);
         }
@@ -48,7 +48,7 @@ public class ObjectPool
         else
         {
             GameObject ob = Object.Instantiate(prefab, _parent);
-            ob.GetComponent<AttackEffect>().InitializeEffect(prefab);
+            ob.GetComponent<PoolObjectBase>().InitializeEffect(prefab);
             return ob.transform;
         }
     }

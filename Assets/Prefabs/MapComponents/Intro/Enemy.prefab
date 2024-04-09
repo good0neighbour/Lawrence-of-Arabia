@@ -412,10 +412,8 @@ MonoBehaviour:
   _armor: 1
   _attackRange: 4
   _attackTimer: 1
-  _attackDamage: 10
+  AttackDamage: 10
   _attackAngle: 90
-  _atkEftStartPos: {x: 0.5, y: 0.8}
-  _atkEftPrefab: {fileID: 4338510690568851413, guid: e2927dad797c6774baa4b11b053be9e0, type: 3}
   _sendUrgentReport: 1
   _receiveUrgentReport: 1
   _pushingRange: 0.5
@@ -423,6 +421,8 @@ MonoBehaviour:
   _sightUI: {fileID: 2811512902250427380}
   _notice: {fileID: 2440198798585319385}
   _animator: {fileID: 7611757172665709901}
+  _atkEftPrefab: {fileID: 1090842009549223629, guid: 3722caa139e5a414e80f66924d6e1f23, type: 3}
+  _attackPos: {x: 0.3, y: 0.8}
 --- !u!95 &7611757172665709901
 Animator:
   serializedVersion: 5

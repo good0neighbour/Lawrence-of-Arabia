@@ -1323,6 +1323,14 @@ PrefabInstance:
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6046999027685796090, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -4896,6 +4904,14 @@ PrefabInstance:
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6046999027685796090, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -6139,6 +6155,14 @@ PrefabInstance:
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6046999027685796090, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -6346,6 +6370,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3276771320066516202, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
@@ -6848,6 +6880,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3276771320066516202, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
@@ -9388,6 +9428,14 @@ PrefabInstance:
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6046999027685796090, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -11091,6 +11139,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3276771320066516202, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
@@ -12893,11 +12949,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2811512902250427380, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2811512902250427380, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3276771320066516202, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: _isFlip
@@ -12907,9 +12963,17 @@ PrefabInstance:
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6046999027685796090, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_FlipX
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6413352163022958007, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_Name
@@ -14121,6 +14185,14 @@ PrefabInstance:
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6046999027685796090, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -14927,11 +14999,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2811512902250427380, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2811512902250427380, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3276771320066516202, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: _isFlip
@@ -14941,9 +15013,17 @@ PrefabInstance:
       propertyPath: IsFlipNum
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: _isFlip
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956629264177075420, guid: 3e1bf29557258464287a50177af8d498, type: 3}
+      propertyPath: IsFlipNum
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6046999027685796090, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_FlipX
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6413352163022958007, guid: 3e1bf29557258464287a50177af8d498, type: 3}
       propertyPath: m_Name

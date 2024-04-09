@@ -62,6 +62,7 @@ public abstract class StageManagerBase : WorldManagerBase
         Instance = null;
         HorizontalPlayerControl.Instance.DeleteInstance();
         CameraHorizontalMovement.Instance.DeleteInstance();
+        ObjectPool = null;
     }
 
 

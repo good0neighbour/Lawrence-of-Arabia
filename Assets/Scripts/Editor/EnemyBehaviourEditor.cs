@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(EnemyBehaviour))]
-[CanEditMultipleObjects]
 public class EnemyBehaviourEditor : Editor
 {
     private EnemyBehaviour _character = null;
@@ -35,5 +33,5 @@ public class EnemyBehaviourEditor : Editor
 
 
 
-[CustomEditor(typeof(IntroSoldier))]
+[CustomEditor(typeof(LineRendererAttacker)), CanEditMultipleObjects]
 public class IntroSoldierEditor : EnemyBehaviourEditor { }

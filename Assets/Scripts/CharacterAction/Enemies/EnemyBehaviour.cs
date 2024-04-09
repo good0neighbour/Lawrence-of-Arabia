@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class EnemyBehaviour : HorizontalMovement, IHit
+public abstract class EnemyBehaviour : HorizontalMovement, IHit
 {
     /* ==================== Fields ==================== */
 
@@ -22,14 +22,11 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     [SerializeField] private byte _armor = 1;
     [Header("Attack")]
     [Tooltip("It squares when game starts.")]
-    [SerializeField] private float _attackRange = 1.0f;
+    [SerializeField] private float _attackRange = 2.0f;
     [SerializeField] private float _attackTimer = 1.0f;
-    [SerializeField] private byte _attackDamage = 1;
+    [SerializeField] protected byte AttackDamage = 1;
     [Tooltip("Degree. It becomes half radian when game starts.")]
-    [SerializeField] private float _attackAngle = 15.0f;
-    [Header("Attack Effect")]
-    [SerializeField] private Vector2 _atkEftStartPos = new Vector2(0.5f, 0.5f);
-    [SerializeField] private GameObject _atkEftPrefab = null;
+    [SerializeField] private float _attackAngle = 90.0f;
     [Header("Misc")]
     [Tooltip("Reports to other enemies when it sees player.")]
     [SerializeField] private bool _sendUrgentReport = true;
@@ -42,17 +39,17 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     [SerializeField] private RectTransform _sightUI = null;
     [SerializeField] private Image _notice = null;
     [SerializeField] private Animator _animator = null;
+    protected Transform Player = null;
     private GameDelegate _behavDel = null;
     private BehaviourTree _behav = new BehaviourTree();
-    private Transform _player = null;
     private Vector2 _playerDir = Vector2.zero;
     private byte _enemyState = Constants.ENEMY_SILENCE;
     private float _playerDis = 0.0f;
     private float _velocity = 0.0f;
     private float _urgentMeter = 0.0f;
     private float _knockback = 0.0f;
-    private float _timer = 0.0f;
     private float _suspiciousTimer = 0.0f;
+    private float _timer = 0.0f;
     private bool _isGroundedMem = true;
     private bool _paused = true;
 
@@ -285,14 +282,91 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     }
 
 
+    protected virtual void Start()
+    {
+        // Player Transform
+        Player = HorizontalPlayerControl.Instance.transform;
+    }
+
+
+    protected virtual void Update()
+    {
+        // Active check
+        if (_paused)
+        {
+            return;
+        }
+
+        // Enemy behaviour
+        _behav.Execute();
+        _behavDel?.Invoke();
+
+        // Animation
+        if (_isGroundedMem)
+        {
+            if (IsGrounded)
+            {
+                _animator.SetFloat("Velocity", Mathf.Abs(_velocity * Constants.ENEMY_ANIM_MULT));
+            }
+            else
+            {
+                _animator.SetBool("IsGrounded", false);
+                _isGroundedMem = false;
+            }
+        }
+        else if (IsGrounded)
+        {
+            _animator.SetBool("IsGrounded", true);
+            _isGroundedMem = true;
+        }
+
+        // KnockBack
+        switch (_knockback)
+        {
+            case 0.0f:
+                break;
+
+            default:
+                transform.localPosition = new Vector3(
+                    transform.localPosition.x + _knockback * DeltaTime,
+                    transform.localPosition.y,
+                    0.0f
+                );
+                if (_knockback > 0.0f)
+                {
+                    _knockback -= Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    if (_knockback < 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                else
+                {
+                    _knockback += Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    if (_knockback > 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                break;
+        }
+    }
+
+
+
+    /* ==================== Abstract Methods ==================== */
+
+    protected abstract byte Attack();
+
+
 
     /* ==================== Private Methods ==================== */
 
     private byte GetOutOfMyFace()
     {
         // Player position
-        _playerDir.x = _player.position.x - transform.position.x;
-        _playerDir.y = _player.position.y - transform.position.y;
+        _playerDir.x = Player.position.x - transform.position.x;
+        _playerDir.y = Player.position.y - transform.position.y;
         _playerDis = _playerDir.x * _playerDir.x + _playerDir.y * _playerDir.y;
 
         // Pushing
@@ -554,39 +628,6 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     }
 
 
-    private byte Attack()
-    {
-        if (_atkEftPrefab != null)
-        {
-            Transform eft = StageManagerBase.ObjectPool.GetObject(_atkEftPrefab);
-
-            if (_playerDir.x > 0.0f)
-            {
-                eft.position = new Vector3(
-                    transform.position.x + _atkEftStartPos.x,
-                    transform.position.y + _atkEftStartPos.y,
-                    0.0f
-                );
-            }
-            else
-            {
-                eft.position = new Vector3(
-                    transform.position.x - _atkEftStartPos.x,
-                    transform.position.y + _atkEftStartPos.y,
-                    0.0f
-                );
-            }
-
-            eft.GetComponent<AttackEffect>().StartEffect(_playerDir.normalized, _attackDamage);
-        }
-        if (_enemyState == Constants.ENEMY_SUSPICIOUS)
-        {
-            StageManagerBase.Instance.UrgentAlert();
-        }
-        return Constants.SUCCESS;
-    }
-
-
     private void MoveLeft()
     {
         _velocity -= DeltaTime * _acceleration;
@@ -676,82 +717,5 @@ public class EnemyBehaviour : HorizontalMovement, IHit
             _urgentMeter = 1.0f;
         }
         _notice.fillAmount = _urgentMeter;
-    }
-
-
-    private void Start()
-    {
-        // Player Transform
-        _player = HorizontalPlayerControl.Instance.transform;
-
-        // ObjectPool Prepare
-        if (_atkEftPrefab != null)
-        {
-            StageManagerBase.ObjectPool.PoolPreparing(_atkEftPrefab);
-        }
-    }
-
-
-    private void Update()
-    {
-        // Active check
-        if (_paused)
-        {
-            return;
-        }
-
-        // Enemy behaviour
-        _behav.Execute();
-        _behavDel?.Invoke();
-
-        // Animation
-        if (_isGroundedMem)
-        {
-            if (IsGrounded)
-            {
-                _animator.SetFloat("Velocity", Mathf.Abs(_velocity * Constants.ENEMY_ANIM_MULT));
-            }
-            else
-            {
-                _animator.SetBool("IsGrounded", false);
-                _isGroundedMem = false;
-            }
-        }
-        else if (IsGrounded)
-        {
-            _animator.SetBool("IsGrounded", true);
-            _isGroundedMem = true;
-        }
-
-        // KnockBack
-        switch (_knockback)
-        {
-            case 0.0f:
-                break;
-
-            default:
-                transform.localPosition = new Vector3(
-                    transform.localPosition.x + _knockback * DeltaTime,
-                    transform.localPosition.y,
-                    0.0f
-                );
-                if (_knockback > 0.0f)
-                {
-                    _knockback -= Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
-                    if (_knockback < 0.0f)
-                    {
-                        _knockback = 0.0f;
-                    }
-                }
-                else
-                {
-                    _knockback += Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
-                    if (_knockback > 0.0f)
-                    {
-                        _knockback = 0.0f;
-                    }
-                }
-                break;
-        }
     }
 }
