@@ -834,7 +834,7 @@ MonoBehaviour:
     TargetText: {fileID: 0}
     TargetObject: {fileID: 0}
     Duration: 0
-    SceneName: HM_Intro0_Sneaking
+    SceneName: HS_Intro0_Sneaking
   _skipImage: {fileID: 158650053}
 --- !u!1 &1858096437
 GameObject:

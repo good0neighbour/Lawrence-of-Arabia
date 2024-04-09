@@ -10,14 +10,16 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     [SerializeField] private Joystick _joystick = null;
     [SerializeField] private Animator _animator = null;
     [SerializeField] private Transform _cameraPos = null;
-    [SerializeField] private GameObject _atkEftPrefab = null;
     [SerializeField] private ParticleSystem _charChangeEft = null;
     [SerializeField] private GameObject _bloodEftPrefab = null;
+    [SerializeField] private Sprite _graveSprite = null;
     private List<GameDelegate> _onInteract = new List<GameDelegate>();
+    private PlayerWeaponBase[] _weapons = new PlayerWeaponBase[(int)CharacterWeapons.None];
     private CurrentCharacter[] _characters = null;
-    private byte _charIndex = byte.MaxValue;
+    private byte _curChar = byte.MaxValue;
     private float _knockback = 0.0f;
     private float _immuneTimer = 0.0f;
+    private float _attackTimer = 0.0f;
     private bool _jumpAvailable = true;
     private bool _isGroundedMem = true;
     private bool _paused = true;
@@ -55,44 +57,38 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     /* ==================== Public Methods ==================== */
 
-    public void Hit(byte damage, float direction)
+    public void Hit(ushort damage, sbyte direction)
     {
         if (_immune)
         {
             return;
         }
 
-        byte deal = (byte)(damage - _characters[_charIndex].Armor);
+        int deal = damage - _characters[_curChar].Armor;
         if (deal > 0)
         {
             // Deal damage
-            _characters[_charIndex].Health = (sbyte)(_characters[_charIndex].Health - deal);
+            _characters[_curChar].Health = _characters[_curChar].Health - deal;
             CanvasPlayController.Instance.SetCharacterHealthGage(
-                _charIndex,
-                (float)_characters[_charIndex].Health / _characters[_charIndex].MaxHealth
+                _curChar,
+                (float)_characters[_curChar].Health / _characters[_curChar].MaxHealth
             );
 
             // Death
-            if (_characters[_charIndex].Health <= 0)
+            if (_characters[_curChar].Health <= 0)
             {
                 // Death notice
-                CanvasPlayController.Instance.SetCharacterHealthGage(_charIndex, 0.0f);
-
-                // Death knockBack
-                if (direction >= 0.0f)
-                {
-                    _knockback = Constants.CHAR_KNOCKBACK_AMOUNT * 2.0f;
-                }
-                else
-                {
-                    _knockback = -Constants.CHAR_KNOCKBACK_AMOUNT * 2.0f;
-                }
+                CanvasPlayController.Instance.SetCharacterHealthGage(_curChar, 0.0f);
 
                 // Death standby
                 StageManagerBase.Instance.PauseGame(true);
                 StartCoroutine(DeathStandBy());
                 _immune = true;
                 _immuneTimer = 0.0f;
+
+                // Animator
+                _animator.SetBool("Dead", true);
+                _sprite.sprite = _graveSprite;
 
                 // Ends here
                 return;
@@ -122,17 +118,27 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     public void Attack()
     {
-        if (_atkEftPrefab != null)
+        if (_attackTimer < _weapons[(int)_characters[_curChar].Weapon].AttackTime)
         {
-            Transform eft = StageManagerBase.ObjectPool.GetObject(_atkEftPrefab);
-            eft.position = new Vector3(
-                transform.position.x + Constants.CHAR_ATKEFT_POS.x * IsFlipNum,
-                transform.position.y + Constants.CHAR_ATKEFT_POS.y,
-                0.0f
-            );
-
-            //eft.GetComponent<AttackEffect>().StartEffect(new Vector2(IsFlipNum, 0.0f), _damage);
+            return;
         }
+
+        _weapons[(int)_characters[_curChar].Weapon].Attack(
+            new Vector2(
+                transform.position.x + Constants.CHAR_ATKEFT_POS.x * IsFlipNum,
+                transform.position.y + Constants.CHAR_ATKEFT_POS.y
+            ),
+            IsFlipNum,
+            _characters[_curChar].Damage
+        );
+
+        _attackTimer = 0.0f;
+    }
+
+
+    public void AttackKeyUp()
+    {
+        _weapons[(int)_characters[_curChar].Weapon].StopAttack();
     }
 
 
@@ -158,7 +164,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     {
         if (active)
         {
-            CanvasPlayController.Instance.SetInteractBtnActive(true);
+            CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_INTERACT, true);
             _interaction = true;
             _onInteract.Add(action);
         }
@@ -167,7 +173,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             _onInteract.Remove(action);
             if (_onInteract.Count == 0)
             {
-                CanvasPlayController.Instance.SetInteractBtnActive(false);
+                CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_INTERACT, false);
                 _interaction = false;
             }
         }
@@ -192,27 +198,38 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         // Get character list
         CharacterData.Character[] data = GameManager.Instance.GetCharacterList();
 
-        // Set character local data
         _characters = new CurrentCharacter[characters.Length];
         for (byte i = 0; i < characters.Length; ++i)
         {
+            // Set character local data
             _characters[i].MaxHealth = data[(int)characters[i]].CurHealth;
             _characters[i].Health = data[(int)characters[i]].CurHealth;
             _characters[i].Armor = data[(int)characters[i]].CurArmor;
             _characters[i].Damage = data[(int)characters[i]].CurDamage;
             _characters[i].Sprite = data[(int)characters[i]].Sprite;
             _characters[i].Type = data[(int)characters[i]].Type;
+            _characters[i].Weapon = data[(int)characters[i]].Weapon;
+
+            // Weapon set
+            if (_characters[i].Weapon != CharacterWeapons.None)
+            {
+                SetWeapon(i);
+            }
         }
 
         // Set default character
         CharacterChange(0);
+        if (_characters[_curChar].Weapon != CharacterWeapons.None)
+        {
+            _attackTimer = _weapons[(int)_characters[_curChar].Weapon].AttackTime;
+        }
     }
 
 
     public void CharacterChange(byte index)
     {
         // Not change
-        if (_charIndex == index)
+        if (_curChar == index)
         {
             return;
         }
@@ -221,10 +238,18 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         _sprite.sprite = _characters[index].Sprite;
 
         // Current character index
-        _charIndex = index;
+        _curChar = index;
 
         // Successfully changed character
         CanvasPlayController.Instance.CharacterChange(index);
+        if (_characters[_curChar].Weapon == CharacterWeapons.None)
+        {
+            CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_ATTACK, false);
+        }
+        else
+        {
+            CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_ATTACK, true);
+        }
 
         // Effect play
         _charChangeEft.Play();
@@ -250,47 +275,96 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     /* ==================== Private Methods ==================== */
 
+    private void SetWeapon(byte index)
+    {
+        // Doesn't need to double construct
+        if (_weapons[(int)_characters[index].Weapon] != null)
+        {
+            return;
+        }
+
+        // Weapon set
+        switch (_characters[index].Weapon)
+        {
+            case CharacterWeapons.Pistol:
+                _weapons[(int)_characters[index].Weapon] = new WeaponPistol();
+                break;
+
+            case CharacterWeapons.Rifle:
+                break;
+
+            case CharacterWeapons.AutomaticRifle:
+                break;
+
+            case CharacterWeapons.Shotgun:
+                break;
+
+            case CharacterWeapons.SniperRifle:
+                break;
+
+            case CharacterWeapons.Machinegun:
+                break;
+
+            case CharacterWeapons.None:
+                break;
+        }
+    }
+
+
     private IEnumerator DeathStandBy()
     {
         // Stand by
         float timer = 0.0f;
-        while (timer < 1.0f)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
+        byte index = byte.MaxValue;
 
         // Check current situation
-        if (_characters[_charIndex].Type != CharacterTypes.Essential)
+        if (_characters[_curChar].Type != CharacterTypes.Essential)
         {
             for (byte i = 0; i < _characters.Length; ++i)
             {
                 if (_characters[i].Health > 0)
                 {
-                    CharacterChange(i);
-                    StageManagerBase.Instance.PauseGame(false);
-                    yield break;
+                    index = i;
                 }
             }
 
             // All characters killed in action
-            Debug.Log("All character has been killed in action.");
-            yield break;
+            if (index == byte.MaxValue)
+            {
+                StageMessage.Instance.EnqueueMessage("All characters has been killed in action.");
+                StageManagerBase.Instance.GameFailed();
+                yield break;
+            }
         }
 
         // Essential character killed in action
-        Debug.Log("Essential character has been killed in action.");
+        if (index == byte.MaxValue)
+        {
+            StageMessage.Instance.EnqueueMessage("Essential character has been killed in action.");
+            StageManagerBase.Instance.GameFailed();
+            yield break;
+        }
+
+        // Character switch stand by
+        while (timer < Constants.CHAR_DEATH_STANDBY_TIME)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Animator
+        _animator.SetBool("Dead", false);
+
+        // Character switch
+        CharacterChange(index);
+        StageManagerBase.Instance.PauseGame(false);
     }
 
 
     private void Start()
     {
         // ObjectPool Prepare
-        if (_atkEftPrefab != null)
-        {
-            StageManagerBase.ObjectPool.PoolPreparing(_atkEftPrefab);
-            StageManagerBase.ObjectPool.PoolPreparing(_bloodEftPrefab);
-        }
+        StageManagerBase.ObjectPool.PoolPreparing(_bloodEftPrefab);
     }
 
 
@@ -387,9 +461,13 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
         #region Input
         // Character actions
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
         {
             Attack();
+        }
+        else if (Input.GetKeyUp(KeyCode.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
+        {
+            AttackKeyUp();
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -420,6 +498,9 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         }
         #endregion
 
+        // Attack timer
+        _attackTimer += DeltaTime;
+
         // Immune timer
         if (_immune)
         {
@@ -443,5 +524,6 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         public ushort Damage;
         public Sprite Sprite;
         public CharacterTypes Type;
+        public CharacterWeapons Weapon;
     }
 }

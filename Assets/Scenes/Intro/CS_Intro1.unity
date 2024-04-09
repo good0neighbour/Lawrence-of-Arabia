@@ -834,7 +834,7 @@ MonoBehaviour:
     TargetText: {fileID: 0}
     TargetObject: {fileID: 0}
     Duration: 0
-    SceneName: FDM_Intro_SafeHouse
+    SceneName: FD_Intro_SafeHouse
   _skipImage: {fileID: 158650053}
 --- !u!1 &1858096437
 GameObject:

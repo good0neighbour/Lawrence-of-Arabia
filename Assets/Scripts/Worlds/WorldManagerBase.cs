@@ -8,14 +8,18 @@ public abstract class WorldManagerBase : MonoBehaviour
     /* ==================== Fields ==================== */
 
     [SerializeField] private string _worldName = null;
-    [Header("Next Scene")]
-    [Tooltip("Next scene comes after completing this map.")]
+    [Header("Scene Info")]
+    [Tooltip("Next scene comes after completing this stage.")]
     [SerializeField] private string _nextSceneName = null;
+    [Tooltip("Previous scene comes after giving this stage up.")]
+    [SerializeField] private string _previousSceneName = null;
     [Header("Reference")]
     [SerializeField] private Image _blackScreen = null;
     [SerializeField] private TextMeshProUGUI _mapNameText = null;
     [SerializeField] private Joystick _joystick = null;
+    [SerializeField] protected GameObject _failureScreen = null;
     private GameDelegate _delegate = null;
+    private string _sceneToLoad = null;
     private float _timer = 0.0f;
 
 
@@ -24,10 +28,23 @@ public abstract class WorldManagerBase : MonoBehaviour
 
     public void LoadNextScene()
     {
+        _sceneToLoad = _nextSceneName;
         PauseGame(true);
-        _timer = 1.0f;
-        _delegate += BlackScreenFadeIn;
-        _blackScreen.gameObject.SetActive(true);
+        StartBlackScreen();
+    }
+
+
+    public void ReloadScene()
+    {
+        _sceneToLoad = SceneManager.GetActiveScene().name;
+        StartBlackScreen();
+    }
+
+
+    public void LoadPreviousScene()
+    {
+        _sceneToLoad = _previousSceneName;
+        StartBlackScreen();
     }
 
 
@@ -38,6 +55,17 @@ public abstract class WorldManagerBase : MonoBehaviour
     {
         // Play controller UI
         CanvasPlayController.Instance.SetControllerActive(!pause);
+    }
+
+
+    /// <summary>
+    /// Activates failure screen immediatley
+    /// </summary>
+    public void GameFailed()
+    {
+        _timer = 0.0f;
+        _delegate = null;
+        _delegate += ShowFailureScreen;
     }
 
 
@@ -156,7 +184,7 @@ public abstract class WorldManagerBase : MonoBehaviour
                 );
                 _delegate = null;
                 DeleteInstance();
-                SceneManager.LoadScene(_nextSceneName);
+                SceneManager.LoadScene(_sceneToLoad);
             }
             else
             {
@@ -171,6 +199,24 @@ public abstract class WorldManagerBase : MonoBehaviour
         else
         {
             _timer += Time.deltaTime;
+        }
+    }
+
+
+    private void StartBlackScreen()
+    {
+        _timer = 1.0f;
+        _delegate += BlackScreenFadeIn;
+        _blackScreen.gameObject.SetActive(true);
+    }
+
+
+    private void ShowFailureScreen()
+    {
+        _timer += Time.deltaTime;
+        if (_timer >= Constants.CHAR_DEATH_STANDBY_TIME)
+        {
+            _failureScreen.SetActive(true);
         }
     }
 

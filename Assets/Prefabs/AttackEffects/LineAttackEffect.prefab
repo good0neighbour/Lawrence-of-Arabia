@@ -150,4 +150,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 6191315628769430508}
-  _effectFadeOutSpeed: 4
+  _effectFadeOutSpeed: 8

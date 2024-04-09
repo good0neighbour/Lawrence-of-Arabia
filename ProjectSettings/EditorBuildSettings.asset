@@ -9,13 +9,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Intro/CS_Intro0.unity
     guid: f2e63a97b8dd18e4d9923e9f2925c2fd
   - enabled: 1
-    path: Assets/Scenes/Intro/HM_Intro0_Sneaking.unity
+    path: Assets/Scenes/Intro/HS_Intro0_Sneaking.unity
     guid: ae32fe16243ea96428070551c9ab9c30
   - enabled: 1
     path: Assets/Scenes/Intro/CS_Intro1.unity
     guid: 421fb6aba52d3104e9667e0c5a4503f8
   - enabled: 1
-    path: Assets/Scenes/Intro/FDM_Intro_SafeHouse.unity
+    path: Assets/Scenes/Intro/FD_Intro_SafeHouse.unity
     guid: 309e2bb4d5f56cd4ca85317c9ceb1864
   - enabled: 1
     path: Assets/Scenes/SampleStage.unity

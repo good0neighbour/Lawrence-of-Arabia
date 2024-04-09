@@ -4,7 +4,7 @@ public abstract class StageManagerBase : WorldManagerBase
 {
     /* ==================== Fields ==================== */
 
-    private List<EnemyBehaviour> _enemies = new List<EnemyBehaviour>();
+    private List<EnemyBase> _enemies = new List<EnemyBase>();
 
     public static StageManagerBase Instance
     {
@@ -30,7 +30,7 @@ public abstract class StageManagerBase : WorldManagerBase
         HorizontalPlayerControl.Instance.PausePlayerControl(pause);
 
         // Enemy
-        foreach (EnemyBehaviour enemy in _enemies)
+        foreach (EnemyBase enemy in _enemies)
         {
             enemy.SetEnemyPause(pause);
         }
@@ -39,7 +39,7 @@ public abstract class StageManagerBase : WorldManagerBase
 
     public void UrgentAlert()
     {
-        foreach (EnemyBehaviour enemy in _enemies)
+        foreach (EnemyBase enemy in _enemies)
         {
             enemy.ReceiveUrgentAlert();
         }
@@ -47,7 +47,7 @@ public abstract class StageManagerBase : WorldManagerBase
     }
 
 
-    public void EnemyDeathReport(EnemyBehaviour reporter)
+    public void EnemyDeathReport(EnemyBase reporter)
     {
         _enemies.Remove(reporter);
     }
@@ -77,7 +77,7 @@ public abstract class StageManagerBase : WorldManagerBase
         ObjectPool = new ObjectPool(transform.Find("ObjectPool"));
 
         // Find all enemies
-        foreach (EnemyBehaviour enemy in transform.Find("Enemies").GetComponentsInChildren<EnemyBehaviour>())
+        foreach (EnemyBase enemy in transform.Find("Enemies").GetComponentsInChildren<EnemyBase>())
         {
             _enemies.Add(enemy);
         }

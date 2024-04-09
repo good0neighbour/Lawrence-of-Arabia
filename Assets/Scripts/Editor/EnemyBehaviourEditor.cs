@@ -3,13 +3,13 @@ using UnityEditor;
 
 public class EnemyBehaviourEditor : Editor
 {
-    private EnemyBehaviour _character = null;
+    private EnemyBase _character = null;
     private bool _flip = false;
 
 
     private void OnEnable()
     {
-        _character = (EnemyBehaviour)target;
+        _character = (EnemyBase)target;
         _flip = _character.Flip;
     }
 

@@ -68,7 +68,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
     {
         if (active)
         {
-            CanvasPlayController.Instance.SetInteractBtnActive(true);
+            CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_INTERACT, true);
             _interactableObject.Add(target);
             _isInteractable = true;
         }
@@ -77,7 +77,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
             _interactableObject.Remove(target);
             if (_interactableObject.Count == 0)
             {
-                CanvasPlayController.Instance.SetInteractBtnActive(false);
+                CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_INTERACT, false);
                 _isInteractable = false;
             }
         }

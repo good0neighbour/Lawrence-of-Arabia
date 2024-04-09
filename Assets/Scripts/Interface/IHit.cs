@@ -1,4 +1,4 @@
 public interface IHit
 {
-    public void Hit(byte damage, float direction);
+    public void Hit(ushort damage, sbyte direction);
 }

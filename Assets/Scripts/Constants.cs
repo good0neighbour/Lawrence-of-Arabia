@@ -12,7 +12,8 @@ public class Constants
     public const float CHAR_INTERACTION_DISTANCE = 0.01f;
     public const float CHAR_RADIUS = 0.5f;
     public const float CHAR_IMMUNE_TIME = 3.0f;
-    public static readonly Vector2 CHAR_ATKEFT_POS = new Vector2(0.5f, 0.5f);
+    public const float CHAR_DEATH_STANDBY_TIME = 3.0f;
+    public static readonly Vector2 CHAR_ATKEFT_POS = new Vector2(0.4f, 0.6f);
 
     // Enemy Settings
     public const float ENEMY_SILENCE_TIMER = 3.0f;
@@ -23,7 +24,7 @@ public class Constants
     public const float ENEMY_URGENT_ACC_MULT = 5.0f;
     public const float ENEMY_URGENT_MOVE_POSI = 0.6f;
     public const float ENEMY_URGENT_MOVESTOP_POSI = 0.2f;
-    public const float ENEMY_URGENT_JUMP_POSI = 0.3f;
+    public const float ENEMY_URGENT_JUMP_POSI = 0.4f;
     public const float ENEMY_ANIM_MULT = 2.0f;
     public const float ENEMY_URGENT_SPEED = 3.0f;
     public const float ENEMY_SUSPICIOUS_TIME = 30.0f;
@@ -69,6 +70,10 @@ public class Constants
     // Stage Message Settings
     public const float STGMSG_SPEED = 2.0f;
     public const float STGMSG_SHOW_TIMER = 3.0f;
+
+    // Player Weapon Settings
+    public const float WEAPON_PISTOL_RANGE = 3.0f;
+    public const float WEAPON_PISTOL_TIME = 0.75f;
 
     // Physics
     public const float GRAVITY_ACCELERATION = -50.0f;

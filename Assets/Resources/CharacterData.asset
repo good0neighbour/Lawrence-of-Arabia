@@ -21,13 +21,13 @@ MonoBehaviour:
     DamageIncrease: 10
     LvForArmorIncrease: 1
     FullImage: {fileID: 21300000, guid: 699318b04b833ec4bbdd874a2f1104f2, type: 3}
-    Sprite: {fileID: 21300000, guid: 319081033fb19264396abe9efc53c1a1, type: 3}
+    Sprite: {fileID: 21300000, guid: 2d2a1eed6620446459a2a22595a0ce2e, type: 3}
     CurHealth: 100
     CurArmor: 1
     CurDamage: 10
     Status: 1
-    Type: 0
-    Weapons: 0
+    Type: 1
+    Weapon: 6
     Level: 0
   - Name: 1
     BaseHealth: 10
@@ -42,6 +42,6 @@ MonoBehaviour:
     CurArmor: 0
     CurDamage: 1
     Status: 1
-    Type: 0
-    Weapons: 0
+    Type: 1
+    Weapon: 0
     Level: 0

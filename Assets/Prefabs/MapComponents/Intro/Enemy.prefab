@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7245250377237570996}
   - component: {fileID: 2440198798585319385}
   - component: {fileID: 7885614388740191133}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Notice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6514753513694968483}
   - component: {fileID: 6046999027685796090}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 5653375427980048882}
   - component: {fileID: 9116299936627731704}
   - component: {fileID: 1447760762820076135}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 2195268373510270616}
   - component: {fileID: 7367209534229436137}
   - component: {fileID: 7929281652519656081}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 5956629264177075420}
   - component: {fileID: 7611757172665709901}
   - component: {fileID: 4587813510897411327}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +490,7 @@ GameObject:
   - component: {fileID: 1281280751839646257}
   - component: {fileID: 1365495339021087120}
   - component: {fileID: 7017780235818323190}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

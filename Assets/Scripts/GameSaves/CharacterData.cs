@@ -93,7 +93,7 @@ public class CharacterData : ScriptableObject
         [Header("Game Play Data")]
         public CharacterStatus Status;
         public CharacterTypes Type;
-        public CharacterWeapons Weapons;
+        public CharacterWeapons Weapon;
         public byte Level;
     }
 }

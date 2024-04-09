@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Reflection;
 
 public class CanvasPlayController : MonoBehaviour
 {
@@ -40,7 +41,6 @@ public class CanvasPlayController : MonoBehaviour
             switch (index)
             {
                 case Constants.BUTTON_ATTACK:
-                    HorizontalPlayerControl.Instance.Attack();
                     return;
 
                 case Constants.BUTTON_INTERACT:
@@ -55,9 +55,43 @@ public class CanvasPlayController : MonoBehaviour
     }
 
 
-    public void SetInteractBtnActive(bool active)
+    public void ButtonDown(int index)
     {
-        _buttons[Constants.BUTTON_INTERACT].SetActive(active);
+        switch (index)
+        {
+            case Constants.BUTTON_ATTACK:
+                HorizontalPlayerControl.Instance.Attack();
+                return;
+
+            case Constants.BUTTON_INTERACT:
+                return;
+
+            case Constants.BUTTON_EXTRA:
+                return;
+        }
+    }
+
+
+    public void ButtonUp(int index)
+    {
+        switch (index)
+        {
+            case Constants.BUTTON_ATTACK:
+                HorizontalPlayerControl.Instance.AttackKeyUp();
+                return;
+
+            case Constants.BUTTON_INTERACT:
+                return;
+
+            case Constants.BUTTON_EXTRA:
+                return;
+        }
+    }
+
+
+    public void SetBtnActive(byte index, bool active)
+    {
+        _buttons[index].SetActive(active);
     }
 
 
