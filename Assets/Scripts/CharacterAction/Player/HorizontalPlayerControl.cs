@@ -88,7 +88,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     {
         if (_atkEftPrefab != null)
         {
-            Transform eft = StageManager.ObjectPool.GetObject(_atkEftPrefab);
+            Transform eft = StageManagerBase.ObjectPool.GetObject(_atkEftPrefab);
             eft.position = new Vector3(
                 transform.position.x + Constants.CHAR_ATKEFT_POS.x * IsFlipNum,
                 transform.position.y + Constants.CHAR_ATKEFT_POS.y,
@@ -151,21 +151,21 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
-    public void SetCharacters(CharacterData.Character[] characters)
+    public void SetCharacters(Characters[] characters)
     {
+        // Get character list
+        CharacterData.Character[] data = GameManager.Instance.GetCharacterList();
+
         // Set character local data
         _characters = new CurrentCharacter[characters.Length];
         for (byte i = 0; i < characters.Length; ++i)
         {
-            _characters[i].MaxHealth = characters[i].CurHealth;
-            _characters[i].Health = characters[i].CurHealth;
-            _characters[i].Armor = characters[i].CurArmor;
-            _characters[i].Damage = characters[i].CurDamage;
-            _characters[i].Sprite = characters[i].Sprite;
+            _characters[i].MaxHealth = data[(int)characters[i]].CurHealth;
+            _characters[i].Health = data[(int)characters[i]].CurHealth;
+            _characters[i].Armor = data[(int)characters[i]].CurArmor;
+            _characters[i].Damage = data[(int)characters[i]].CurDamage;
+            _characters[i].Sprite = data[(int)characters[i]].Sprite;
         }
-
-        // Send character data to controller
-        CanvasPlayController.Instance.SetCharacterButtons(characters);
 
         // Set default character
         CharacterChange(0);
@@ -218,7 +218,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         // ObjectPool Prepare
         if (_atkEftPrefab != null)
         {
-            StageManager.ObjectPool.PoolPreparing(_atkEftPrefab);
+            StageManagerBase.ObjectPool.PoolPreparing(_atkEftPrefab);
         }
     }
 

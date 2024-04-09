@@ -1,48 +1,67 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro;
 
-public class TownManager : MonoBehaviour
+public abstract class WorldManagerBase : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] private string _mapName = null;
-    [Header("References")]
-    [SerializeField] private Joystick _joystick = null;
+    [SerializeField] private string _worldName = null;
     [Header("Next Scene")]
     [Tooltip("Next scene comes after completing this map.")]
     [SerializeField] private string _nextSceneName = null;
+    [Header("Reference")]
     [SerializeField] private Image _blackScreen = null;
     [SerializeField] private TextMeshProUGUI _mapNameText = null;
+    [SerializeField] private Joystick _joystick = null;
     private GameDelegate _delegate = null;
     private float _timer = 0.0f;
-
-    public static TownManager Instance
-    {
-        get;
-        private set;
-    }
 
 
 
     /* ==================== Public Methods ==================== */
-
-    public void PauseGame(bool pause)
-    {
-        // Play controller UI
-        CanvasPlayController.Instance.SetControllerActive(!pause);
-
-        // Player
-        FourDirectionPlayerControl.Instance.PlayerPause(pause);
-    }
-
 
     public void LoadNextScene()
     {
         PauseGame(true);
         _timer = 1.0f;
         _delegate += BlackScreenFadeIn;
+        _blackScreen.gameObject.SetActive(true);
+    }
+
+
+    /// <summary>
+    /// Game pause. Hides play controller UI.
+    /// </summary>
+    public virtual void PauseGame(bool pause)
+    {
+        // Play controller UI
+        CanvasPlayController.Instance.SetControllerActive(!pause);
+    }
+
+
+
+    /* ==================== Protected Methods ==================== */
+
+    protected virtual void DeleteInstance()
+    {
+        CanvasPlayController.Instance.DeleteInstance();
+        DialogueScreen.Instance.DeleteInstance();
+        StageMessage.Instance.DeleteInstance();
+    }
+
+
+    protected virtual void Awake()
+    {
+        // Black screen
+        _blackScreen.color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+        _mapNameText.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        _mapNameText.text = _worldName;
+
+        // Delegate
+        _delegate += _joystick.JoystickUpdate;
+        _delegate += BlackScreenFadeOut;
     }
 
 
@@ -63,6 +82,7 @@ public class TownManager : MonoBehaviour
                     0.0f
                 );
                 PauseGame(false);
+                _blackScreen.gameObject.SetActive(false);
             }
             else
             {
@@ -155,34 +175,8 @@ public class TownManager : MonoBehaviour
     }
 
 
-    private void DeleteInstance()
-    {
-        FourDirectionPlayerControl.Instance.DeleteInstance();
-        CanvasPlayController.Instance.DeleteInstance();
-        CameraFourDirectionMovement.Instance.DeleteInstance();
-        DialogueScreen.Instance.DeleteInstance();
-    }
-
-
-    private void Awake()
-    {
-        // Singleton pattern
-        Instance = this;
-
-        // Black screen
-        _blackScreen.color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
-        _mapNameText.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-        _mapNameText.text = _mapName;
-
-        // Delegate
-        _delegate += _joystick.JoystickUpdate;
-        _delegate += BlackScreenFadeOut;
-    }
-
-
     private void Update()
     {
-        // Always functioning
         _delegate.Invoke();
     }
 }

@@ -65,6 +65,10 @@ public class Constants
     // Horizontal Stage Settings
     public const byte HS_MAX_CHARACTER = 3;
 
+    // Stage Message Settings
+    public const float STGMSG_SPEED = 2.0f;
+    public const float STGMSG_SHOW_TIMER = 3.0f;
+
     // Physics
     public const float GRAVITY_ACCELERATION = -50.0f;
     public const float DELTA_TIME_LIMIT = 0.02f;

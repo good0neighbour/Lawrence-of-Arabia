@@ -92,7 +92,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
         // Death
         if (_health <= 0)
         {
-            StageManager.Instance.EnemyDeathReport(this);
+            StageManagerBase.Instance.EnemyDeathReport(this);
             Destroy(gameObject);
             return;
         }
@@ -255,7 +255,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
                         {
                             case Constants.ENEMY_SUSPICIOUS:
                                 StateChange(Constants.ENEMY_ATTACK);
-                                StageManager.Instance.UrgentAlert();
+                                StageManagerBase.Instance.UrgentAlert();
                                 return Constants.FAILURE;
                             case Constants.ENEMY_ATTACK:
                                 return Constants.FAILURE;
@@ -544,7 +544,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     {
         if (_sendUrgentReport)
         {
-            StageManager.Instance.UrgentAlert();
+            StageManagerBase.Instance.UrgentAlert();
         }
         else
         {
@@ -558,7 +558,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
     {
         if (_atkEftPrefab != null)
         {
-            Transform eft = StageManager.ObjectPool.GetObject(_atkEftPrefab);
+            Transform eft = StageManagerBase.ObjectPool.GetObject(_atkEftPrefab);
 
             if (_playerDir.x > 0.0f)
             {
@@ -581,7 +581,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
         }
         if (_enemyState == Constants.ENEMY_SUSPICIOUS)
         {
-            StageManager.Instance.UrgentAlert();
+            StageManagerBase.Instance.UrgentAlert();
         }
         return Constants.SUCCESS;
     }
@@ -687,7 +687,7 @@ public class EnemyBehaviour : HorizontalMovement, IHit
         // ObjectPool Prepare
         if (_atkEftPrefab != null)
         {
-            StageManager.ObjectPool.PoolPreparing(_atkEftPrefab);
+            StageManagerBase.ObjectPool.PoolPreparing(_atkEftPrefab);
         }
     }
 

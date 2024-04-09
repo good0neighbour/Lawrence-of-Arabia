@@ -12203,11 +12203,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0425bfb2ab165e4db963c3e07dfde00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapName: Sample Stage
-  _joystick: {fileID: 826337707}
+  _worldName: Sample Stage
   _nextSceneName: CS_Intro1
   _blackScreen: {fileID: 6677295559509775653}
   _mapNameText: {fileID: 6677295559509775652}
+  _joystick: {fileID: 826337707}
 --- !u!1001 &1702637822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14553,7 +14553,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 323297341914641391, guid: feea9184cc4384c4fa8ff32e32143d22, type: 3}
       propertyPath: m_Name
-      value: CanvasIntro
+      value: CanvasStageUI
       objectReference: {fileID: 0}
     - target: {fileID: 4441407134014759003, guid: feea9184cc4384c4fa8ff32e32143d22, type: 3}
       propertyPath: m_Pivot.x

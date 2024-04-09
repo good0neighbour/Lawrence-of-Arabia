@@ -61,14 +61,17 @@ public class CanvasPlayController : MonoBehaviour
     }
 
 
-    public void SetCharacterButtons(CharacterData.Character[] characters)
+    public void SetCharacterButtons(Characters[] characters)
     {
+        // Get character list
+        CharacterData.Character[] data = GameManager.Instance.GetCharacterList();
+
         // Set character Buttons
         for (byte i = 0; i < characters.Length; ++i)
         {
             _characterBtns[i].Button.gameObject.SetActive(true);
-            _characterBtns[i].Button.Find("CharacterImage").GetComponent<Image>().sprite = characters[i].Sprite;
-            _characterBtns[i].Button.Find("CharacterName").GetComponent<TextMeshProUGUI>().text = characters[i].ToString();
+            _characterBtns[i].Button.Find("CharacterImage").GetComponent<Image>().sprite = data[(int)characters[i]].Sprite;
+            _characterBtns[i].Button.Find("CharacterName").GetComponent<TextMeshProUGUI>().text = data[(int)characters[i]].Name.ToString();
             _characterBtns[i].HealthGage.fillAmount = 1.0f;
         }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void GameDelegate();
@@ -26,10 +27,25 @@ public class GameManager
         }
     }
 
-    public CharacterData.Character[] SelectedCharacters
+    public Characters[] SelectedCharacters
     {
         get;
         set;
+    }
+
+
+
+    /* ==================== Public Methods ==================== */
+
+    public CharacterData.Character[] GetCharacterList()
+    {
+        return _characterData.GetCharacterList();
+    }
+
+
+    public List<CharacterData.Character> GetActiveCharacterList()
+    {
+        return _characterData.GetActiveCharacterList();
     }
 
 
@@ -38,7 +54,7 @@ public class GameManager
 
     private GameManager()
     {
-        _characterData = Resources.Load<CharacterData>("Resources/CharacterData");
+        _characterData = Resources.Load<CharacterData>("CharacterData");
         _characterData.CharacterDataPreparation();
     }
 }

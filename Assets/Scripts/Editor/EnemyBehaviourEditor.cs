@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(EnemyBehaviour))]
+[CanEditMultipleObjects]
 public class EnemyBehaviourEditor : Editor
 {
     private EnemyBehaviour _character = null;
@@ -31,3 +32,8 @@ public class EnemyBehaviourEditor : Editor
         base.OnInspectorGUI();
     }
 }
+
+
+
+[CustomEditor(typeof(IntroSoldier))]
+public class IntroSoldierEditor : EnemyBehaviourEditor { }

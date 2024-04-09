@@ -1020,11 +1020,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bbf2c4d1067914e8b737a623c36c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapName: Safe House
-  _joystick: {fileID: 44578973}
+  _worldName: Safe House
   _nextSceneName: 
   _blackScreen: {fileID: 896398217}
   _mapNameText: {fileID: 896398216}
+  _joystick: {fileID: 44578973}
 --- !u!65 &561490478
 BoxCollider:
   m_ObjectHideFlags: 0

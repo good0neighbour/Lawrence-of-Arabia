@@ -5,7 +5,7 @@ public class HoriaontalEventScene : EventSceneBase
     public override void StartEventScene()
     {
         base.StartEventScene();
-        StageManager.Instance.PauseGame(true);
+        StageManagerBase.Instance.PauseGame(true);
     }
 
 
@@ -14,7 +14,7 @@ public class HoriaontalEventScene : EventSceneBase
     protected override void EndEventScene()
     {
         CameraHorizontalMovement.Instance.TargetChange(HorizontalPlayerControl.Instance.CameraPos);
-        StageManager.Instance.PauseGame(false);
+        StageManagerBase.Instance.PauseGame(false);
     }
 
 
@@ -64,7 +64,7 @@ public class HoriaontalEventScene : EventSceneBase
                 return;
 
             case EvenSceneActions.LoadNextScene:
-                StageManager.Instance.LoadNextScene();
+                StageManagerBase.Instance.LoadNextScene();
                 return;
         }
     }

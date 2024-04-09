@@ -36,6 +36,12 @@ public class CharacterData : ScriptableObject
     }
 
 
+    public Character[] GetCharacterList()
+    {
+        return _baseData;
+    }
+
+
     public List<Character> GetActiveCharacterList()
     {
         return _activeCharacters;
@@ -80,9 +86,9 @@ public class CharacterData : ScriptableObject
         public Sprite FullImage;
         public Sprite Sprite;
 
-        public ushort CurArmor;
-        public ushort CurDamage;
-        public int CurHealth;
+        [HideInInspector] public int CurHealth;
+        [HideInInspector] public ushort CurArmor;
+        [HideInInspector] public ushort CurDamage;
 
         [Header("Game Play Data")]
         public CharacterStatus Status;

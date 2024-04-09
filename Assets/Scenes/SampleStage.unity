@@ -1768,11 +1768,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0425bfb2ab165e4db963c3e07dfde00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapName: Sample Stage
-  _joystick: {fileID: 826337707}
+  _worldName: Sample Stage
   _nextSceneName: CS_Intro1
   _blackScreen: {fileID: 428631252}
   _mapNameText: {fileID: 987714978}
+  _joystick: {fileID: 826337707}
 --- !u!1 &1732779374
 GameObject:
   m_ObjectHideFlags: 0

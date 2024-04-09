@@ -76,7 +76,7 @@ public class TriggerBase : MonoBehaviour
                     break;
 
                     case ActionTypes.LoadNextScene:
-                        StageManager.Instance.LoadNextScene();
+                        StageManagerBase.Instance.LoadNextScene();
                         break;
             }
         }

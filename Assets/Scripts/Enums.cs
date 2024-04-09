@@ -122,3 +122,10 @@ public enum CharacterWeapons
     SniperRifle,
     Machinegun
 }
+
+
+public enum LanguageTypes
+{
+    Korean,
+    English
+}
