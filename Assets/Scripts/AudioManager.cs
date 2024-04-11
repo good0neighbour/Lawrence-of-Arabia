@@ -1,7 +1,6 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager
 {
     /* ==================== Fields ==================== */
 
@@ -15,13 +14,17 @@ public class AudioManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = Instantiate(Resources.Load("AudioManager")).GetComponent<AudioManager>();
-                DontDestroyOnLoad(_instance.gameObject);
+                _instance = new AudioManager();
+                GameObject obj = new GameObject();
+                Object.DontDestroyOnLoad(obj);
                 for (byte i = 0; i < Constants.SOUND_CHANNEL; ++i)
                 {
-                    _instance._audios[i] = Instantiate(new GameObject(), _instance.transform).AddComponent<AudioSource>();
+                    _instance._audios[i] = obj.AddComponent<AudioSource>();
                     _instance.AudioSettings(i);
                 }
+#if UNITY_EDITOR
+                obj.name = "AudioManager";
+#endif
             }
             return _instance;
         }
