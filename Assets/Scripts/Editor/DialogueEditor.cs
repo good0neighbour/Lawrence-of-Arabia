@@ -41,7 +41,7 @@ public class DialogueEditor : Editor
             switch (_diagolues[i].Type)
             {
                 case DialogueTypes.Selection:
-
+                    #region Selection
                     EditorGUILayout.Space(10.0f, false);
                     EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
 
@@ -79,14 +79,22 @@ public class DialogueEditor : Editor
                     }
                     EditorGUILayout.EndHorizontal();
                     ShowBranches(ref element);
+                    #endregion
                     break;
 
                 case DialogueTypes.Narration:
+                    #region Narration
                     EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
                     element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
+                    EditorGUILayout.EndHorizontal();
+                    #endregion
                     break;
 
                 case DialogueTypes.Talk:
+                    #region Talk
                     EditorGUILayout.Space(10.0f, false);
                     EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
 
@@ -116,7 +124,48 @@ public class DialogueEditor : Editor
                         element.ImageDirection = (CharImageDir)EditorGUILayout.EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
                     }
                     EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
                     element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
+                    EditorGUILayout.EndHorizontal();
+                    #endregion
+                    break;
+
+                case DialogueTypes.TalkMaunally:
+                    #region TalkMaunally
+                    EditorGUILayout.Space(10.0f, false);
+                    EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
+
+                    EditorGUI.BeginChangeCheck();
+                    element.Name = EditorGUILayout.TextField(element.Name, GUILayout.MaxWidth(70.0f));
+
+                    EditorGUILayout.Space(10.0f, false);
+                    EditorGUILayout.LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
+                    EditorGUI.BeginChangeCheck();
+                    element.NameColour = (NameColours)EditorGUILayout.EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
+                    EditorGUILayout.Space(10.0f, false);
+                    if (element.Image == null)
+                    {
+                        EditorStyles.label.normal.textColor = new Color(1.0f, 0.2f, 0.2f);
+                        EditorGUILayout.LabelField("¡ØCharacter image isn't loaded. Input Name correctly.¡Ø");
+                        EditorStyles.label.normal.textColor = Color.white;
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
+                        element.ImageDirection = (CharImageDir)EditorGUILayout.EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
+                    }
+
+                    EditorGUILayout.Space(10.0f, false);
+                    element.Image = (Sprite)EditorGUILayout.ObjectField(element.Image, typeof(Sprite), false, GUILayout.MaxWidth(200.0f));
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
+                    EditorGUILayout.EndHorizontal();
+                    #endregion
                     break;
             }
 
@@ -182,6 +231,7 @@ public class DialogueEditor : Editor
             EditorGUI.BeginChangeCheck();
             temp.Text = EditorGUILayout.TextField(element.Branches[i].Text, GUILayout.MinHeight(20.0f));
             temp.Branch = (DialogueScript)EditorGUILayout.ObjectField(element.Branches[i].Branch, typeof(DialogueScript), false, GUILayout.MaxWidth(200.0f));
+            temp.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
             if (EditorGUI.EndChangeCheck())
             {
                 element.Branches[i] = temp;

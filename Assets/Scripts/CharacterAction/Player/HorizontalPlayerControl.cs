@@ -74,6 +74,15 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 (float)_characters[_curChar].Health / _characters[_curChar].MaxHealth
             );
 
+            // Blood effect
+            Transform bloodTrans = StageManagerBase.ObjectPool.GetObject(_bloodEftPrefab);
+            bloodTrans.position = new Vector3(
+                transform.position.x,
+                transform.position.y + Constants.CHAR_RADIUS,
+                0.0f
+            );
+            bloodTrans.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f * direction);
+
             // Death
             if (_characters[_curChar].Health <= 0)
             {
@@ -104,15 +113,6 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         {
             _knockback = -Constants.CHAR_KNOCKBACK_AMOUNT;
         }
-
-        // Blood effect
-        Transform bloodTrans = StageManagerBase.ObjectPool.GetObject(_bloodEftPrefab);
-        bloodTrans.position = new Vector3(
-            transform.position.x,
-            transform.position.y + Constants.CHAR_RADIUS,
-            0.0f
-        );
-        bloodTrans.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f * direction);
     }
 
 
@@ -129,6 +129,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 transform.position.y + Constants.CHAR_ATKEFT_POS.y
             ),
             IsFlipNum,
+            _characters[_curChar].Range,
             _characters[_curChar].Damage
         );
 
@@ -206,6 +207,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             _characters[i].Health = data[(int)characters[i]].CurHealth;
             _characters[i].Armor = data[(int)characters[i]].CurArmor;
             _characters[i].Damage = data[(int)characters[i]].CurDamage;
+            _characters[i].Range = data[(int)characters[i]].CurRange / 100.0f;
             _characters[i].Sprite = data[(int)characters[i]].Sprite;
             _characters[i].Type = data[(int)characters[i]].Type;
             _characters[i].Weapon = data[(int)characters[i]].Weapon;
@@ -522,6 +524,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         public int Health;
         public ushort Armor;
         public ushort Damage;
+        public float Range;
         public Sprite Sprite;
         public CharacterTypes Type;
         public CharacterWeapons Weapon;

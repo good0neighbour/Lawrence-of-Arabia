@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BloodEffect : PoolObjectBase
+public class SimpleParticleEffect : ObjectPool.PoolObject
 {
     /* ==================== Fields ==================== */
 

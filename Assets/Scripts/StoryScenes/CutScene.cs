@@ -152,7 +152,16 @@ public class CutScene : MonoBehaviour
             case 0.0f:
             case 1.0f:
                 ++_current;
+                if (image != null)
+                {
+                    Destroy(image.gameObject);
+                }
+                if (text != null)
+                {
+                    Destroy(text.gameObject);
+                }
                 return;
+
             default:
                 return;
         }

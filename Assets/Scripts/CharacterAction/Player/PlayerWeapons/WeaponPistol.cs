@@ -18,7 +18,7 @@ public class WeaponPistol : PlayerWeaponBase
     }
 
 
-    public override void Attack(Vector2 pos, sbyte direction, ushort damage)
+    public override void Attack(Vector2 pos, sbyte direction, float range, ushort damage)
     {
         if (IsPressed)
         {
@@ -27,8 +27,11 @@ public class WeaponPistol : PlayerWeaponBase
 
         IsPressed = true;
 
+        // Range
+        range = Constants.WEAPON_PISTOL_RANGE + Constants.WEAPON_PISTOL_RANGE * range;
+
         // Hit scan
-        RaycastHit2D hit = Physics2D.Raycast(pos, new Vector2(direction, 0.0f), Constants.WEAPON_PISTOL_RANGE, Constants.LAYER_B_ENEMY + Constants.LAYER_B_TERRAIN);
+        RaycastHit2D hit = Physics2D.Raycast(pos, new Vector2(direction, 0.0f), range, Constants.LAYER_B_ENEMY + Constants.LAYER_B_TERRAIN);
 
         // Attack effect
         LineRendererAttackEffect eft = StageManagerBase.ObjectPool.GetObject(_prefab).GetComponent<LineRendererAttackEffect>();
@@ -37,7 +40,7 @@ public class WeaponPistol : PlayerWeaponBase
             eft.Begin(
                 pos,
                 new Vector2(
-                    pos.x + Constants.WEAPON_PISTOL_RANGE * direction,
+                    pos.x + range * direction,
                     pos.y
                 )
             );
@@ -56,7 +59,7 @@ public class WeaponPistol : PlayerWeaponBase
             GameObject target = hit.collider.gameObject;
             if (target.layer == Constants.LAYER_D_ENEMY)
             {
-                target.GetComponent<IHit>().Hit(damage, direction);
+                target.GetComponent<IHit>().Hit((ushort)(damage + Constants.WEAPON_PISTOL_DAMAGE), direction);
             }
         }
     }

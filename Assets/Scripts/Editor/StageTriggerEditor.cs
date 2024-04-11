@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(StageTrigger))]
-public class MapTriggerEditor : Editor
+public class StageTriggerEditor : Editor
 {
     private StageTrigger _trigger = null;
     private List<StageTrigger.ConditionInfo> _conditions = null;

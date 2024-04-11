@@ -410,13 +410,14 @@ MonoBehaviour:
   _sightHight: 0.9
   _health: 100
   _armor: 1
-  _attackRange: 4
+  _attackRange: 3
   _attackTimer: 1
   AttackDamage: 10
   _attackAngle: 90
   _sendUrgentReport: 1
   _receiveUrgentReport: 1
   _pushingRange: 0.5
+  _hitEffect: {fileID: 5748454816918499764, guid: 5a107dcc7a0d3784d977162cb20b407a, type: 3}
   _sprite: {fileID: 6046999027685796090}
   _sightUI: {fileID: 2811512902250427380}
   _notice: {fileID: 2440198798585319385}

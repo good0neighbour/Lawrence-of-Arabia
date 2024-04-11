@@ -76,6 +76,7 @@ public class DialogueScript : ScriptableObject
         public Sprite Image;
         public CharImageDir ImageDirection;
         public string Text;
+        public AudioClip Audio;
         public List<BranchDialogue> Branches;
 
 
@@ -97,6 +98,7 @@ public class DialogueScript : ScriptableObject
     public struct BranchDialogue
     {
         public string Text;
+        public AudioClip Audio;
         public DialogueScript Branch;
     }
 }

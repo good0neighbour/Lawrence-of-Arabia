@@ -34,6 +34,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     [SerializeField] private bool _receiveUrgentReport = true;
     [Tooltip("It pushes when player approches in this range. It squares when game starts.")]
     [SerializeField] private float _pushingRange = 0.5f;
+    [SerializeField] private GameObject _hitEffect = null;
     [Header("References")]
     [SerializeField] private SpriteRenderer _sprite = null;
     [SerializeField] private RectTransform _sightUI = null;
@@ -79,19 +80,28 @@ public abstract class EnemyBase : HorizontalMovement, IHit
 
     public void Hit(ushort damage, sbyte direction)
     {
-        // Deal damage
         int deal = damage - _armor;
         if (deal > 0)
         {
+            // Deal damage
             _health = _health - deal;
-        }
 
-        // Death
-        if (_health <= 0)
-        {
-            StageManagerBase.Instance.EnemyDeathReport(this);
-            Destroy(gameObject);
-            return;
+            // Hit effect
+            Transform hitEft = StageManagerBase.ObjectPool.GetObject(_hitEffect);
+            hitEft.position = new Vector3(
+                transform.position.x,
+                transform.position.y + Constants.CHAR_RADIUS,
+                0.0f
+            );
+            hitEft.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f * direction);
+
+            // Death
+            if (_health <= 0)
+            {
+                StageManagerBase.Instance.EnemyDeathReport(this);
+                Destroy(gameObject);
+                return;
+            }
         }
 
         // KnockBack
@@ -280,6 +290,9 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     {
         // Player Transform
         Player = HorizontalPlayerControl.Instance.transform;
+
+        // ObjectPool Prepare
+        StageManagerBase.ObjectPool.PoolPreparing(_hitEffect);
     }
 
 

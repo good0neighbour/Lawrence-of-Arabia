@@ -72,8 +72,12 @@ public class Constants
     public const float STGMSG_SHOW_TIMER = 3.0f;
 
     // Player Weapon Settings
+    public const ushort WEAPON_PISTOL_DAMAGE = 1;
     public const float WEAPON_PISTOL_RANGE = 3.0f;
     public const float WEAPON_PISTOL_TIME = 0.75f;
+
+    // Audio Settings
+    public const byte SOUND_CHANNEL = 4;
 
     // Physics
     public const float GRAVITY_ACCELERATION = -50.0f;

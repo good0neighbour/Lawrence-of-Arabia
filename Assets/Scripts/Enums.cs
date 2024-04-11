@@ -2,6 +2,7 @@ public enum DialogueTypes
 {
     Narration,
     Talk,
+    TalkMaunally,
     Selection
 }
 

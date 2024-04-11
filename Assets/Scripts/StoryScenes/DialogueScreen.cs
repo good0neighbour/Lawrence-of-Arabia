@@ -32,6 +32,7 @@ public class DialogueScreen : MonoBehaviour
     }
 
 
+
     /* ==================== Private Methods ==================== */
 
     public void StartDialogue(DialogueScript script, EventSceneBase curEvent)
@@ -87,7 +88,8 @@ public class DialogueScreen : MonoBehaviour
         }
         else
         {
-            _dialogueTexts[0].text = $"<color={current.NameColour.ToString()}><b>{current.Name}</b></color>\n{current.Branches[btnNum].Text}";
+            _dialogueTexts[0].text =
+                $"<color={current.NameColour.ToString()}><b>{current.Name}</b></color>\n{current.Branches[btnNum].Text}";
             if (_prevChar != current.Image)
             {
                 _imageDir = current.ImageDirection;
@@ -96,6 +98,9 @@ public class DialogueScreen : MonoBehaviour
                 ImagePosInit();
             }
         }
+
+        // Audio Play
+        PlayAudio();
 
         // Insert branch dialogue
         List<DialogueScript.Dialogue> branchDialogue = current.Branches[btnNum].Branch?.GetDialogueScript();
@@ -286,29 +291,44 @@ public class DialogueScreen : MonoBehaviour
 
     private void NextDialogue()
     {
-        DialogueScript.Dialogue current = _script[_dialogueIndex];
-
-        switch (current.Type)
+        switch (_script[_dialogueIndex].Type)
         {
+            // Narration
             case DialogueTypes.Narration:
-                _dialogueTexts[0].text = current.Text;
+                // Text
+                _dialogueTexts[0].text = _script[_dialogueIndex].Text;
+
+                // Character Image
                 _charImage.sprite = null;
                 _charImage.color = new Color();
+
+                // Audio Play
+                PlayAudio();
                 break;
 
+            // Player Selection
             case DialogueTypes.Selection:
-                PlayerDialogueButtonShow(current);
+                PlayerDialogueButtonShow(_script[_dialogueIndex]);
                 break;
 
+            // Dialogue
             case DialogueTypes.Talk:
-                _dialogueTexts[0].text = $"<color={current.NameColour.ToString()}><b>{current.Name}</b></color>\n{current.Text}";
-                if (_prevChar != current.Image)
+            case DialogueTypes.TalkMaunally:
+                // Text
+                _dialogueTexts[0].text =
+                    $"<color={_script[_dialogueIndex].NameColour.ToString()}><b>{_script[_dialogueIndex].Name}</b></color>\n{_script[_dialogueIndex].Text}";
+
+                // Character Image
+                if (_prevChar != _script[_dialogueIndex].Image)
                 {
-                    _imageDir = current.ImageDirection;
-                    _charImage.sprite = current.Image;
-                    _prevChar = current.Image;
+                    _imageDir = _script[_dialogueIndex].ImageDirection;
+                    _charImage.sprite = _script[_dialogueIndex].Image;
+                    _prevChar = _script[_dialogueIndex].Image;
                     ImagePosInit();
                 }
+
+                // Audio Play
+                PlayAudio();
                 break;
         }
     }
@@ -349,6 +369,15 @@ public class DialogueScreen : MonoBehaviour
             {
                 _buttons[i].ButtonImage.color = Color.white;
             }
+        }
+    }
+
+
+    private void PlayAudio()
+    {
+        if (_script[_dialogueIndex].Audio != null)
+        {
+            AudioManager.Instance.PlayAudio(_script[_dialogueIndex].Audio);
         }
     }
 

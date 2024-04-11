@@ -31,6 +31,7 @@ public class CharacterData : ScriptableObject
             }
             _baseData[i].CurHealth = _baseData[i].BaseHealth + _baseData[i].HealthIncrease * _baseData[i].Level;
             _baseData[i].CurDamage = (ushort)(_baseData[i].BaseDamage + _baseData[i].DamageIncrease * _baseData[i].Level);
+            _baseData[i].CurRange = (byte)(_baseData[i].BaseRangeRate + _baseData[i].RangeRateIncrease * _baseData[i].Level);
             _baseData[i].CurArmor = (ushort)(_baseData[i].BaseArmor + _baseData[i].Level / _baseData[i].LvForArmorIncrease);
         }
     }
@@ -75,17 +76,23 @@ public class CharacterData : ScriptableObject
     [Serializable]
     public struct Character
     {
+        [Header("Base Data")]
         public Characters Name;
         public int BaseHealth;
         public ushort BaseArmor;
+        [Tooltip("Additional damage.")]
         public ushort BaseDamage;
+        [Tooltip("Additional range increment percentage.")]
+        public byte BaseRangeRate;
         public byte HealthIncrease;
         public byte DamageIncrease;
+        public byte RangeRateIncrease;
         [Tooltip("Armor gains 1 increase for every this level.")]
         public byte LvForArmorIncrease;
         public Sprite FullImage;
         public Sprite Sprite;
 
+        [HideInInspector] public byte CurRange;
         [HideInInspector] public int CurHealth;
         [HideInInspector] public ushort CurArmor;
         [HideInInspector] public ushort CurDamage;

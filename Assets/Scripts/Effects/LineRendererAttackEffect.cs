@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LineRendererAttackEffect : PoolObjectBase
+public class LineRendererAttackEffect : ObjectPool.PoolObject
 {
     /* ==================== Fields ==================== */
 

@@ -25,5 +25,5 @@ public abstract class PlayerWeaponBase
 
     /* ==================== Abstract Methods ==================== */
 
-    public abstract void Attack(Vector2 pos, sbyte direction, ushort damage);
+    public abstract void Attack(Vector2 pos, sbyte direction, float range, ushort damage);
 }
