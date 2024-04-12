@@ -5,20 +5,17 @@ using UnityEditor;
 using TMPro;
 
 [CustomEditor(typeof(CutScene))]
-public class CutSceneEditor : Editor
+public class CutSceneEditor : ListEditorBase
 {
     private List<CutScene.CutSceneAction> _actions = null;
     private CutScene _scene = null;
-    private byte _current = 0;
-    private byte _switchFrom = 0;
-    private byte _switchTo = 0;
 
 
     private void OnEnable()
     {
         _scene = (CutScene)target;
         _actions = _scene.GetActions();
-        _current = (byte)(_actions.Count - 1);
+        Current = (byte)(_actions.Count - 1);
     }
 
 
@@ -70,6 +67,7 @@ public class CutSceneEditor : Editor
                     element.Duration = 0.0f;
                 }
                 _actions[i] = element;
+                _scene.SetActions(_actions.ToArray());
                 EditorUtility.SetDirty(_scene);
             }
 
@@ -77,46 +75,6 @@ public class CutSceneEditor : Editor
             EditorGUILayout.Space(5.0f);
         }
 
-        if (GUILayout.Button("Add an Action to end", GUILayout.MinHeight(30.0f)))
-        {
-            Undo.RecordObject(_scene, $"{_scene.name}: CutScene action added");
-            _scene.AddAction((byte)_actions.Count);
-            _current = (byte)(_actions.Count - 1);
-            _scene.Actions = _actions;
-        }
-
-        EditorGUILayout.Space(20.0f);
-
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Index", GUILayout.MaxWidth(40.0f));
-        _current = (byte)EditorGUILayout.IntField(_current, GUILayout.MaxWidth(30.0f));
-        if (_current <= _actions.Count && GUILayout.Button("Add here", GUILayout.MaxWidth(100.0f)))
-        {
-            Undo.RecordObject(_scene, $"{_scene.name}: CutScene action added");
-            _scene.AddAction(_current);
-            _current = (byte)(_actions.Count - 1);
-            _scene.Actions = _actions;
-        }
-        if (_current < _actions.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
-        {
-            Undo.RecordObject(_scene, $"{_scene.name}: CutScene action deleted");
-            _scene.DeleteAction(_current);
-            _current = (byte)(_actions.Count - 1);
-            _scene.Actions = _actions;
-        }
-
-        EditorGUILayout.Space(20.0f);
-
-        EditorGUILayout.LabelField("Move From", GUILayout.MaxWidth(70.0f));
-        _switchFrom = (byte)EditorGUILayout.IntField(_switchFrom, GUILayout.MaxWidth(30.0f));
-        EditorGUILayout.LabelField("To", GUILayout.MaxWidth(20.0f));
-        _switchTo = (byte)EditorGUILayout.IntField(_switchTo, GUILayout.MaxWidth(30.0f));
-        if (_switchFrom < _actions.Count && _switchTo < _actions.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
-        {
-            Undo.RecordObject(_scene, $"{_scene.name}: CutScene action moved");
-            _scene.MoveAction(_switchFrom, _switchTo);
-            _scene.Actions = _actions;
-        }
-        EditorGUILayout.EndHorizontal();
+        ListEditor(_scene, _actions, () => _scene.SetActions(_actions.ToArray()), "CutScene action");
     }
 }

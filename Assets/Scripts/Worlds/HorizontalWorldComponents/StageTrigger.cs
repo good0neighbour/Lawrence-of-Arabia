@@ -6,17 +6,7 @@ public class StageTrigger : TriggerBase
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] private List<ConditionInfo> _conditions = new List<ConditionInfo>();
-
-#if UNITY_EDITOR
-    public List<ConditionInfo> Conditions
-    {
-        set
-        {
-            _conditions = value;
-        }
-    }
-#endif
+    [SerializeField] private ConditionInfo[] _conditions = null;
 
 
 
@@ -40,29 +30,18 @@ public class StageTrigger : TriggerBase
 #if UNITY_EDITOR
     public List<ConditionInfo> GetConditions()
     {
-        return _conditions;
+        List<ConditionInfo> result = new List<ConditionInfo>();
+        foreach (ConditionInfo action in _conditions)
+        {
+            result.Add(action);
+        }
+        return result;
     }
 
 
-    public void AddConditions(byte index)
+    public void SetConditions(ConditionInfo[] actions)
     {
-        ConditionInfo temp = new ConditionInfo();
-        temp.Targets = new List<GameObject>();
-        _conditions.Insert(index, temp);
-    }
-
-
-    public void DeleteConditions(byte index)
-    {
-        _conditions.RemoveAt(index);
-    }
-
-
-    public void MoveConditions(byte from, byte to)
-    {
-        ConditionInfo temp = _conditions[from];
-        _conditions.RemoveAt(from);
-        _conditions.Insert(to, temp);
+        _conditions = actions;
     }
 #endif
 
@@ -70,7 +49,7 @@ public class StageTrigger : TriggerBase
 
     /* ==================== Private Methods ==================== */
 
-    private bool CheckConditions(List<ConditionInfo> conditionList)
+    private bool CheckConditions(ConditionInfo[] conditionList)
     {
         foreach (ConditionInfo condition in conditionList)
         {
@@ -113,7 +92,7 @@ public class StageTrigger : TriggerBase
     private void Awake()
     {
         // Victory conditions
-        for (byte i = 0; i < _conditions.Count; ++i)
+        for (byte i = 0; i < _conditions.Length; ++i)
         {
             foreach (GameObject target in _conditions[i].Targets)
             {

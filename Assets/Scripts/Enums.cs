@@ -54,7 +54,7 @@ public enum ConditionTypes
 }
 
 
-public enum EvenSceneActions
+public enum EventSceneActions
 {
     CameraMove,
     NPCMove,

@@ -6,17 +6,7 @@ public class TriggerBase : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] protected List<TriggerAction> Actions = null;
-
-#if UNITY_EDITOR
-    public List<TriggerAction> ActionsList
-    {
-        set
-        {
-            Actions = value;
-        }
-    }
-#endif
+    [SerializeField] protected TriggerAction[] Actions = null;
 
 
 
@@ -86,27 +76,18 @@ public class TriggerBase : MonoBehaviour
 #if UNITY_EDITOR
     public List<TriggerAction> GetActions()
     {
-        return Actions;
+        List<TriggerAction> result = new List<TriggerAction>();
+        foreach (TriggerAction action in Actions)
+        {
+            result.Add(action);
+        }
+        return result;
     }
 
 
-    public void AddAction(byte index)
+    public void SetActions(TriggerAction[] actions)
     {
-        Actions.Insert(index, new TriggerAction());
-    }
-
-
-    public void DeleteAction(byte index)
-    {
-        Actions.RemoveAt(index);
-    }
-
-
-    public void MoveAction(byte from, byte to)
-    {
-        TriggerAction temp = Actions[from];
-        Actions.RemoveAt(from);
-        Actions.Insert(to, temp);
+        Actions = actions;
     }
 #endif
 

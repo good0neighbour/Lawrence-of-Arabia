@@ -15,16 +15,6 @@ public class AudioManager
             if (_instance == null)
             {
                 _instance = new AudioManager();
-                GameObject obj = new GameObject();
-                Object.DontDestroyOnLoad(obj);
-                for (byte i = 0; i < Constants.SOUND_CHANNEL; ++i)
-                {
-                    _instance._audios[i] = obj.AddComponent<AudioSource>();
-                    _instance.AudioSettings(i);
-                }
-#if UNITY_EDITOR
-                obj.name = "AudioManager";
-#endif
             }
             return _instance;
         }
@@ -48,6 +38,21 @@ public class AudioManager
 
 
     /* ==================== Private Methods ==================== */
+
+    private AudioManager()
+    {
+        GameObject obj = new GameObject();
+        Object.DontDestroyOnLoad(obj);
+        for (byte i = 0; i < Constants.SOUND_CHANNEL; ++i)
+        {
+            _audios[i] = obj.AddComponent<AudioSource>();
+            AudioSettings(i);
+        }
+#if UNITY_EDITOR
+        obj.name = "AudioManager";
+#endif
+    }
+
 
     private void AudioSettings(byte index)
     {

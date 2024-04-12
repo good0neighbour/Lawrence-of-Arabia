@@ -6,19 +6,9 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] protected List<EventSceneAction> Actions = new List<EventSceneAction>();
+    [SerializeField] protected EventSceneAction[] Actions = null;
     protected byte Current = 0;
     private float _timer = 0.0f;
-
-#if UNITY_EDITOR
-    public List<EventSceneAction> ActionList
-    {
-        set
-        {
-            Actions = value;
-        }
-    }
-#endif
 
 
 
@@ -27,7 +17,7 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
     public virtual void StartEventScene()
     {
 #if UNITY_EDITOR
-        if (Actions == null || Actions.Count == 0)
+        if (Actions == null || Actions.Length == 0)
         {
             Debug.LogError($"{name}: No even scene.");
             return;
@@ -46,30 +36,27 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
     }
 
 
+    public void SetDialogue(byte index, DialogueScript script)
+    {
+        Actions[index].DialogueScript = script;
+    }
+
+
 #if UNITY_EDITOR
     public List<EventSceneAction> GetActions()
     {
-        return Actions;
+        List<EventSceneAction> result = new List<EventSceneAction>();
+        foreach (EventSceneAction action in Actions)
+        {
+            result.Add(action);
+        }
+        return result;
     }
 
 
-    public void AddAction(byte index)
+    public void SetActions(EventSceneAction[] actions)
     {
-        Actions.Insert(index, new EventSceneAction());
-    }
-
-
-    public void DeleteAction(byte index)
-    {
-        Actions.RemoveAt(index);
-    }
-
-
-    public void MoveAction(byte from, byte to)
-    {
-        EventSceneAction temp = Actions[from];
-        Actions.RemoveAt(from);
-        Actions.Insert(to, temp);
+        Actions = actions;
     }
 #endif
 
@@ -98,7 +85,7 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
         if (_timer >= Actions[Current].Duration)
         {
             ++Current;
-            if (Current >= Actions.Count)
+            if (Current >= Actions.Length)
             {
                 enabled = false;
                 DialogueScreen.Instance.CloseDialogueScreen();
@@ -119,7 +106,7 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
     [Serializable]
     public struct EventSceneAction
     {
-        public EvenSceneActions Action;
+        public EventSceneActions Action;
         public GameObject TargetObject;
         public Transform TargetTransform;
         public float Duration;

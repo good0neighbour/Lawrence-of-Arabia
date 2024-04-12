@@ -3,20 +3,17 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(DialogueScript))]
-public class DialogueEditor : Editor
+public class DialogueEditor : ListEditorBase
 {
     private List<DialogueScript.Dialogue> _diagolues = null;
     private DialogueScript _script = null;
-    private byte _current = 0;
-    private byte _switchFrom = 0;
-    private byte _switchTo = 0;
 
 
     private void OnEnable()
     {
         _script = (DialogueScript)target;
-        _diagolues = _script.GetDialogueScriptForEditor();
-        _current = (byte)(_diagolues.Count - 1);
+        _diagolues = _script.GetDialoguesForEditor();
+        Current = (byte)(_diagolues.Count - 1);
     }
 
 
@@ -172,53 +169,14 @@ public class DialogueEditor : Editor
             if (EditorGUI.EndChangeCheck())
             {
                 _diagolues[i] = element;
+                _script.SetDialogues(_diagolues.ToArray());
                 EditorUtility.SetDirty(_script);
             }
 
             EditorGUILayout.Space(30.0f);
         }
 
-        if (GUILayout.Button("Add a dialogue to end", GUILayout.MinHeight(30.0f)))
-        {
-            Undo.RecordObject(_script, $"{_script.name}: DialogueScript dialogue added");
-            _script.AddDialogue((byte)_diagolues.Count);
-            _current = (byte)(_diagolues.Count - 1);
-            _script.Dialogues = _diagolues;
-        }
-
-        EditorGUILayout.Space(20.0f);
-
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Index", GUILayout.MaxWidth(40.0f));
-        _current = (byte)EditorGUILayout.IntField(_current, GUILayout.MaxWidth(30.0f));
-        if (_current <= _diagolues.Count && GUILayout.Button("Add here", GUILayout.MaxWidth(100.0f)))
-        {
-            Undo.RecordObject(_script, $"{_script.name}: DialogueScript dialogue added");
-            _script.AddDialogue(_current);
-            _current = (byte)(_diagolues.Count - 1);
-            _script.Dialogues = _diagolues;
-        }
-        if (_current < _diagolues.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
-        {
-            Undo.RecordObject(_script, $"{_script.name}: DialogueScript dialogue deleted");
-            _script.DeleteDialogue(_current);
-            _current = (byte)(_diagolues.Count - 1);
-            _script.Dialogues = _diagolues;
-        }
-
-        EditorGUILayout.Space(20.0f);
-
-        EditorGUILayout.LabelField("Move From", GUILayout.MaxWidth(70.0f));
-        _switchFrom = (byte)EditorGUILayout.IntField(_switchFrom, GUILayout.MaxWidth(30.0f));
-        EditorGUILayout.LabelField("To", GUILayout.MaxWidth(20.0f));
-        _switchTo = (byte)EditorGUILayout.IntField(_switchTo, GUILayout.MaxWidth(30.0f));
-        if (_switchFrom < _diagolues.Count && _switchTo < _diagolues.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
-        {
-            Undo.RecordObject(_script, $"{_script.name}: DialogueScript dialogue moved");
-            _script.MoveDialogue(_switchFrom, _switchTo);
-            _script.Dialogues = _diagolues;
-        }
-        EditorGUILayout.EndHorizontal();
+        ListEditor(_script, _diagolues, () => _script.SetDialogues(_diagolues.ToArray()), "dialogue");
     }
 
 

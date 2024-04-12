@@ -7,17 +7,7 @@ public class DialogueScript : ScriptableObject
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] private List<Dialogue> _dialogues = new List<Dialogue>();
-
-#if UNITY_EDITOR
-    public List<Dialogue> Dialogues
-    {
-        set
-        {
-            _dialogues = value;
-        }
-    }
-#endif
+    [SerializeField] private Dialogue[] _dialogues = null;
 
 
 
@@ -35,31 +25,20 @@ public class DialogueScript : ScriptableObject
 
 
 #if UNITY_EDITOR
-    public void AddDialogue(byte index)
+    public List<Dialogue> GetDialoguesForEditor()
     {
-        Dialogue temp = new Dialogue();
-        temp.Branches = new List<BranchDialogue>();
-        _dialogues.Insert(index, temp);
+        List<Dialogue> result = new List<Dialogue>();
+        foreach (Dialogue action in _dialogues)
+        {
+            result.Add(action);
+        }
+        return result;
     }
 
 
-    public void DeleteDialogue(byte index)
+    public void SetDialogues(Dialogue[] actions)
     {
-        _dialogues.RemoveAt(index);
-    }
-
-
-    public List<Dialogue> GetDialogueScriptForEditor()
-    {
-        return _dialogues;
-    }
-
-
-    public void MoveDialogue(byte from, byte to)
-    {
-        Dialogue temp = _dialogues[from];
-        _dialogues.RemoveAt(from);
-        _dialogues.Insert(to, temp);
+        _dialogues = actions;
     }
 #endif
 

@@ -4,28 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Reflection;
 
 public class CutScene : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] private List<CutSceneAction> _actions = null;
+    [SerializeField] private CutSceneAction[] _actions = null;
     [SerializeField] private Image _skipImage = null;
     private byte _current = 0;
     private float _timer = 0.0f;
     private float _skip = 0.0f;
     private bool _skipPressed = false;
-
-#if UNITY_EDITOR
-    public List<CutSceneAction> Actions
-    {
-        set
-        {
-            _actions = value;
-        }
-    }
-#endif
 
 
 
@@ -49,27 +38,18 @@ public class CutScene : MonoBehaviour
 #if UNITY_EDITOR
     public List<CutSceneAction> GetActions()
     {
-        return _actions;
+        List<CutSceneAction> result = new List<CutSceneAction>();
+        foreach (CutSceneAction action in _actions)
+        {
+            result.Add(action);
+        }
+        return result;
     }
 
 
-    public void AddAction(byte index)
+    public void SetActions(CutSceneAction[] actions)
     {
-        _actions.Insert(index, new CutSceneAction());
-    }
-
-
-    public void DeleteAction(byte index)
-    {
-        _actions.RemoveAt(index);
-    }
-
-
-    public void MoveAction(byte from, byte to)
-    {
-        CutSceneAction temp = _actions[from];
-        _actions.RemoveAt(from);
-        _actions.Insert(to, temp);
+        _actions = actions;
     }
 #endif
 
@@ -181,7 +161,7 @@ public class CutScene : MonoBehaviour
     private void Update()
     {
 #if UNITY_EDITOR
-        if (_current >= _actions.Count)
+        if (_current >= _actions.Length)
         {
             Debug.LogError($"{name}: It has to load a map or disable/distroy this cut scene at the end.");
             enabled = false;
@@ -204,7 +184,7 @@ public class CutScene : MonoBehaviour
             _skipImage.fillAmount = _skip;
             if (_skip >= 1.0f)
             {
-                _current = (byte)(_actions.Count - 1);
+                _current = (byte)(_actions.Length - 1);
             }
         }
 

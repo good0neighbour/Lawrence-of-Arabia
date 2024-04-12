@@ -15,6 +15,7 @@ public class DialogueScreen : MonoBehaviour
     [SerializeField] private Image _charImage = null;
     [SerializeField] private Transform _charImageTrans = null;
     [SerializeField] private Transform _buttonParent = null;
+    [SerializeField] private AudioSource _audio = null;
     private List<DialogueScript.Dialogue> _script = null;
     private List<ButtonRef> _buttons = new List<ButtonRef>();
     private EventSceneBase _curEvent = null;
@@ -377,7 +378,8 @@ public class DialogueScreen : MonoBehaviour
     {
         if (_script[_dialogueIndex].Audio != null)
         {
-            AudioManager.Instance.PlayAudio(_script[_dialogueIndex].Audio);
+            _audio.clip = _script[_dialogueIndex].Audio;
+            _audio.Play();
         }
     }
 

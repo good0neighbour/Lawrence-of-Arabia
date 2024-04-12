@@ -62,14 +62,14 @@ public class StageTriggerEditor : Editor
                 Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger condition target added");
                 con.AddTarget();
                 _conditions[i] = con;
-                _trigger.Conditions = _conditions;
+                _trigger.SetConditions(_conditions.ToArray());
             }
             if (GUILayout.Button("Delete target at end"))
             {
                 Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger condition target deleted");
                 con.DeleteTarget();
                 _conditions[i] = con;
-                _trigger.Conditions = _conditions;
+                _trigger.SetConditions(_conditions.ToArray());
             }
             EditorGUILayout.EndHorizontal();
 
@@ -81,9 +81,9 @@ public class StageTriggerEditor : Editor
         if (GUILayout.Button("Add a Condition to end", GUILayout.MinHeight(30.0f)))
         {
             Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger condition added");
-            _trigger.AddConditions((byte)_conditions.Count);
+            _conditions.Add(new StageTrigger.ConditionInfo());
             _conCurrent = (byte)(_conditions.Count - 1);
-            _trigger.Conditions = _conditions;
+            _trigger.SetConditions(_conditions.ToArray());
         }
 
         EditorGUILayout.BeginHorizontal();
@@ -92,17 +92,17 @@ public class StageTriggerEditor : Editor
         if (_conCurrent <= _conditions.Count && GUILayout.Button("Add here", GUILayout.MaxWidth(100.0f)))
         {
             Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger condition added");
-            _trigger.AddConditions(_conCurrent);
+            _conditions.Insert(_conCurrent, new StageTrigger.ConditionInfo());
             _conCurrent = (byte)(_conditions.Count - 1);
-            _trigger.Conditions = _conditions;
+            _trigger.SetConditions(_conditions.ToArray());
         }
         if (_conCurrent < _conditions.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
         {
             Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger condition deleted");
-            _trigger.DeleteConditions(_conCurrent);
+            _conditions.RemoveAt(_conCurrent);
             _conCurrent = (byte)(_conditions.Count - 1);
             EditorUtility.SetDirty(_trigger);
-            _trigger.Conditions = _conditions;
+            _trigger.SetConditions(_conditions.ToArray());
         }
 
         EditorGUILayout.Space(20.0f);
@@ -114,8 +114,10 @@ public class StageTriggerEditor : Editor
         if (_conSwitchFrom < _conditions.Count && _conSwitchTo < _conditions.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
         {
             Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger condition moved");
-            _trigger.MoveConditions(_conSwitchFrom, _conSwitchTo);
-            _trigger.Conditions = _conditions;
+            StageTrigger.ConditionInfo temp = _conditions[_conSwitchFrom];
+            _conditions.RemoveAt(_conSwitchFrom);
+            _conditions.Insert(_conSwitchTo, temp);
+            _trigger.SetConditions(_conditions.ToArray());
         }
         EditorGUILayout.EndHorizontal();
     }
@@ -148,6 +150,7 @@ public class StageTriggerEditor : Editor
             if (EditorGUI.EndChangeCheck())
             {
                 _actions[i] = act;
+                _trigger.SetActions(_actions.ToArray());
                 EditorUtility.SetDirty(_trigger);
             }
             EditorGUILayout.EndHorizontal();
@@ -157,10 +160,10 @@ public class StageTriggerEditor : Editor
 
         if (GUILayout.Button("Add an Action to end", GUILayout.MinHeight(30.0f)))
         {
-            Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger action added");
-            _trigger.AddAction((byte)_actions.Count);
+            Undo.RecordObject(_trigger, $"{_trigger.name}: EventScene action added");
+            _actions.Add(new TriggerBase.TriggerAction());
             _actCurrent = (byte)(_actions.Count - 1);
-            _trigger.ActionsList = _actions;
+            _trigger.SetActions(_actions.ToArray());
         }
 
         EditorGUILayout.BeginHorizontal();
@@ -168,17 +171,17 @@ public class StageTriggerEditor : Editor
         _actCurrent = (byte)EditorGUILayout.IntField(_actCurrent, GUILayout.MaxWidth(30.0f));
         if (_actCurrent <= _actions.Count && GUILayout.Button("Add here", GUILayout.MaxWidth(100.0f)))
         {
-            Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger action added");
-            _trigger.AddAction(_actCurrent);
+            Undo.RecordObject(_trigger, $"{_trigger.name}: EventScene action added");
+            _actions.Insert(_actCurrent, new TriggerBase.TriggerAction());
             _actCurrent = (byte)(_actions.Count - 1);
-            _trigger.ActionsList = _actions;
+            _trigger.SetActions(_actions.ToArray());
         }
         if (_actCurrent < _actions.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
         {
-            Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger action deleted");
-            _trigger.DeleteAction(_actCurrent);
+            Undo.RecordObject(_trigger, $"{_trigger.name}: EventScene action deleted");
+            _actions.RemoveAt(_actCurrent);
             _actCurrent = (byte)(_actions.Count - 1);
-            _trigger.ActionsList = _actions;
+            _trigger.SetActions(_actions.ToArray());
         }
 
         EditorGUILayout.Space(10.0f);
@@ -190,8 +193,10 @@ public class StageTriggerEditor : Editor
         if (_actSwitchFrom < _actions.Count && _actSwitchTo < _actions.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
         {
             Undo.RecordObject(_trigger, $"{_trigger.name}: MapTrigger action moved");
-            _trigger.MoveAction(_actSwitchFrom, _actSwitchTo);
-            _trigger.ActionsList = _actions;
+            TriggerBase.TriggerAction temp = _actions[_actSwitchFrom];
+            _actions.RemoveAt(_actSwitchFrom);
+            _actions.Insert(_actSwitchTo, temp);
+            _trigger.SetActions(_actions.ToArray());
         }
         EditorGUILayout.EndHorizontal();
     }
