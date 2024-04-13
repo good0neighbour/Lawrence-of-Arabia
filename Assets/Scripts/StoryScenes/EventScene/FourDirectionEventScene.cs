@@ -1,11 +1,13 @@
-public class HoriaontalEventScene : EventSceneBase
+using UnityEngine;
+
+public class FourDirectionEventScene : EventSceneBase
 {
     /* ==================== Public Methods ==================== */
 
     public override void StartEventScene()
     {
         base.StartEventScene();
-        StageManagerBase.Instance.PauseGame(true);
+        TownManagerBase.Instance.PauseGame(true);
     }
 
 
@@ -13,8 +15,8 @@ public class HoriaontalEventScene : EventSceneBase
 
     protected override void EndEventScene()
     {
-        CameraHorizontalMovement.Instance.TargetChange(HorizontalPlayerControl.Instance.CameraPos);
-        StageManagerBase.Instance.PauseGame(false);
+        CameraFourDirectionMovement.Instance.TargetChange(FourDirectionPlayerControl.Instance.CameraPos);
+        TownManagerBase.Instance.PauseGame(false);
     }
 
 
@@ -23,23 +25,23 @@ public class HoriaontalEventScene : EventSceneBase
         switch (Actions[Current].Action)
         {
             case EventSceneActions.CameraMove:
-                CameraHorizontalMovement.Instance.TargetChange(Actions[Current].TargetTransform);
+                CameraFourDirectionMovement.Instance.TargetChange(Actions[Current].TargetTransform);
                 return;
 
             case EventSceneActions.NPCMove:
-                Actions[Current].TargetObject.GetComponent<EventNPCMovement>().SetGoal(Actions[Current].TargetTransform.position.x);
+                Actions[Current].TargetObject.GetComponent<EventNPCMovementFD>().SetGoal(Actions[Current].TargetTransform.position);
                 return;
 
-            case EventSceneActions.NPCJump:
-                Actions[Current].TargetObject.GetComponent<EventNPCMovement>().NPCJump(Actions[Current].TargetTransform.position.y);
+            case EventSceneActions.NPCLookAtTarget:
+                Actions[Current].TargetObject.GetComponent<EventNPCMovementFD>().NPCLookAt(Actions[Current].TargetTransform);
                 return;
 
-            case EventSceneActions.NPCLookAt:
-                Actions[Current].TargetObject.GetComponent<EventNPCMovement>().NPCLookAt(Actions[Current].TargetTransform);
+            case EventSceneActions.NPCLookAtPlayer:
+                Actions[Current].TargetObject.GetComponent<EventNPCMovementFD>().NPCLookAt(FourDirectionPlayerControl.Instance.transform);
                 return;
 
             case EventSceneActions.PlayerLookAt:
-                HorizontalPlayerControl.Instance.PlayerLookAt(Actions[Current].TargetTransform);
+                FourDirectionPlayerControl.Instance.PlayerLookAt(Actions[Current].TargetTransform);
                 return;
 
             case EventSceneActions.Enable:
@@ -63,9 +65,15 @@ public class HoriaontalEventScene : EventSceneBase
                 DialogueScreen.Instance.CloseDialogueScreen();
                 return;
 
-            case EventSceneActions.LoadNextScene:
-                StageManagerBase.Instance.LoadNextScene();
+#if UNITY_EDITOR
+            case EventSceneActions.NPCJump:
+                Debug.LogError("Cannot jump in FourDirection map.");
                 return;
+
+            case EventSceneActions.StageClear:
+                Debug.LogError("Cannot clear FourDirection map.");
+                return;
+#endif
         }
     }
 }

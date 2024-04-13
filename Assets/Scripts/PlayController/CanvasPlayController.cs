@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Reflection;
+using static Constants;
 
 public class CanvasPlayController : MonoBehaviour
 {
@@ -40,14 +40,14 @@ public class CanvasPlayController : MonoBehaviour
         {
             switch (index)
             {
-                case Constants.BUTTON_ATTACK:
+                case BUTTON_ATTACK:
                     return;
 
-                case Constants.BUTTON_INTERACT:
+                case BUTTON_INTERACT:
                     HorizontalPlayerControl.Instance.Interact();
                     return;
 
-                case Constants.BUTTON_EXTRA:
+                case BUTTON_EXTRA:
                     HorizontalPlayerControl.Instance.Extra();
                     return;
             }
@@ -59,14 +59,14 @@ public class CanvasPlayController : MonoBehaviour
     {
         switch (index)
         {
-            case Constants.BUTTON_ATTACK:
+            case BUTTON_ATTACK:
                 HorizontalPlayerControl.Instance.Attack();
                 return;
 
-            case Constants.BUTTON_INTERACT:
+            case BUTTON_INTERACT:
                 return;
 
-            case Constants.BUTTON_EXTRA:
+            case BUTTON_EXTRA:
                 return;
         }
     }
@@ -76,14 +76,14 @@ public class CanvasPlayController : MonoBehaviour
     {
         switch (index)
         {
-            case Constants.BUTTON_ATTACK:
+            case BUTTON_ATTACK:
                 HorizontalPlayerControl.Instance.AttackKeyUp();
                 return;
 
-            case Constants.BUTTON_INTERACT:
+            case BUTTON_INTERACT:
                 return;
 
-            case Constants.BUTTON_EXTRA:
+            case BUTTON_EXTRA:
                 return;
         }
     }
@@ -98,7 +98,7 @@ public class CanvasPlayController : MonoBehaviour
     public void SetCharacterButtons(Characters[] characters)
     {
         // Get character list
-        CharacterData.Character[] data = GameManager.Instance.GetCharacterList();
+        CharacterData.Character[] data = GameManager.Instance.CharacterData.GetCharacterList();
 
         // Set character Buttons
         for (byte i = 0; i < characters.Length; ++i)
@@ -111,9 +111,9 @@ public class CanvasPlayController : MonoBehaviour
 
         //Set default Character
         _characterBtns[0].Button.localScale = new Vector3(
-            Constants.PLAYCON_SELECTED_CHAR_SCALE,
-            Constants.PLAYCON_SELECTED_CHAR_SCALE,
-            Constants.PLAYCON_SELECTED_CHAR_SCALE
+            PLAYCON_SELECTED_CHAR_SCALE,
+            PLAYCON_SELECTED_CHAR_SCALE,
+            PLAYCON_SELECTED_CHAR_SCALE
         );
     }
 
@@ -129,9 +129,9 @@ public class CanvasPlayController : MonoBehaviour
         _characterBtns[_curChar].Button.localScale = Vector3.one;
         _curChar = index;
         _characterBtns[index].Button.localScale = new Vector3(
-            Constants.PLAYCON_SELECTED_CHAR_SCALE,
-            Constants.PLAYCON_SELECTED_CHAR_SCALE,
-            Constants.PLAYCON_SELECTED_CHAR_SCALE
+            PLAYCON_SELECTED_CHAR_SCALE,
+            PLAYCON_SELECTED_CHAR_SCALE,
+            PLAYCON_SELECTED_CHAR_SCALE
         );
     }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public class CameraFourDirectionMovement : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class CameraFourDirectionMovement : MonoBehaviour
 
         // Camera rotation
         transform.localRotation = Quaternion.Euler(
-            Constants.FD_CAM_ROT_OFFSET - Mathf.Atan(Constants.FD_CAM_OFFSET.x / Constants.FD_CAM_OFFSET.y) / Mathf.PI * 180.0f,
+            FD_CAM_ROT_OFFSET - Mathf.Atan(FD_CAM_OFFSET.x / FD_CAM_OFFSET.y) / Mathf.PI * 180.0f,
             0.0f,
             0.0f
         );
@@ -50,8 +51,8 @@ public class CameraFourDirectionMovement : MonoBehaviour
         // Camera position
         transform.position = Vector3.Lerp(
             transform.position,
-            _target.position + new Vector3(0.0f, Constants.FD_CAM_OFFSET.x, Constants.FD_CAM_OFFSET.y),
-            Constants.FD_CAM_SPEED
+            _target.position + new Vector3(0.0f, FD_CAM_OFFSET.x, FD_CAM_OFFSET.y),
+            FD_CAM_SPEED
         );
     }
 }

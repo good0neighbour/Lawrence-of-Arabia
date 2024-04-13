@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public class CameraHorizontalMovement : MonoBehaviour
 {
@@ -51,7 +52,7 @@ public class CameraHorizontalMovement : MonoBehaviour
     private void Update()
     {
         // Camer position
-        transform.position = Vector3.Lerp(transform.position, _target.position, Constants.HOR_CAM_SPEED);
+        transform.position = Vector3.Lerp(transform.position, _target.position, HOR_CAM_SPEED);
 
         // Background position
         Vector2 camPos = (Vector2)transform.position;

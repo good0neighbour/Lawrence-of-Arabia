@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using static Constants;
 
 public abstract class StageManagerBase : WorldManagerBase
 {
     /* ==================== Fields ==================== */
 
+    [SerializeField] protected GameObject _failureScreen = null;
     private List<EnemyBase> _enemies = new List<EnemyBase>();
 
     public static StageManagerBase Instance
@@ -53,6 +57,23 @@ public abstract class StageManagerBase : WorldManagerBase
     }
 
 
+    /// <summary>
+    /// Activates failure screen immediatley
+    /// </summary>
+    public void GameFailed()
+    {
+        Timer = 0.0f;
+        Delegate = null;
+        Delegate += ShowFailureScreen;
+    }
+
+
+    public void StageRestart()
+    {
+        LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+
 
     /* ==================== Protected Methods ==================== */
 
@@ -88,5 +109,27 @@ public abstract class StageManagerBase : WorldManagerBase
     {
         HorizontalPlayerControl.Instance.SetCharacters(GameManager.Instance.SelectedCharacters);
         CanvasPlayController.Instance.SetCharacterButtons(GameManager.Instance.SelectedCharacters);
+    }
+
+
+
+    /* ==================== Abstract Methods ==================== */
+
+    public abstract void StageClear();
+
+
+    public abstract void StageReturn();
+
+
+
+    /* ==================== Private Methods ==================== */
+
+    private void ShowFailureScreen()
+    {
+        Timer += Time.deltaTime;
+        if (Timer >= PLAYER_DEATH_STANDBY_TIME)
+        {
+            _failureScreen.SetActive(true);
+        }
     }
 }

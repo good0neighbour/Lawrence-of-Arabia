@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void GameDelegate();
@@ -9,7 +8,6 @@ public class GameManager
     /* ==================== Fields ==================== */
 
     private static GameManager _instance = null;
-    private CharacterData _characterData = null;
 
     public static GameManager Instance
     {
@@ -27,25 +25,34 @@ public class GameManager
         }
     }
 
+    public CharacterData CharacterData
+    {
+        get;
+        private set;
+    }
+
+    public NPCData NPCData
+    {
+        get;
+        private set;
+    }
+
+    public GameData GameData
+    {
+        get;
+        private set;
+    }
+
     public Characters[] SelectedCharacters
     {
         get;
         set;
     }
 
-
-
-    /* ==================== Public Methods ==================== */
-
-    public CharacterData.Character[] GetCharacterList()
+    public Factions CurrentMission
     {
-        return _characterData.GetCharacterList();
-    }
-
-
-    public List<CharacterData.Character> GetActiveCharacterList()
-    {
-        return _characterData.GetActiveCharacterList();
+        get;
+        set;
     }
 
 
@@ -54,7 +61,10 @@ public class GameManager
 
     private GameManager()
     {
-        _characterData = Resources.Load<CharacterData>("CharacterData");
-        _characterData.CharacterDataPreparation();
+        CharacterData = Resources.Load<CharacterData>("CharacterData");
+        CharacterData.CharacterDataPreparation();
+        NPCData = Resources.Load<NPCData>("NPCData");
+        NPCData.NPCDataPreparation();
+        GameData = Resources.Load<GameData>("GameData");
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public class PlayerTrigger : TriggerBase
 {
@@ -30,7 +31,7 @@ public class PlayerTrigger : TriggerBase
         switch (_triggerType)
         {
             case TriggerTypes.Enter:
-                if (collision.gameObject.layer == Constants.LAYER_D_PLAYER)
+                if (collision.gameObject.layer == LAYER_D_PLAYER)
                 {
                     ActiveTrigger();
                 }
@@ -51,7 +52,7 @@ public class PlayerTrigger : TriggerBase
         switch (_triggerType)
         {
             case TriggerTypes.Exit:
-                if (collision.gameObject.layer == Constants.LAYER_D_PLAYER)
+                if (collision.gameObject.layer == LAYER_D_PLAYER)
                 {
                     ActiveTrigger();
                 }

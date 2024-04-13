@@ -1,11 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-public class TownManager : WorldManagerBase
+public abstract class TownManagerBase : WorldManagerBase
 {
     /* ==================== Fields ==================== */
 
-    public static TownManager Instance
+    public static TownManagerBase Instance
     {
         get;
         private set;

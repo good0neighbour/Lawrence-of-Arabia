@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ba76353eae35e4da86a8fca3538f45, type: 3}
+  m_Name: DialogueScript 1
+  m_EditorClassIdentifier: 
+  _dialogues:
+  - Type: 0
+    Name: 
+    NameColour: 0
+    Image: {fileID: 0}
+    ImageDirection: 0
+    Text: Dialogue1
+    Audio: {fileID: 0}
+    Branches: []

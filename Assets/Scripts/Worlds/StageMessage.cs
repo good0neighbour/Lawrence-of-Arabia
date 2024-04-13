@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static Constants;
 
 public class StageMessage : MonoBehaviour
 {
@@ -61,7 +62,7 @@ public class StageMessage : MonoBehaviour
     {
         if (_timer < 1.0f)
         {
-            _timer += Time.deltaTime * Constants.STGMSG_SPEED;
+            _timer += Time.deltaTime * STGMSG_SPEED;
             if (_timer >= 1.0f)
             {
                 _messageText.color = Color.white;
@@ -71,10 +72,10 @@ public class StageMessage : MonoBehaviour
                 _messageText.color = new Color(1.0f, 1.0f, 1.0f, _timer);
             }
         }
-        else if (_timer > 1.0f + Constants.STGMSG_SHOW_TIMER)
+        else if (_timer > 1.0f + STGMSG_SHOW_TIMER)
         {
-            _timer += Time.deltaTime * Constants.STGMSG_SPEED;
-            if (_timer >= 2.0f + Constants.STGMSG_SHOW_TIMER)
+            _timer += Time.deltaTime * STGMSG_SPEED;
+            if (_timer >= 2.0f + STGMSG_SHOW_TIMER)
             {
                 _messageText.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
                 if (_queue.Count > 0)
@@ -89,12 +90,12 @@ public class StageMessage : MonoBehaviour
             }
             else
             {
-                _messageText.color = new Color(1.0f, 1.0f, 1.0f, 2.0f + Constants.STGMSG_SHOW_TIMER - _timer);
+                _messageText.color = new Color(1.0f, 1.0f, 1.0f, 2.0f + STGMSG_SHOW_TIMER - _timer);
             }
         }
         else
         {
-            _timer += Time.deltaTime * Constants.STGMSG_SPEED;
+            _timer += Time.deltaTime * STGMSG_SPEED;
         }
     }
 }

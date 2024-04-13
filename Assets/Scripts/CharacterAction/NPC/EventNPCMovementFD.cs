@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static Constants;
 
 public class EventNPCMovementFD : MonoBehaviour
 {
@@ -93,7 +94,7 @@ public class EventNPCMovementFD : MonoBehaviour
     private void Update()
     {
         // Animation
-        _animator.SetFloat("Velocity", Mathf.Abs(_agent.velocity.magnitude * Constants.ENEMY_ANIM_MULT));
+        _animator.SetFloat("Velocity", Mathf.Abs(_agent.velocity.magnitude * ENEMY_ANIM_MULT));
         if (_agent.velocity.x > 0.0f)
         {
             _sprite.localRotation = Quaternion.Euler(_defaultRot, 0f, 0f);
@@ -106,7 +107,7 @@ public class EventNPCMovementFD : MonoBehaviour
         if (_isMoving && _agent.hasPath)
         {
             Vector2 temp = new Vector2(_agent.destination.x - transform.position.x, _agent.destination.z - transform.position.z);
-            if (temp.x * temp.x + temp.y * temp.y < Constants.CHAR_INTERACTION_DISTANCE)
+            if (temp.x * temp.x + temp.y * temp.y < PLAYER_INTERACTION_DISTANCE)
             {
                 _agent.ResetPath();
                 _isMoving = false;

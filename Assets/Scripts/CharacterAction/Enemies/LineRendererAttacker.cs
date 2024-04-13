@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public class LineRendererAttacker : EnemyBase
 {
@@ -22,7 +23,7 @@ public class LineRendererAttacker : EnemyBase
             ),
             new Vector2(
                 Player.position.x,
-                Player.position.y + Constants.CHAR_RADIUS
+                Player.position.y + PLAYER_RADIUS
             )
         );
 
@@ -30,7 +31,7 @@ public class LineRendererAttacker : EnemyBase
         HorizontalPlayerControl.Instance.Hit(AttackDamage, IsFlipNum);
 
         // Return
-        return Constants.SUCCESS;
+        return SUCCESS;
     }
 
 

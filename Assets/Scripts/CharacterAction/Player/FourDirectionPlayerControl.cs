@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static Constants;
 
 public class FourDirectionPlayerControl : MonoBehaviour
 {
@@ -68,7 +69,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
     {
         if (active)
         {
-            CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_INTERACT, true);
+            CanvasPlayController.Instance.SetBtnActive(BUTTON_INTERACT, true);
             _interactableObject.Add(target);
             _isInteractable = true;
         }
@@ -77,7 +78,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
             _interactableObject.Remove(target);
             if (_interactableObject.Count == 0)
             {
-                CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_INTERACT, false);
+                CanvasPlayController.Instance.SetBtnActive(BUTTON_INTERACT, false);
                 _isInteractable = false;
             }
         }
@@ -142,7 +143,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
                 _interactionPoint.x - transform.position.x,
                 _interactionPoint.y - transform.position.z
             );
-            if (temp.x * temp.x + temp.y * temp.y <= Constants.CHAR_INTERACTION_DISTANCE)
+            if (temp.x * temp.x + temp.y * temp.y <= PLAYER_INTERACTION_DISTANCE)
             {
                 _agent.ResetPath();
                 _interaction.Invoke();
@@ -196,12 +197,12 @@ public class FourDirectionPlayerControl : MonoBehaviour
             _interaction = null;
             _isReserved = false;
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
-            if (hit.collider.includeLayers == Constants.LAYER_B_WALL)
+            if (hit.collider.includeLayers == LAYER_B_WALL)
             {
                 // Move
                 PlayerSetDestination(hit.point.x, hit.point.z);
             }
-            else if (hit.collider.includeLayers == Constants.LAYER_B_PLATFORM)
+            else if (hit.collider.includeLayers == LAYER_B_PLATFORM)
             {
                 // Interact
                 _interactableObject.Add(hit.collider.GetComponent<InteractableObjectBase>());

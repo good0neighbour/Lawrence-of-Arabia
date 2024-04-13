@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public class HorizontalMovement : MonoBehaviour
 {
@@ -42,9 +43,9 @@ public class HorizontalMovement : MonoBehaviour
     protected void SetPosition(float weightX)
     {
         // Delta time limit
-        if (Time.deltaTime >= Constants.DELTA_TIME_LIMIT)
+        if (Time.deltaTime >= DELTA_TIME_LIMIT)
         {
-            DeltaTime = Constants.DELTA_TIME_LIMIT;
+            DeltaTime = DELTA_TIME_LIMIT;
         }
         else
         {
@@ -54,7 +55,7 @@ public class HorizontalMovement : MonoBehaviour
         // Position
         _jumpState.Invoke();
         transform.localPosition = new Vector3(
-            transform.localPosition.x + weightX * DeltaTime * Constants.CHAR_VEL,
+            transform.localPosition.x + weightX * DeltaTime * PLAYER_VEL,
             transform.localPosition.y + _velocityY * DeltaTime,
             0.0f
         );
@@ -63,7 +64,7 @@ public class HorizontalMovement : MonoBehaviour
         switch (Physics2D.OverlapArea(
                 (Vector2)transform.position + new Vector2(-0.48f, 0.5f),
                 (Vector2)transform.position + new Vector2(0.48f, 0.4f),
-                Constants.LAYER_B_WALL))
+                LAYER_B_WALL))
         {
             case null:
                 return;
@@ -110,7 +111,7 @@ public class HorizontalMovement : MonoBehaviour
                     // Cannot up jump under BaseGround
                     return;
                 }
-                _velocityY = Constants.CHAR_JUMP_SPEED;
+                _velocityY = PLAYER_JUMP_SPEED;
                 _jumpState = JumpUp;
                 IsGrounded = false;
             }
@@ -144,9 +145,9 @@ public class HorizontalMovement : MonoBehaviour
     private bool DetectIsCeiled()
     {
         Collider2D ceiling = Physics2D.OverlapArea(
-            (Vector2)transform.position + new Vector2(-Constants.CHAR_FEET_SIZE, 1.01f),
-            (Vector2)transform.position + new Vector2(Constants.CHAR_FEET_SIZE, 0.99f),
-            Constants.LAYER_B_TERRAIN
+            (Vector2)transform.position + new Vector2(-PLAYER_FEET_SIZE, 1.01f),
+            (Vector2)transform.position + new Vector2(PLAYER_FEET_SIZE, 0.99f),
+            LAYER_B_TERRAIN
         );
         if (ceiling == null)
         {
@@ -166,9 +167,9 @@ public class HorizontalMovement : MonoBehaviour
     private Collider2D DetectGround()
     {
         return Physics2D.OverlapArea(
-            (Vector2)transform.position + new Vector2(-Constants.CHAR_FEET_SIZE, 0.1f),
-            (Vector2)transform.position + new Vector2(Constants.CHAR_FEET_SIZE, -0.01f),
-            Constants.LAYER_B_TERRAIN
+            (Vector2)transform.position + new Vector2(-PLAYER_FEET_SIZE, 0.1f),
+            (Vector2)transform.position + new Vector2(PLAYER_FEET_SIZE, -0.01f),
+            LAYER_B_TERRAIN
         );
     }
 
@@ -207,7 +208,7 @@ public class HorizontalMovement : MonoBehaviour
             _velocityY = 0.0f;
             return;
         }
-        _velocityY = _velocityY + Constants.GRAVITY_ACCELERATION * DeltaTime;
+        _velocityY = _velocityY + GRAVITY_ACCELERATION * DeltaTime;
     }
 
 
@@ -226,9 +227,9 @@ public class HorizontalMovement : MonoBehaviour
             IsGrounded = true;
             return;
         }
-        else if (_velocityY > Constants.CHAR_MAX_FALLING_VEL)
+        else if (_velocityY > PLAYER_MAX_FALLING_VEL)
         {
-            _velocityY = _velocityY + Constants.GRAVITY_ACCELERATION * DeltaTime;
+            _velocityY = _velocityY + GRAVITY_ACCELERATION * DeltaTime;
         }
     }
 }

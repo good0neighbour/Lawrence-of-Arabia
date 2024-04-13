@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public abstract class InteractableObjectBase : TriggerBase
 {
@@ -31,7 +32,7 @@ public abstract class InteractableObjectBase : TriggerBase
 
     private void Awake()
     {
-        GetComponent<Collider>().includeLayers = Constants.LAYER_B_PLATFORM;
+        GetComponent<Collider>().includeLayers = LAYER_B_PLATFORM;
         _interactableRadius = _interactableRadius * _interactableRadius;
     }
 

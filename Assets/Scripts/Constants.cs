@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class Constants
 {
-    // Character Settings
-    public const float CHAR_VEL = 4.0f;
-    public const float CHAR_JUMP_SPEED = 12.0f;
-    public const float CHAR_MAX_FALLING_VEL = -10.0f;
-    public const float CHAR_FEET_SIZE = 0.1f;
-    public const float CHAR_KNOCKBACK_AMOUNT = 2.0f;
-    public const float CHAR_KNOCKBACK_ACC = 6.0f;
-    public const float CHAR_INTERACTION_DISTANCE = 0.01f;
-    public const float CHAR_RADIUS = 0.5f;
-    public const float CHAR_IMMUNE_TIME = 3.0f;
-    public const float CHAR_DEATH_STANDBY_TIME = 3.0f;
-    public static readonly Vector2 CHAR_ATKEFT_POS = new Vector2(0.4f, 0.6f);
+    // Player Settings
+    public const float PLAYER_VEL = 4.0f;
+    public const float PLAYER_JUMP_SPEED = 12.0f;
+    public const float PLAYER_MAX_FALLING_VEL = -10.0f;
+    public const float PLAYER_FEET_SIZE = 0.1f;
+    public const float PLAYER_KNOCKBACK_AMOUNT = 2.0f;
+    public const float PLAYER_KNOCKBACK_ACC = 6.0f;
+    public const float PLAYER_INTERACTION_DISTANCE = 0.01f;
+    public const float PLAYER_RADIUS = 0.5f;
+    public const float PLAYER_IMMUNE_TIME = 3.0f;
+    public const float PLAYER_DEATH_STANDBY_TIME = 3.0f;
+    public static readonly Vector2 PLAYER_ATKEFT_POS = new Vector2(0.4f, 0.6f);
 
     // Enemy Settings
     public const float ENEMY_SILENCE_TIMER = 3.0f;
@@ -75,6 +75,10 @@ public class Constants
     public const ushort WEAPON_PISTOL_DAMAGE = 1;
     public const float WEAPON_PISTOL_RANGE = 3.0f;
     public const float WEAPON_PISTOL_TIME = 0.75f;
+
+    // Character Settings
+    public const byte CHAR_MID_TRUST = 40;
+    public const byte CHAR_HIGH_TRUST = 80;
 
     // Audio Settings
     public const byte SOUND_CHANNEL = 4;

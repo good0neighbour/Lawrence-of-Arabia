@@ -65,8 +65,8 @@ public class TriggerBase : MonoBehaviour
 #endif
                     break;
 
-                    case ActionTypes.LoadNextScene:
-                        StageManagerBase.Instance.LoadNextScene();
+                    case ActionTypes.StageClear:
+                        StageManagerBase.Instance.StageClear();
                         break;
             }
         }

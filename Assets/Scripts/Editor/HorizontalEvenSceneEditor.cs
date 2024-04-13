@@ -28,7 +28,7 @@ public class HoriaontalEventSceneEditor : ListEditorBase
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Action Type", GUILayout.MaxWidth(120.0f));
             EditorGUI.BeginChangeCheck();
-            element.Action = (EventSceneActions)EditorGUILayout.EnumPopup(element.Action, GUILayout.MaxWidth(120.0f));
+            element.Action = (EventSceneActions)EditorGUILayout.EnumPopup(element.Action, GUILayout.MaxWidth(150.0f));
             EditorGUILayout.EndHorizontal();
 
             switch (element.Action)
@@ -62,7 +62,7 @@ public class HoriaontalEventSceneEditor : ListEditorBase
                     EditorGUILayout.EndHorizontal();
                     break;
 
-                case EventSceneActions.NPCLookAt:
+                case EventSceneActions.NPCLookAtTarget:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
                     element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
@@ -70,6 +70,13 @@ public class HoriaontalEventSceneEditor : ListEditorBase
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Look at", GUILayout.MaxWidth(120.0f));
                     element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
+                    EditorGUILayout.EndHorizontal();
+                    break;
+
+                case EventSceneActions.NPCLookAtPlayer:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
@@ -104,12 +111,12 @@ public class HoriaontalEventSceneEditor : ListEditorBase
                 case EventSceneActions.StartDialogue:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Dialogue Script", GUILayout.MaxWidth(120.0f));
-                    element.DialogueScript = (DialogueScript)EditorGUILayout.ObjectField(element.DialogueScript, typeof(DialogueScript), true);
+                    element.DialogueScript = (DialogueBase)EditorGUILayout.ObjectField(element.DialogueScript, typeof(DialogueBase), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
                 case EventSceneActions.CloseDialogue:
-                case EventSceneActions.LoadNextScene:
+                case EventSceneActions.StageClear:
                     break;
             }
 

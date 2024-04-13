@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DialogueScript", menuName = "Lawrence of Arabia/DialogueScript")]
-public class DialogueScript : ScriptableObject
+public class DialogueScript : DialogueBase
 {
     /* ==================== Fields ==================== */
 
@@ -13,7 +13,7 @@ public class DialogueScript : ScriptableObject
 
     /* ==================== Public Methods ==================== */
 
-    public List<Dialogue> GetDialogueScript()
+    public override List<Dialogue> GetDialogueScript()
     {
         List<Dialogue> result = new List<Dialogue>();
         foreach (var dialogue in _dialogues)

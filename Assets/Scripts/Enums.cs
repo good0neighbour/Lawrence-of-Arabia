@@ -42,7 +42,7 @@ public enum ActionTypes
     Delete,
     PlayerTeleport,
     StartEventScene,
-    LoadNextScene
+    StageClear
 }
 
 
@@ -59,14 +59,15 @@ public enum EventSceneActions
     CameraMove,
     NPCMove,
     NPCJump,
-    NPCLookAt,
+    NPCLookAtTarget,
+    NPCLookAtPlayer,
     PlayerLookAt,
     Enable,
     Disable,
     Destroy,
     StartDialogue,
     CloseDialogue,
-    LoadNextScene
+    StageClear
 }
 
 
@@ -126,8 +127,27 @@ public enum CharacterWeapons
 }
 
 
+public enum NPCs
+{
+    BabyPhi
+}
+
+
 public enum LanguageTypes
 {
     Korean,
     English
+}
+
+
+public enum Factions
+{
+    Main
+}
+
+
+public enum MainFaction
+{
+    FirstStart,
+    Intro
 }

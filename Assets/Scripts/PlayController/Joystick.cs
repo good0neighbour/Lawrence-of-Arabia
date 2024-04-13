@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public class Joystick : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class Joystick : MonoBehaviour
     private Vector2 _joystickControl = Vector2.zero;
     private sbyte _directionX = 0;
     private sbyte _directionY = 0;
-    private byte _joystickState = Constants.JOYSTICK_UNAVAILABLE;
+    private byte _joystickState = JOYSTICK_UNAVAILABLE;
     private float _handleDistance = 0.0f;
 
     public Vector2 JoystickWeight
@@ -46,7 +47,7 @@ public class Joystick : MonoBehaviour
         _initialPosition = (Vector2)Input.mousePosition;
         _initialHandlePosition = _handle.localPosition;
         _joystickStateDel = JoystickDrag;
-        _joystickState = Constants.JOYSTICK_DRAGGING;
+        _joystickState = JOYSTICK_DRAGGING;
         JoystickPressing = true;
     }
 
@@ -67,7 +68,7 @@ public class Joystick : MonoBehaviour
             _joystickStateDel = JoystickRelease;
         }
 
-        _joystickState = Constants.JOYSTICK_STANDINGBY;
+        _joystickState = JOYSTICK_STANDINGBY;
         JoystickPressing = false;
     }
 
@@ -79,13 +80,13 @@ public class Joystick : MonoBehaviour
     {
         if (active)
         {
-            _joystickState = Constants.JOYSTICK_STANDINGBY;
+            _joystickState = JOYSTICK_STANDINGBY;
         }
         else
         {
-            _joystickState = Constants.JOYSTICK_STANDINGBY;
+            _joystickState = JOYSTICK_STANDINGBY;
             SetJoystickDirection(0, 0);
-            _joystickState = Constants.JOYSTICK_UNAVAILABLE;
+            _joystickState = JOYSTICK_UNAVAILABLE;
         }
     }
 
@@ -171,7 +172,7 @@ public class Joystick : MonoBehaviour
     {
         switch (_joystickState)
         {
-            case Constants.JOYSTICK_KEYBOARD:
+            case JOYSTICK_KEYBOARD:
                 _joystickStateDel = JoystickStandby;
                 JoystickStandby();
                 return;
@@ -179,8 +180,8 @@ public class Joystick : MonoBehaviour
             default:
                 // Handle returning to the origin
                 _handle.localPosition = new Vector3(
-                    _handle.localPosition.x + _initialPosition.x / _handleDistance * Constants.JOYSTICK_RELEASING_SPEED * Time.deltaTime,
-                    _handle.localPosition.y + _initialPosition.y / _handleDistance * Constants.JOYSTICK_RELEASING_SPEED * Time.deltaTime,
+                    _handle.localPosition.x + _initialPosition.x / _handleDistance * JOYSTICK_RELEASING_SPEED * Time.deltaTime,
+                    _handle.localPosition.y + _initialPosition.y / _handleDistance * JOYSTICK_RELEASING_SPEED * Time.deltaTime,
                     0.0f
                 );
 
@@ -202,11 +203,11 @@ public class Joystick : MonoBehaviour
     {
         switch (_joystickState)
         {
-            case Constants.JOYSTICK_KEYBOARD:
+            case JOYSTICK_KEYBOARD:
                 // Joystick weight change
                 JoystickWeight = new Vector3(
-                    JoystickWeight.x + _initialPosition.x / _handleDistance * Constants.JOYSTICK_CONTROL_SPEED * Time.deltaTime,
-                    JoystickWeight.y + _initialPosition.y / _handleDistance * Constants.JOYSTICK_CONTROL_SPEED * Time.deltaTime,
+                    JoystickWeight.x + _initialPosition.x / _handleDistance * JOYSTICK_CONTROL_SPEED * Time.deltaTime,
+                    JoystickWeight.y + _initialPosition.y / _handleDistance * JOYSTICK_CONTROL_SPEED * Time.deltaTime,
                     0.0f
                 );
 
@@ -214,7 +215,7 @@ public class Joystick : MonoBehaviour
                 if (_initialPosition.x * (_joystickControl.x - JoystickWeight.x) < 0.0f || _initialPosition.y * (_joystickControl.y - JoystickWeight.y) < 0.0f)
                 {
                     JoystickWeight = _joystickControl;
-                    _joystickState = Constants.JOYSTICK_STANDINGBY;
+                    _joystickState = JOYSTICK_STANDINGBY;
                 }
 
                 // Handle Position
@@ -228,8 +229,8 @@ public class Joystick : MonoBehaviour
     {
         switch (_joystickState)
         {
-            case Constants.JOYSTICK_DRAGGING:
-            case Constants.JOYSTICK_UNAVAILABLE:
+            case JOYSTICK_DRAGGING:
+            case JOYSTICK_UNAVAILABLE:
                 return;
 
             default:
@@ -250,7 +251,7 @@ public class Joystick : MonoBehaviour
 
                 _initialPosition = _joystickControl - JoystickWeight;
                 _handleDistance = length;
-                _joystickState = Constants.JOYSTICK_KEYBOARD;
+                _joystickState = JOYSTICK_KEYBOARD;
                 JoystickPressing = true;
                 return;
         }

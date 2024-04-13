@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Constants;
 
 public class HorizontalPlayerControl : HorizontalMovement, IHit
 {
@@ -78,7 +79,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             Transform bloodTrans = StageManagerBase.ObjectPool.GetObject(_bloodEftPrefab);
             bloodTrans.position = new Vector3(
                 transform.position.x,
-                transform.position.y + Constants.CHAR_RADIUS,
+                transform.position.y + PLAYER_RADIUS,
                 0.0f
             );
             bloodTrans.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f * direction);
@@ -107,11 +108,11 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         // KnockBack
         if (direction >= 0.0f)
         {
-            _knockback = Constants.CHAR_KNOCKBACK_AMOUNT;
+            _knockback = PLAYER_KNOCKBACK_AMOUNT;
         }
         else
         {
-            _knockback = -Constants.CHAR_KNOCKBACK_AMOUNT;
+            _knockback = -PLAYER_KNOCKBACK_AMOUNT;
         }
     }
 
@@ -125,8 +126,8 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
         _weapons[(int)_characters[_curChar].Weapon].Attack(
             new Vector2(
-                transform.position.x + Constants.CHAR_ATKEFT_POS.x * IsFlipNum,
-                transform.position.y + Constants.CHAR_ATKEFT_POS.y
+                transform.position.x + PLAYER_ATKEFT_POS.x * IsFlipNum,
+                transform.position.y + PLAYER_ATKEFT_POS.y
             ),
             IsFlipNum,
             _characters[_curChar].Range,
@@ -165,7 +166,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     {
         if (active)
         {
-            CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_INTERACT, true);
+            CanvasPlayController.Instance.SetBtnActive(BUTTON_INTERACT, true);
             _interaction = true;
             _onInteract.Add(action);
         }
@@ -174,7 +175,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             _onInteract.Remove(action);
             if (_onInteract.Count == 0)
             {
-                CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_INTERACT, false);
+                CanvasPlayController.Instance.SetBtnActive(BUTTON_INTERACT, false);
                 _interaction = false;
             }
         }
@@ -197,7 +198,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     public void SetCharacters(Characters[] characters)
     {
         // Get character list
-        CharacterData.Character[] data = GameManager.Instance.GetCharacterList();
+        CharacterData.Character[] data = GameManager.Instance.CharacterData.GetCharacterList();
 
         _characters = new CurrentCharacter[characters.Length];
         for (byte i = 0; i < characters.Length; ++i)
@@ -246,11 +247,11 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         CanvasPlayController.Instance.CharacterChange(index);
         if (_characters[_curChar].Weapon == CharacterWeapons.None)
         {
-            CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_ATTACK, false);
+            CanvasPlayController.Instance.SetBtnActive(BUTTON_ATTACK, false);
         }
         else
         {
-            CanvasPlayController.Instance.SetBtnActive(Constants.BUTTON_ATTACK, true);
+            CanvasPlayController.Instance.SetBtnActive(BUTTON_ATTACK, true);
         }
 
         // Effect play
@@ -348,7 +349,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         }
 
         // Character switch stand by
-        while (timer < Constants.CHAR_DEATH_STANDBY_TIME)
+        while (timer < PLAYER_DEATH_STANDBY_TIME)
         {
             timer += Time.deltaTime;
             yield return null;
@@ -378,18 +379,18 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         // Jump
         if (_jumpAvailable)
         {
-            if (joystick.y > Constants.JOYSTICK_JUMP_WEIGHT)
+            if (joystick.y > JOYSTICK_JUMP_WEIGHT)
             {
                 Jump(true);
                 _jumpAvailable = false;
             }
-            else if (joystick.y < -Constants.JOYSTICK_JUMP_WEIGHT)
+            else if (joystick.y < -JOYSTICK_JUMP_WEIGHT)
             {
                 Jump(false);
                 _jumpAvailable = false;
             }
         }
-        else if (joystick.y < Constants.JOYSTICK_JUMP_WEIGHT && joystick.y > -Constants.JOYSTICK_JUMP_WEIGHT)
+        else if (joystick.y < JOYSTICK_JUMP_WEIGHT && joystick.y > -JOYSTICK_JUMP_WEIGHT)
         {
             _jumpAvailable = true;
         }
@@ -399,8 +400,8 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
         // Camera position
         _cameraPos.localPosition = new Vector3(
-            Constants.HOR_CAM_OFFSET.x * IsFlipNum,
-            Constants.HOR_CAM_OFFSET.y,
+            HOR_CAM_OFFSET.x * IsFlipNum,
+            HOR_CAM_OFFSET.y,
             0.0f
         );
 
@@ -437,7 +438,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 );
                 if (_knockback > 0.0f)
                 {
-                    _knockback -= Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    _knockback -= PLAYER_KNOCKBACK_ACC * DeltaTime;
                     if (_knockback < 0.0f)
                     {
                         _knockback = 0.0f;
@@ -445,7 +446,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 }
                 else
                 {
-                    _knockback += Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    _knockback += PLAYER_KNOCKBACK_ACC * DeltaTime;
                     if (_knockback > 0.0f)
                     {
                         _knockback = 0.0f;
@@ -507,7 +508,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         if (_immune)
         {
             _immuneTimer += DeltaTime;
-            if (_immuneTimer >= Constants.CHAR_IMMUNE_TIME)
+            if (_immuneTimer >= PLAYER_IMMUNE_TIME)
             {
                 _immune = false;
             }

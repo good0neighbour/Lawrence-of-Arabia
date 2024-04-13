@@ -36,12 +36,6 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
     }
 
 
-    public void SetDialogue(byte index, DialogueScript script)
-    {
-        Actions[index].DialogueScript = script;
-    }
-
-
 #if UNITY_EDITOR
     public List<EventSceneAction> GetActions()
     {
@@ -110,6 +104,6 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
         public GameObject TargetObject;
         public Transform TargetTransform;
         public float Duration;
-        public DialogueScript DialogueScript;
+        public DialogueBase DialogueScript;
     }
 }

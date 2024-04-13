@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public class EventNPCMovement : HorizontalMovement
 {
@@ -153,7 +154,7 @@ public class EventNPCMovement : HorizontalMovement
         {
             if (IsGrounded)
             {
-                _animator.SetFloat("Velocity", Mathf.Abs(_velocity * Constants.ENEMY_ANIM_MULT));
+                _animator.SetFloat("Velocity", Mathf.Abs(_velocity * ENEMY_ANIM_MULT));
             }
             else
             {

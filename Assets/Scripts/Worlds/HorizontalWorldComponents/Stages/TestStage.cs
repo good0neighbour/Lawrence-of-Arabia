@@ -1,18 +1,32 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using UnityEngine;
+using static Constants;
 
 public class TestStage : StageManagerBase
 {
+    public override void StageClear()
+    {
+        Debug.Log("Stage Clear");
+    }
+
+
+    public override void StageReturn()
+    {
+        Debug.Log("Return");
+    }
+
+
     protected override void Start()
     {
         // Get active character
-        List<CharacterData.Character> temp = GameManager.Instance.GetActiveCharacterList();
+        CharacterData.Character[] temp = GameManager.Instance.CharacterData.GetCharacterList();
 
         // Set character data
         List<Characters> characters = new List<Characters>();
-        for (byte i = 0; i < Constants.HS_MAX_CHARACTER; ++i)
+        for (byte i = 0; i < HS_MAX_CHARACTER; ++i)
         {
-            if (i == temp.Count)
+            if (i == temp.Length)
             {
                 break;
             }

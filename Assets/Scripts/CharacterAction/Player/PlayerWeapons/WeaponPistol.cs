@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Constants;
 
 public class WeaponPistol : PlayerWeaponBase
 {
@@ -14,7 +15,7 @@ public class WeaponPistol : PlayerWeaponBase
     {
         _prefab = Resources.Load<GameObject>("PlayerWeapons/PistolEffect");
         StageManagerBase.ObjectPool.PoolPreparing(_prefab);
-        AttackTime = Constants.WEAPON_PISTOL_TIME;
+        AttackTime = WEAPON_PISTOL_TIME;
     }
 
 
@@ -28,10 +29,10 @@ public class WeaponPistol : PlayerWeaponBase
         IsPressed = true;
 
         // Range
-        range = Constants.WEAPON_PISTOL_RANGE + Constants.WEAPON_PISTOL_RANGE * range;
+        range = WEAPON_PISTOL_RANGE + WEAPON_PISTOL_RANGE * range;
 
         // Hit scan
-        RaycastHit2D hit = Physics2D.Raycast(pos, new Vector2(direction, 0.0f), range, Constants.LAYER_B_ENEMY + Constants.LAYER_B_TERRAIN);
+        RaycastHit2D hit = Physics2D.Raycast(pos, new Vector2(direction, 0.0f), range, LAYER_B_ENEMY + LAYER_B_TERRAIN);
 
         // Attack effect
         LineRendererAttackEffect eft = StageManagerBase.ObjectPool.GetObject(_prefab).GetComponent<LineRendererAttackEffect>();
@@ -57,9 +58,9 @@ public class WeaponPistol : PlayerWeaponBase
 
             // Deal Damage
             GameObject target = hit.collider.gameObject;
-            if (target.layer == Constants.LAYER_D_ENEMY)
+            if (target.layer == LAYER_D_ENEMY)
             {
-                target.GetComponent<IHit>().Hit((ushort)(damage + Constants.WEAPON_PISTOL_DAMAGE), direction);
+                target.GetComponent<IHit>().Hit((ushort)(damage + WEAPON_PISTOL_DAMAGE), direction);
             }
         }
     }

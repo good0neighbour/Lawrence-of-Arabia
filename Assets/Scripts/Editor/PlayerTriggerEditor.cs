@@ -46,7 +46,7 @@ public class PlayerTriggerEditor : ListEditorBase
                     act.TargetObject = (GameObject)EditorGUILayout.ObjectField(act.TargetObject, typeof(GameObject), true);
                     break;
 
-                case ActionTypes.LoadNextScene:
+                case ActionTypes.StageClear:
                     break;
             }
             if (EditorGUI.EndChangeCheck())

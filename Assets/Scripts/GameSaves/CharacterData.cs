@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,7 +8,6 @@ public class CharacterData : ScriptableObject
     /* ==================== Fields ==================== */
 
     [SerializeField] private Character[] _baseData = null;
-    [NonSerialized] private List<Character> _activeCharacters = new List<Character>();
 
 
 
@@ -20,15 +18,6 @@ public class CharacterData : ScriptableObject
         _baseData = _baseData.OrderBy(c => c.Name).ToArray();
         for (byte i = 0; i < _baseData.Length; ++i)
         {
-            switch (_baseData[i].Status)
-            {
-                case CharacterStatus.None:
-                    break;
-
-                default:
-                    _activeCharacters.Add(_baseData[i]);
-                    break;
-            }
             _baseData[i].CurHealth = _baseData[i].BaseHealth + _baseData[i].HealthIncrease * _baseData[i].Level;
             _baseData[i].CurDamage = (ushort)(_baseData[i].BaseDamage + _baseData[i].DamageIncrease * _baseData[i].Level);
             _baseData[i].CurRange = (byte)(_baseData[i].BaseRangeRate + _baseData[i].RangeRateIncrease * _baseData[i].Level);
@@ -43,12 +32,6 @@ public class CharacterData : ScriptableObject
     }
 
 
-    public List<Character> GetActiveCharacterList()
-    {
-        return _activeCharacters;
-    }
-
-
     public void CharacterLevelUp(Characters character)
     {
         ++_baseData[(int)character].Level;
@@ -60,12 +43,6 @@ public class CharacterData : ScriptableObject
 
     public void SetCharacterStatus(Characters character, CharacterStatus status)
     {
-        _baseData[(int)character].Status = status;
-        if (_baseData[(int)character].Status == CharacterStatus.None
-            && status != CharacterStatus.None)
-        {
-            _activeCharacters.Add(_baseData[(int)character]);
-        }
         _baseData[(int)character].Status = status;
     }
 
@@ -102,5 +79,7 @@ public class CharacterData : ScriptableObject
         public CharacterTypes Type;
         public CharacterWeapons Weapon;
         public byte Level;
+        public byte Trust;
+        public DialogueScript RecentDialogue;
     }
 }

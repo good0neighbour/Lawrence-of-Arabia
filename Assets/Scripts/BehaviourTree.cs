@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static Constants;
 
 public class BehaviourTree
 {
@@ -153,15 +154,15 @@ public class BehaviourTree
             {
                 switch (child.Execute())
                 {
-                    case Constants.SUCCESS:
-                        return Constants.SUCCESS;
+                    case SUCCESS:
+                        return SUCCESS;
 
                     default:
                         break;
                 }
             }
 
-            return Constants.FAILURE;
+            return FAILURE;
         }
     }
 
@@ -175,15 +176,15 @@ public class BehaviourTree
             {
                 switch (child.Execute())
                 {
-                    case Constants.FAILURE:
-                        return Constants.FAILURE;
+                    case FAILURE:
+                        return FAILURE;
 
                     default:
                         break;
                 }
             }
 
-            return Constants.SUCCESS;
+            return SUCCESS;
         }
     }
 
@@ -191,7 +192,7 @@ public class BehaviourTree
 
     private class SubSequenceNode : Node
     {
-        private byte _fixedReturn = Constants.SUCCESS;
+        private byte _fixedReturn = SUCCESS;
 
 
         public SubSequenceNode(byte fixedReturn)
@@ -207,7 +208,7 @@ public class BehaviourTree
             {
                 switch (child.Execute())
                 {
-                    case Constants.FAILURE:
+                    case FAILURE:
                         return _fixedReturn;
 
                     default:

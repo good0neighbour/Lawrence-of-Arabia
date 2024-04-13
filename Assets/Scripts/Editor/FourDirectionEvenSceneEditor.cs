@@ -28,7 +28,7 @@ public class FourDirectionEventSceneEditor : ListEditorBase
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Action Type", GUILayout.MaxWidth(120.0f));
             EditorGUI.BeginChangeCheck();
-            element.Action = (EventSceneActions)EditorGUILayout.EnumPopup(element.Action, GUILayout.MaxWidth(120.0f));
+            element.Action = (EventSceneActions)EditorGUILayout.EnumPopup(element.Action, GUILayout.MaxWidth(150.0f));
             EditorGUILayout.EndHorizontal();
 
             switch (element.Action)
@@ -55,7 +55,7 @@ public class FourDirectionEventSceneEditor : ListEditorBase
                     EditorGUILayout.LabelField("Cannot jump in FourDirection map.");
                     break;
 
-                case EventSceneActions.NPCLookAt:
+                case EventSceneActions.NPCLookAtTarget:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
                     element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
@@ -63,6 +63,13 @@ public class FourDirectionEventSceneEditor : ListEditorBase
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Look at", GUILayout.MaxWidth(120.0f));
                     element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
+                    EditorGUILayout.EndHorizontal();
+                    break;
+
+                case EventSceneActions.NPCLookAtPlayer:
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
@@ -97,12 +104,12 @@ public class FourDirectionEventSceneEditor : ListEditorBase
                 case EventSceneActions.StartDialogue:
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Dialogue Script", GUILayout.MaxWidth(120.0f));
-                    element.DialogueScript = (DialogueScript)EditorGUILayout.ObjectField(element.DialogueScript, typeof(DialogueScript), true);
+                    element.DialogueScript = (DialogueBase)EditorGUILayout.ObjectField(element.DialogueScript, typeof(DialogueBase), true);
                     EditorGUILayout.EndHorizontal();
                     break;
 
                 case EventSceneActions.CloseDialogue:
-                case EventSceneActions.LoadNextScene:
+                case EventSceneActions.StageClear:
                     break;
             }
 
@@ -122,49 +129,5 @@ public class FourDirectionEventSceneEditor : ListEditorBase
         }
 
         ListEditor(_scene, _actions, () => _scene.SetActions(_actions.ToArray()), "EventScene action");
-
-        //if (GUILayout.Button("Add an Action to end", GUILayout.MinHeight(30.0f)))
-        //{
-        //    Undo.RecordObject(_scene, $"{_scene.name}: EventScene action added");
-        //    _actions.Add(new EventSceneBase.EventSceneAction());
-        //    _current = (byte)(_actions.Count - 1);
-        //    _scene.SetActions(_actions.ToArray());
-        //}
-
-        //EditorGUILayout.Space(20.0f);
-
-        //EditorGUILayout.BeginHorizontal();
-        //EditorGUILayout.LabelField("Index", GUILayout.MaxWidth(40.0f));
-        //_current = (byte)EditorGUILayout.IntField(_current, GUILayout.MaxWidth(30.0f));
-        //if (_current <= _actions.Count && GUILayout.Button("Add here", GUILayout.MaxWidth(100.0f)))
-        //{
-        //    Undo.RecordObject(_scene, $"{_scene.name}: EventScene action added");
-        //    _actions.Insert(_current, new EventSceneBase.EventSceneAction());
-        //    _current = (byte)(_actions.Count - 1);
-        //    _scene.SetActions(_actions.ToArray());
-        //}
-        //if (_current < _actions.Count && GUILayout.Button("Delete here", GUILayout.MaxWidth(100.0f)))
-        //{
-        //    Undo.RecordObject(_scene, $"{_scene.name}: EventScene action deleted");
-        //    _actions.RemoveAt(_current);
-        //    _current = (byte)(_actions.Count - 1);
-        //    _scene.SetActions(_actions.ToArray());
-        //}
-
-        //EditorGUILayout.Space(20.0f);
-
-        //EditorGUILayout.LabelField("Move From", GUILayout.MaxWidth(70.0f));
-        //_switchFrom = (byte)EditorGUILayout.IntField(_switchFrom, GUILayout.MaxWidth(30.0f));
-        //EditorGUILayout.LabelField("To", GUILayout.MaxWidth(20.0f));
-        //_switchTo = (byte)EditorGUILayout.IntField(_switchTo, GUILayout.MaxWidth(30.0f));
-        //if (_switchFrom < _actions.Count && _switchTo < _actions.Count && GUILayout.Button("Move", GUILayout.MaxWidth(100.0f)))
-        //{
-        //    Undo.RecordObject(_scene, $"{_scene.name}: EventScene action moved");
-        //    EventSceneBase.EventSceneAction temp = _actions[_switchFrom];
-        //    _actions.RemoveAt(_switchFrom);
-        //    _actions.Insert(_switchTo, temp);
-        //    _scene.SetActions(_actions.ToArray());
-        //}
-        //EditorGUILayout.EndHorizontal();
     }
 }

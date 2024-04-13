@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using static Constants;
 
 public abstract class EnemyBase : HorizontalMovement, IHit
 {
@@ -44,7 +45,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     private GameDelegate _behavDel = null;
     private BehaviourTree _behav = new BehaviourTree();
     private Vector2 _playerDir = Vector2.zero;
-    private byte _enemyState = Constants.ENEMY_SILENCE;
+    private byte _enemyState = ENEMY_SILENCE;
     private float _playerDis = 0.0f;
     private float _velocity = 0.0f;
     private float _urgentMeter = 0.0f;
@@ -66,8 +67,8 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             _sprite.flipX = value;
             switch (_enemyState)
             {
-                case Constants.ENEMY_SILENCE:
-                case Constants.ENEMY_SUSPICIOUS:
+                case ENEMY_SILENCE:
+                case ENEMY_SUSPICIOUS:
                     _sightUI.localRotation = Quaternion.Euler(0.0f, -90.0f * (-1.0f + IsFlipNum), 0.0f);
                     break;
             }
@@ -90,7 +91,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             Transform hitEft = StageManagerBase.ObjectPool.GetObject(_hitEffect);
             hitEft.position = new Vector3(
                 transform.position.x,
-                transform.position.y + Constants.CHAR_RADIUS,
+                transform.position.y + PLAYER_RADIUS,
                 0.0f
             );
             hitEft.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f * direction);
@@ -107,17 +108,17 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         // KnockBack
         if (direction >= 0.0f)
         {
-            _knockback = Constants.CHAR_KNOCKBACK_AMOUNT;
+            _knockback = PLAYER_KNOCKBACK_AMOUNT;
         }
         else
         {
-            _knockback = -Constants.CHAR_KNOCKBACK_AMOUNT;
+            _knockback = -PLAYER_KNOCKBACK_AMOUNT;
         }
 
         // Suspicious start
-        if (_enemyState == Constants.ENEMY_SILENCE)
+        if (_enemyState == ENEMY_SILENCE)
         {
-            foreach (Collider2D enemy in Physics2D.OverlapCircleAll((Vector2)transform.position, Constants.ENEMY_SUSPICIOUS_RANGE, Constants.LAYER_B_ENEMY))
+            foreach (Collider2D enemy in Physics2D.OverlapCircleAll((Vector2)transform.position, ENEMY_SUSPICIOUS_RANGE, LAYER_B_ENEMY))
             {
                 enemy.GetComponent<EnemyBase>().SuspiciousStart();
             }
@@ -142,12 +143,12 @@ public abstract class EnemyBase : HorizontalMovement, IHit
 
     public void UrgentStart()
     {
-        StateChange(Constants.ENEMY_URGENT);
+        StateChange(ENEMY_URGENT);
         if (_sightUI != null)
         {
             Destroy(_sightUI.gameObject);
         }
-        _acceleration *= Constants.ENEMY_URGENT_ACC_MULT;
+        _acceleration *= ENEMY_URGENT_ACC_MULT;
     }
 
 
@@ -162,9 +163,9 @@ public abstract class EnemyBase : HorizontalMovement, IHit
 
     public void SuspiciousStart()
     {
-        StateChange(Constants.ENEMY_SUSPICIOUS);
+        StateChange(ENEMY_SUSPICIOUS);
         _sightUI.gameObject.SetActive(false);
-        _acceleration *= Constants.ENEMY_URGENT_ACC_MULT;
+        _acceleration *= ENEMY_URGENT_ACC_MULT;
     }
 
 
@@ -176,7 +177,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         base.Awake();
 
         // Precalculation
-        _silenceSightRange += Constants.CHAR_RADIUS;
+        _silenceSightRange += PLAYER_RADIUS;
         _silenceSightRange = _silenceSightRange * _silenceSightRange;
         _urgentSightRange = _urgentSightRange * _urgentSightRange;
         _attackRange = _attackRange * _attackRange;
@@ -193,39 +194,39 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                 {
                     switch (_enemyState)
                     {
-                        case Constants.ENEMY_SILENCE:
-                            return Constants.SUCCESS;
+                        case ENEMY_SILENCE:
+                            return SUCCESS;
                         default:
-                            return Constants.FAILURE;
+                            return FAILURE;
                     }
                 })
                 .Action(RandomMoving)
-                .SubSequence(Constants.SUCCESS)
+                .SubSequence(SUCCESS)
                     .Action(DetectPlayer)
                     .Action(UrgentAlert)
                     .Back()
                 .Back()
-            .SubSequence(Constants.FAILURE) // Suspicious
+            .SubSequence(FAILURE) // Suspicious
                 .Action(() =>
                 {
                     switch (_enemyState)
                     {
-                        case Constants.ENEMY_SUSPICIOUS:
-                            return Constants.SUCCESS;
+                        case ENEMY_SUSPICIOUS:
+                            return SUCCESS;
                         default:
-                            return Constants.FAILURE;
+                            return FAILURE;
                     }
                 })
                 .Action(() =>
                 {
                     _suspiciousTimer += DeltaTime;
-                    if (_suspiciousTimer >= Constants.ENEMY_SUSPICIOUS_TIME)
+                    if (_suspiciousTimer >= ENEMY_SUSPICIOUS_TIME)
                     {
-                        StateChange(Constants.ENEMY_SILENCE);
+                        StateChange(ENEMY_SILENCE);
                         _sightUI.gameObject.SetActive(true);
-                        _acceleration /= Constants.ENEMY_URGENT_ACC_MULT;
+                        _acceleration /= ENEMY_URGENT_ACC_MULT;
                     }
-                    return Constants.SUCCESS;
+                    return SUCCESS;
                 })
                 .Back()
             .Sequence() // Attack
@@ -234,28 +235,28 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                     if (_playerDis <= _attackRange)
                         switch (_enemyState)
                         {
-                            case Constants.ENEMY_SUSPICIOUS:
-                                StateChange(Constants.ENEMY_ATTACK);
+                            case ENEMY_SUSPICIOUS:
+                                StateChange(ENEMY_ATTACK);
                                 UrgentAlert();
-                                return Constants.SUCCESS;
-                            case Constants.ENEMY_ATTACK:
-                                return Constants.SUCCESS;
+                                return SUCCESS;
+                            case ENEMY_ATTACK:
+                                return SUCCESS;
                             default:
-                                StateChange(Constants.ENEMY_ATTACK);
-                                return Constants.SUCCESS;
+                                StateChange(ENEMY_ATTACK);
+                                return SUCCESS;
                         }
                     else
                         switch (_enemyState)
                         {
-                            case Constants.ENEMY_ATTACK:
-                                StateChange(Constants.ENEMY_URGENT);
-                                return Constants.FAILURE;
+                            case ENEMY_ATTACK:
+                                StateChange(ENEMY_URGENT);
+                                return FAILURE;
                             default:
-                                return Constants.FAILURE;
+                                return FAILURE;
                         }
                 })
                 .Action(DetectPlayer)
-                .SubSequence(Constants.SUCCESS)
+                .SubSequence(SUCCESS)
                     .Action(() =>
                     {
                         LookAtPlayer();
@@ -263,9 +264,9 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                         if (_timer >= _attackTimer)
                         {
                             _timer -= _attackTimer;
-                            return Constants.SUCCESS;
+                            return SUCCESS;
                         }
-                        return Constants.FAILURE;
+                        return FAILURE;
                     })
                     .Action(Attack)
                     .Back()
@@ -274,9 +275,9 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                 .Action(() =>
                 {
                     if (_playerDis <= _urgentSightRange)
-                        return Constants.SUCCESS;
+                        return SUCCESS;
                     else
-                        return Constants.FAILURE;
+                        return FAILURE;
                 })
                 .Action(Searching)
                 .Back()
@@ -313,7 +314,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         {
             if (IsGrounded)
             {
-                _animator.SetFloat("Velocity", Mathf.Abs(_velocity * Constants.ENEMY_ANIM_MULT));
+                _animator.SetFloat("Velocity", Mathf.Abs(_velocity * ENEMY_ANIM_MULT));
             }
             else
             {
@@ -341,7 +342,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                 );
                 if (_knockback > 0.0f)
                 {
-                    _knockback -= Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    _knockback -= PLAYER_KNOCKBACK_ACC * DeltaTime;
                     if (_knockback < 0.0f)
                     {
                         _knockback = 0.0f;
@@ -349,7 +350,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                 }
                 else
                 {
-                    _knockback += Constants.CHAR_KNOCKBACK_ACC * DeltaTime;
+                    _knockback += PLAYER_KNOCKBACK_ACC * DeltaTime;
                     if (_knockback > 0.0f)
                     {
                         _knockback = 0.0f;
@@ -397,46 +398,46 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             }
         }
 
-        return Constants.FAILURE;
+        return FAILURE;
     }
 
 
     private byte RandomMoving()
     {
         // Moving Direction
-        if (_timer >= Constants.ENEMY_SILENCE_TIMER && _behavDel == null)
+        if (_timer >= ENEMY_SILENCE_TIMER && _behavDel == null)
         {
             float ran = Random.Range(0.0f, 1.0f);
             if (_velocity == 0.0f)
             {
-                if (ran < Constants.ENEMY_MOVE_POSI)
+                if (ran < ENEMY_MOVE_POSI)
                 {
                     _behavDel = MoveLeft;
                 }
-                else if (ran < Constants.ENEMY_MOVE_POSI_DOUBLE)
+                else if (ran < ENEMY_MOVE_POSI_DOUBLE)
                 {
                     _behavDel = MoveRight;
                 }
                 else if (IsGrounded)
                 {
-                    if (ran < Constants.ENEMY_JUMP_UP_POSI)
+                    if (ran < ENEMY_JUMP_UP_POSI)
                     {
                         if (Physics2D.OverlapCircle(
                             new Vector2(
                                 transform.position.x,
                                 transform.position.y + 1.0f
-                            ), 0.1f, Constants.LAYER_B_PLATFORM))
+                            ), 0.1f, LAYER_B_PLATFORM))
                         {
                             Jump(true);
                         }
                     }
-                    else if (ran < Constants.ENEMY_JUMP_DOWN_POSI)
+                    else if (ran < ENEMY_JUMP_DOWN_POSI)
                     {
                         if (Physics2D.OverlapCircle(
                             new Vector2(
                                 transform.position.x,
                                 transform.position.y - 1.0f
-                            ), 0.1f, Constants.LAYER_B_TERRAIN))
+                            ), 0.1f, LAYER_B_TERRAIN))
                         {
                             Jump(false);
                         }
@@ -445,19 +446,19 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             }
             else if (_velocity > 0.0f)
             {
-                if (ran < Constants.ENEMY_MOVESTOP_POSI)
+                if (ran < ENEMY_MOVESTOP_POSI)
                 {
                     _behavDel = StopMovingRight;
                 }
             }
             else if (_velocity < 0.0f)
             {
-                if (ran < Constants.ENEMY_MOVESTOP_POSI)
+                if (ran < ENEMY_MOVESTOP_POSI)
                 {
                     _behavDel = StopMovingLeft;
                 }
             }
-            _timer -= Constants.ENEMY_SILENCE_TIMER;
+            _timer -= ENEMY_SILENCE_TIMER;
         }
         else
         {
@@ -468,7 +469,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         SetPositionWithFlip(_velocity);
 
         //Return
-        return Constants.SUCCESS;
+        return SUCCESS;
     }
 
 
@@ -487,12 +488,12 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             {
                 switch (hit.collider.gameObject.layer)
                 {
-                    case Constants.LAYER_D_GROUND:
-                    case Constants.LAYER_D_WALL:
-                        return Constants.FAILURE;
+                    case LAYER_D_GROUND:
+                    case LAYER_D_WALL:
+                        return FAILURE;
 
-                    case Constants.LAYER_D_PLAYER:
-                        return Constants.SUCCESS;
+                    case LAYER_D_PLAYER:
+                        return SUCCESS;
 
                     default:
                         break;
@@ -500,7 +501,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             }
         }
 
-        return Constants.FAILURE;
+        return FAILURE;
     }
 
 
@@ -508,41 +509,41 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     {
         switch (_enemyState)
         {
-            case Constants.ENEMY_SILENCE:
+            case ENEMY_SILENCE:
                 if (_playerDis < _silenceSightRange)
                 {
                     switch (DetectPlayer(_silenceSightAngle, _silenceSightRange))
                     {
-                        case Constants.SUCCESS:
-                            UrgentMeterChange(_urgentMeter + DeltaTime * Constants.ENEMY_URGENT_SPEED);
+                        case SUCCESS:
+                            UrgentMeterChange(_urgentMeter + DeltaTime * ENEMY_URGENT_SPEED);
                             if (_urgentMeter >= 1.0f)
                             {
-                                return Constants.SUCCESS;
+                                return SUCCESS;
                             }
                             else
                             {
-                                return Constants.FAILURE;
+                                return FAILURE;
                             }
 
-                        case Constants.FAILURE:
+                        case FAILURE:
                             if (_urgentMeter > 0.0f)
                             {
-                                UrgentMeterChange(_urgentMeter - DeltaTime * Constants.ENEMY_URGENT_SPEED);
+                                UrgentMeterChange(_urgentMeter - DeltaTime * ENEMY_URGENT_SPEED);
                             }
-                            return Constants.FAILURE;
+                            return FAILURE;
                     }
                 }
                 if (_urgentMeter > 0.0f)
                 {
-                    UrgentMeterChange(_urgentMeter - DeltaTime * Constants.ENEMY_URGENT_SPEED);
+                    UrgentMeterChange(_urgentMeter - DeltaTime * ENEMY_URGENT_SPEED);
                 }
-                return Constants.FAILURE;
+                return FAILURE;
 
-            case Constants.ENEMY_ATTACK:
+            case ENEMY_ATTACK:
                 return DetectPlayer(_attackAngle, _attackRange);
 
             default:
-                return Constants.FAILURE;
+                return FAILURE;
         }
     }
 
@@ -550,12 +551,12 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     private byte Searching()
     {
         // Moving Direction
-        if (_timer >= Constants.ENEMY_URGENT_TIMER && _behavDel == null)
+        if (_timer >= ENEMY_URGENT_TIMER && _behavDel == null)
         {
             float ran = Random.Range(0.0f, 1.0f);
             if (_velocity == 0.0f)
             {
-                if (ran < Constants.ENEMY_URGENT_MOVE_POSI)
+                if (ran < ENEMY_URGENT_MOVE_POSI)
                 {
                     if (_playerDir.x > 0.0f)
                     {
@@ -566,7 +567,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                         _behavDel = MoveLeft;
                     }
                 }
-                else if (IsGrounded && ran < Constants.ENEMY_URGENT_JUMP_POSI_ACTUAL)
+                else if (IsGrounded && ran < ENEMY_URGENT_JUMP_POSI_ACTUAL)
                 {
                     if (_playerDir.y > 0.0f)
                     {
@@ -574,7 +575,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                         new Vector2(
                             transform.position.x,
                             transform.position.y + 1.0f
-                        ), 0.1f, Constants.LAYER_B_PLATFORM))
+                        ), 0.1f, LAYER_B_PLATFORM))
                         {
                             Jump(true);
                         }
@@ -585,7 +586,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                         new Vector2(
                             transform.position.x,
                             transform.position.y - 1.5f
-                        ), 0.6f, Constants.LAYER_B_TERRAIN))
+                        ), 0.6f, LAYER_B_TERRAIN))
                         {
                             Jump(false);
                         }
@@ -594,19 +595,19 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             }
             else if (_velocity > 0.0f)
             {
-                if (ran < Constants.ENEMY_URGENT_MOVESTOP_POSI || _playerDir.x < 0.0f)
+                if (ran < ENEMY_URGENT_MOVESTOP_POSI || _playerDir.x < 0.0f)
                 {
                     _behavDel = StopMovingRight;
                 }
             }
             else if (_velocity < 0.0f)
             {
-                if (ran < Constants.ENEMY_URGENT_MOVESTOP_POSI || _playerDir.x > 0.0f)
+                if (ran < ENEMY_URGENT_MOVESTOP_POSI || _playerDir.x > 0.0f)
                 {
                     _behavDel = StopMovingLeft;
                 }
             }
-            _timer -= Constants.ENEMY_URGENT_TIMER;
+            _timer -= ENEMY_URGENT_TIMER;
         }
         else
         {
@@ -617,7 +618,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         LookAtPlayer();
 
         // Return
-        return Constants.SUCCESS;
+        return SUCCESS;
     }
 
 
@@ -631,7 +632,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         {
             UrgentStart();
         }
-        return Constants.SUCCESS;
+        return SUCCESS;
     }
 
 

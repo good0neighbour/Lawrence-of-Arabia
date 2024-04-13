@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using static Constants;
 
 public class CutScene : MonoBehaviour
 {
@@ -71,7 +72,7 @@ public class CutScene : MonoBehaviour
             default:
                 if (isFadeIn)
                 {
-                    alpha = image.color.a + Time.deltaTime * Constants.CUTSCN_FADEIN_SPEED;
+                    alpha = image.color.a + Time.deltaTime * CUTSCN_FADEIN_SPEED;
                     if (alpha >= 1.0f)
                     {
                         alpha = 1.0f;
@@ -79,7 +80,7 @@ public class CutScene : MonoBehaviour
                 }
                 else
                 {
-                    alpha = image.color.a - Time.deltaTime * Constants.CUTSCN_FADEIN_SPEED;
+                    alpha = image.color.a - Time.deltaTime * CUTSCN_FADEIN_SPEED;
                     if (alpha <= 0.0f)
                     {
                         alpha = 0.0f;
@@ -103,7 +104,7 @@ public class CutScene : MonoBehaviour
             default:
                 if (isFadeIn)
                 {
-                    alpha = text.color.a + Time.deltaTime * Constants.CUTSCN_FADEIN_SPEED;
+                    alpha = text.color.a + Time.deltaTime * CUTSCN_FADEIN_SPEED;
                     if (alpha >= 1.0f)
                     {
                         alpha = 1.0f;
@@ -111,7 +112,7 @@ public class CutScene : MonoBehaviour
                 }
                 else
                 {
-                    alpha = text.color.a - Time.deltaTime * Constants.CUTSCN_FADEIN_SPEED;
+                    alpha = text.color.a - Time.deltaTime * CUTSCN_FADEIN_SPEED;
                     if (alpha <= 0.0f)
                     {
                         alpha = 0.0f;
@@ -132,29 +133,11 @@ public class CutScene : MonoBehaviour
             case 0.0f:
             case 1.0f:
                 ++_current;
-                if (image != null)
-                {
-                    Destroy(image.gameObject);
-                }
-                if (text != null)
-                {
-                    Destroy(text.gameObject);
-                }
                 return;
 
             default:
                 return;
         }
-    }
-
-
-    private void OnDisable()
-    {
-        _current = 0;
-        _timer = 0.0f;
-        _skip = 0.0f;
-        _skipPressed = false;
-        _skipImage.fillAmount = 0.0f;
     }
 
 
@@ -180,7 +163,7 @@ public class CutScene : MonoBehaviour
 
         if (_skipPressed)
         {
-            _skip += Time.deltaTime * Constants.CUTSCN_SKIP_SPEED;
+            _skip += Time.deltaTime * CUTSCN_SKIP_SPEED;
             _skipImage.fillAmount = _skip;
             if (_skip >= 1.0f)
             {
