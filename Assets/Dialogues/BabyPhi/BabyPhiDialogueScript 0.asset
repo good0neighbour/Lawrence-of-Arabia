@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64ba76353eae35e4da86a8fca3538f45, type: 3}
-  m_Name: DialogueScript 0
+  m_Name: BabyPhiDialogueScript 0
   m_EditorClassIdentifier: 
   _dialogues:
   - Type: 0
@@ -21,3 +21,4 @@ MonoBehaviour:
     Text: Dialogue0
     Audio: {fileID: 0}
     Branches: []
+  _currentLanguage: 0

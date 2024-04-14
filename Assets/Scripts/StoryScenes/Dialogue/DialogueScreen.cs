@@ -341,7 +341,7 @@ public class DialogueScreen : MonoBehaviour
         _playerStandby = true;
         _buttonParent.gameObject.SetActive(true);
 
-        for (byte i = 0; i < current.Branches.Count; ++i)
+        for (byte i = 0; i < current.Branches.Length; ++i)
         {
             if (i > _buttons.Count - 1)
             {
@@ -408,14 +408,14 @@ public class DialogueScreen : MonoBehaviour
                 --_btnFocus;
                 if (_btnFocus < 0)
                 {
-                    _btnFocus = (sbyte)(_script[_dialogueIndex].Branches.Count - 1);
+                    _btnFocus = (sbyte)(_script[_dialogueIndex].Branches.Length - 1);
                 }
                 SetButtonFocus(_btnFocus);
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 ++_btnFocus;
-                if (_btnFocus >= _script[_dialogueIndex].Branches.Count)
+                if (_btnFocus >= _script[_dialogueIndex].Branches.Length)
                 {
                     _btnFocus = 0;
                 }

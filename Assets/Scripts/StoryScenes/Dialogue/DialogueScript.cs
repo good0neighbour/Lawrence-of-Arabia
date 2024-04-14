@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DialogueScript", menuName = "Lawrence of Arabia/DialogueScript")]
@@ -11,6 +10,20 @@ public class DialogueScript : DialogueBase
     [SerializeField] private Dialogue[] _dialogues = new Dialogue[0];
     [SerializeField] private LanguageTypes _currentLanguage = LanguageTypes.English;
 
+#if UNITY_EDITOR
+    public LanguageTypes CurrentLanguage
+    {
+        get
+        {
+            return _currentLanguage;
+        }
+        set
+        {
+            _currentLanguage = value;
+        }
+    }
+#endif
+
 
 
     /* ==================== Public Methods ==================== */
@@ -18,9 +31,43 @@ public class DialogueScript : DialogueBase
     public override List<Dialogue> GetDialogueScript()
     {
         List<Dialogue> result = new List<Dialogue>();
-        foreach (Dialogue dialogue in _dialogues)
+        if (_currentLanguage == GameManager.Instance.GameData.CurrentLanguage)
         {
-            result.Add(dialogue);
+            for (byte i = 0; i < _dialogues.Length; ++i)
+            {
+                result.Add(_dialogues[i]);
+            }
+        }
+        else
+        {
+            for (byte i = 0; i < _dialogues.Length; ++i)
+            {
+                // New language
+                _currentLanguage = GameManager.Instance.GameData.CurrentLanguage;
+
+                // Load Json file
+                Language.LanguageJson json = JsonUtility.FromJson<Language.LanguageJson>(Resources.Load($"Languages/{name}_{_currentLanguage.ToString()}").ToString());
+
+                // Adopt language
+                byte offset = 0;
+                switch (_dialogues[i].Type)
+                {
+                    case DialogueTypes.Selection:
+                        for (int j = 0; j < _dialogues[i].Branches.Length; j++)
+                        {
+                            _dialogues[i].Branches[j].Text = json.Text[i + offset];
+                            ++offset;
+                        }
+                        break;
+
+                    default:
+                        _dialogues[i].Text = json.Text[i + offset];
+                        break;
+                }
+
+                // Add to list
+                result.Add(_dialogues[i]);
+            }
         }
         return result;
     }
@@ -58,19 +105,26 @@ public class DialogueScript : DialogueBase
         public CharImageDir ImageDirection;
         public string Text;
         public AudioClip Audio;
-        public List<BranchDialogue> Branches;
+        public BranchDialogue[] Branches;
 
 
-        public void AddBranch()
+#if UNITY_EDITOR
+        public List<BranchDialogue> GetBranches()
         {
-            Branches.Add(new BranchDialogue());
+            List<BranchDialogue> result = new List<BranchDialogue>();
+            foreach (BranchDialogue item in Branches)
+            {
+                result.Add(item);
+            }
+            return result;
         }
 
 
-        public void DeleteBranch()
+        public void SetBranches(BranchDialogue[] branches)
         {
-            Branches.RemoveAt(Branches.Count - 1);
+            Branches = branches;
         }
+#endif
     }
 
 

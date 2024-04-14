@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -7,6 +8,7 @@ public class DialogueEditor : ListEditorBase
 {
     private List<DialogueScript.Dialogue> _diagolues = null;
     private DialogueScript _script = null;
+    private string _status = null;
 
 
     private void OnEnable()
@@ -19,6 +21,47 @@ public class DialogueEditor : ListEditorBase
 
     public override void OnInspectorGUI()
     {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Current Language", GUILayout.MaxWidth(110.0f));
+        EditorGUI.BeginChangeCheck();
+        _script.CurrentLanguage = (LanguageTypes)EditorGUILayout.EnumPopup(_script.CurrentLanguage, GUILayout.MaxWidth(100.0f));
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(_script);
+            _status = null;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        if (GUILayout.Button($"Create {_script.CurrentLanguage.ToString()} Json", GUILayout.MaxWidth(210.0f)))
+        {
+            Language.LanguageJson lanJson = new Language.LanguageJson();
+            List<string> text = new List<string>();
+            foreach (DialogueScript.Dialogue item in _diagolues)
+            {
+                switch (item.Type)
+                {
+                    case DialogueTypes.Selection:
+                        foreach (DialogueScript.BranchDialogue branch in item.Branches)
+                        {
+                            text.Add(branch.Text);
+                        }
+                        break;
+
+                    default:
+                        text.Add(item.Text);
+                        break;
+                }
+            }
+            lanJson.Text = text.ToArray();
+            File.WriteAllText($"{Application.dataPath}/Resources/Languages/{_script.name}_{_script.CurrentLanguage.ToString()}.Json", JsonUtility.ToJson(lanJson, true));
+            AssetDatabase.Refresh();
+            _status = $"Saved \"Resources/Languages/{_script.name}_{_script.CurrentLanguage.ToString()}.Json\"";
+        }
+
+        EditorGUILayout.LabelField(_status);
+
+        EditorGUILayout.Space(30.0f);
+
         for (byte i = 0; i < _diagolues.Count; ++i)
         {
             DialogueScript.Dialogue element = _diagolues[i];
@@ -185,17 +228,19 @@ public class DialogueEditor : ListEditorBase
 
     private void ShowBranches(ref DialogueScript.Dialogue element)
     {
-        for (byte i = 0; i < element.Branches.Count; ++i)
+        List<DialogueScript.BranchDialogue> branches = element.GetBranches();
+        for (byte i = 0; i < branches.Count; ++i)
         {
-            DialogueScript.BranchDialogue temp = element.Branches[i];
+            DialogueScript.BranchDialogue temp = branches[i];
             EditorGUILayout.BeginHorizontal();
             EditorGUI.BeginChangeCheck();
-            temp.Text = EditorGUILayout.TextField(element.Branches[i].Text, GUILayout.MinHeight(20.0f));
-            temp.Branch = (DialogueScript)EditorGUILayout.ObjectField(element.Branches[i].Branch, typeof(DialogueScript), false, GUILayout.MaxWidth(200.0f));
-            temp.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
+            temp.Text = EditorGUILayout.TextField(branches[i].Text, GUILayout.MinHeight(20.0f));
+            temp.Branch = (DialogueScript)EditorGUILayout.ObjectField(branches[i].Branch, typeof(DialogueScript), false, GUILayout.MaxWidth(200.0f));
+            temp.Audio = (AudioClip)EditorGUILayout.ObjectField(branches[i].Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
             if (EditorGUI.EndChangeCheck())
             {
-                element.Branches[i] = temp;
+                branches[i] = temp;
+                element.SetBranches(branches.ToArray());
                 EditorUtility.SetDirty(_script);
             }
             EditorGUILayout.EndHorizontal();
@@ -204,11 +249,15 @@ public class DialogueEditor : ListEditorBase
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Add a branch to end"))
         {
-            element.AddBranch();
+            branches.Add(new DialogueScript.BranchDialogue());
+            element.SetBranches(branches.ToArray());
+            EditorUtility.SetDirty(_script);
         }
         if (GUILayout.Button("Delete branch at end"))
         {
-            element.DeleteBranch();
+            branches.RemoveAt(branches.Count - 1);
+            element.SetBranches(branches.ToArray());
+            EditorUtility.SetDirty(_script);
         }
         EditorGUILayout.EndHorizontal();
     }
