@@ -49,12 +49,6 @@ public class GameManager
         set;
     }
 
-    public Factions CurrentMission
-    {
-        get;
-        set;
-    }
-
 
 
     /* ==================== Private Methods ==================== */

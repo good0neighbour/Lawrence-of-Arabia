@@ -19,5 +19,5 @@ MonoBehaviour:
     Image: {fileID: 0}
     ImageDirection: 0
     Text: This is my daughter.
-    Audio: {fileID: 8300000, guid: d86ddb791af877d44ab1ab19aae55d0b, type: 3}
+    Audio: {fileID: 0}
     Branches: []

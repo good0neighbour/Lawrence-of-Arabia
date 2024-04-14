@@ -1,80 +1,107 @@
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using System.IO;
 using UnityEditor;
-using TMPro;
+using UnityEngine;
 
 [CustomEditor(typeof(CutScene))]
 public class CutSceneEditor : ListEditorBase
 {
-    private List<CutScene.CutSceneAction> _actions = null;
-    private CutScene _scene = null;
+    private List<CutScene.CutSceneInfo> _actions = null;
+    private CutScene _cutScene = null;
+    private string _status = null;
 
 
     private void OnEnable()
     {
-        _scene = (CutScene)target;
-        _actions = _scene.GetActions();
+        _cutScene = (CutScene)target;
+        _actions = _cutScene.GetActionsForEditor();
         Current = (byte)(_actions.Count - 1);
     }
 
 
     public override void OnInspectorGUI()
     {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Current Language", GUILayout.MaxWidth(110.0f));
+        EditorGUI.BeginChangeCheck();
+        _cutScene.CurrentLanguage = (LanguageTypes)EditorGUILayout.EnumPopup(_cutScene.CurrentLanguage, GUILayout.MaxWidth(100.0f));
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(_cutScene);
+            _status = null;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        if (GUILayout.Button($"Create {_cutScene.CurrentLanguage.ToString()} Json", GUILayout.MaxWidth(210.0f)))
+        {
+            Language.LanguageJson lanJson = new Language.LanguageJson();
+            List<string> text = new List<string>();
+            foreach (CutScene.CutSceneInfo item in _actions)
+            {
+                text.Add(item.Text);
+            }
+            lanJson.Text = text.ToArray();
+            File.WriteAllText($"{Application.dataPath}/Resources/Languages/{_cutScene.name}_{_cutScene.CurrentLanguage.ToString()}.Json", JsonUtility.ToJson(lanJson, true));
+            AssetDatabase.Refresh();
+            _status = $"Saved \"Resources/Languages/{_cutScene.name}_{_cutScene.CurrentLanguage.ToString()}.Json\"";
+        }
+
+        EditorGUILayout.LabelField(_status);
+
+        EditorGUILayout.Space(30.0f);
+
         for (byte i = 0; i < _actions.Count; ++i)
         {
-            CutScene.CutSceneAction element = _actions[i];
+            CutScene.CutSceneInfo element = _actions[i];
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField($"Index {i.ToString()}", GUILayout.MaxWidth(60.0f), GUILayout.MinWidth(60.0f));
+            EditorGUILayout.LabelField($"Index {i.ToString()}", GUILayout.MaxWidth(120.0f));
+            EditorGUILayout.LabelField("Duration", GUILayout.MaxWidth(55.0f));
             EditorGUI.BeginChangeCheck();
-            element.Action = (CutSceneActions)EditorGUILayout.EnumPopup(element.Action, GUILayout.MaxWidth(90.0f), GUILayout.MinWidth(90.0f));
+            element.Duration = EditorGUILayout.FloatField(element.Duration, GUILayout.MaxWidth(50.0f));
             EditorGUILayout.Space(10.0f, false);
+            EditorGUILayout.LabelField("Image", GUILayout.MaxWidth(40.0f));
+            element.Image = (Sprite)EditorGUILayout.ObjectField(element.Image, typeof(Sprite), false, GUILayout.MaxWidth(120.0f));
+            EditorGUILayout.Space(10.0f, false);
+            EditorGUILayout.LabelField("Audio", GUILayout.MaxWidth(35.0f));
+            element.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false);
+            EditorGUILayout.EndHorizontal();
 
-            switch (element.Action)
+            EditorGUILayout.BeginHorizontal();
+            if (element.Image != null)
             {
-                case CutSceneActions.FadeIn:
-                case CutSceneActions.FadeOut:
-                    EditorGUILayout.LabelField("Target", GUILayout.MaxWidth(80.0f));
-                    EditorGUILayout.LabelField("Image", GUILayout.MaxWidth(40.0f));
-                    element.TargetImage = (Image)EditorGUILayout.ObjectField(element.TargetImage, typeof(Image), true);
-                    EditorGUILayout.LabelField("Text", GUILayout.MaxWidth(30.0f));
-                    element.TargetText = (TextMeshProUGUI)EditorGUILayout.ObjectField(element.TargetText, typeof(TextMeshProUGUI), true);
-                    break;
-
-                case CutSceneActions.Enable:
-                case CutSceneActions.Disable:
-                case CutSceneActions.Destroy:
-                    EditorGUILayout.LabelField("Object", GUILayout.MaxWidth(80.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
-                    break;
-
-                case CutSceneActions.LoadScene:
-                    EditorGUILayout.LabelField("Scene Name", GUILayout.MaxWidth(80.0f));
-                    element.SceneName = EditorGUILayout.TextField(element.SceneName, GUILayout.MinHeight(20.0f));
-                    break;
-
-                case CutSceneActions.Wait:
-                    EditorGUILayout.LabelField("Duration", GUILayout.MaxWidth(80.0f));
-                    element.Duration = EditorGUILayout.FloatField(element.Duration);
-                    break;
+                GUILayout.Box(element.Image.texture, GUILayout.MaxWidth(120.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(10.0f), GUILayout.MinHeight(5.0f));
+                element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f), GUILayout.MaxHeight(60.0f));
             }
+            else
+            {
+                element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
+            }
+            EditorGUILayout.EndHorizontal();
+
 
             if (EditorGUI.EndChangeCheck())
             {
-                if (element.Action != CutSceneActions.Wait)
-                {
-                    element.Duration = 0.0f;
-                }
                 _actions[i] = element;
-                _scene.SetActions(_actions.ToArray());
-                EditorUtility.SetDirty(_scene);
+                _cutScene.SetActions(_actions.ToArray());
+                EditorUtility.SetDirty(_cutScene);
+                _status = null;
             }
 
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.Space(5.0f);
+            EditorGUILayout.Space(30.0f);
         }
 
-        ListEditor(_scene, _actions, () => _scene.SetActions(_actions.ToArray()), "CutScene action");
+        EditorGUILayout.LabelField("Next Scene");
+        EditorGUI.BeginChangeCheck();
+        _cutScene.NextScene = EditorGUILayout.TextField(_cutScene.NextScene, GUILayout.MinHeight(20.0f));
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(_cutScene);
+            _status = null;
+        }
+
+        EditorGUILayout.Space(30.0f);
+
+        ListEditor(_cutScene, _actions, () => _cutScene.SetActions(_actions.ToArray()), "CutScene");
     }
 }

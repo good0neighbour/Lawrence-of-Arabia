@@ -127,6 +127,11 @@ public class Constants
     public const sbyte DIALOGUE_IMAGE_MOVING = 0b10;
     public const sbyte DIALOGUE_IMAGE_END = ~DIALOGUE_IMAGE_MOVING;
 
+    // Cut Scene State
+    public const byte CUTSCENE_FADEIN = 0;
+    public const byte CUTSCENE_ACTION = 1;
+    public const byte CUTSCENE_FADEOUT = 2;
+
     // Behaviour Tree
     public const byte SUCCESS = 1;
     public const byte FAILURE = 0;

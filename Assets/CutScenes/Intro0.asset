@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc7a49608ea7854dae788f05ab3fb9a, type: 3}
+  m_Name: Intro0
+  m_EditorClassIdentifier: 
+  _actions:
+  - Image: {fileID: 21300000, guid: d23de5139b12190409644fc20c9a1c9d, type: 3}
+    Text: Regalinatio, 2029
+    Audio: {fileID: 0}
+    Duration: 2
+  - Image: {fileID: 0}
+    Text: Lawrence approached the window and looked outside.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Maco: Where are you now?'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Maco spoke through the phone.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Lawrence: Just arrived at the scouting point.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Maco: The target probably arrived in a black sedan. Keep an eye out.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Under the dark sky, only the silence flowed from the road, and the streetlight
+      spilled through the window frame.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Lawrence: Nothing yet. Looks like I got here a bit early.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Maco: Hopefully not too late.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Lawrence leaned closer to the window, peering at the road visible from
+      the side.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Lawrence: The Freiheits guys are gathering. Doesn''t seem like I''m late.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Maco: Getting out might not be easy though.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Lawrence: Don''t worry. Finding an escape route is my job.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Maco: Just don''t stir up trouble. Supplies for treating injuries are
+      running low.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Maco: Your daughter is also at our hideout, so be careful and come back.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Lawrence: Pai? Why is she there?'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Maco: There aren''t many safe places in times like these.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Maco: Plus, there''s the issue of supplies...'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: 'Lawrence: I see their vehicles. I''ll contact you later.'
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Lawrence hung up the phone and watched the black vehicle.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Approaching with its cold headlights, the vehicle slowly stopped in front
+      of the opposite building.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Only one vehicle...
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: He had expected a procession, hoping for the appearance of a general.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: As the vehicle's door opened, a military officer and two soldiers who seemed
+      like guards got out.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Looking closely at the officer's uniform, it confirmed Lawrence's expectation
+      of a general.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: General Benner, who led the Freiheits army and established a puppet government
+      in Regalinatio.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: There must have been internal collaborators for the invasion to proceed
+      smoothly.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Sure enough, a man in a suit emerged from the opposite building and approached
+      Benner.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: It was Toma, a member of the Regalinatio Parliament.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: Lawrence quickly took out his phone and took a photo.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: He captured both Benner and Toma making contact.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: After gathering enough information, Lawrence moved away from the window
+      showing the scene.
+    Audio: {fileID: 0}
+    Duration: 3
+  - Image: {fileID: 0}
+    Text: It was time to return to the hideout, away from the sight of the Freiheits
+      army.
+    Audio: {fileID: 0}
+    Duration: 3
+  _currentLanguage: 0
+  _nextScene: HS_Intro0_Sneaking

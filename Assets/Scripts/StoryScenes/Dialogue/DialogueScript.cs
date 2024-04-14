@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DialogueScript", menuName = "Lawrence of Arabia/DialogueScript")]
@@ -7,7 +8,8 @@ public class DialogueScript : DialogueBase
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] private Dialogue[] _dialogues = null;
+    [SerializeField] private Dialogue[] _dialogues = new Dialogue[0];
+    [SerializeField] private LanguageTypes _currentLanguage = LanguageTypes.English;
 
 
 
@@ -16,7 +18,7 @@ public class DialogueScript : DialogueBase
     public override List<Dialogue> GetDialogueScript()
     {
         List<Dialogue> result = new List<Dialogue>();
-        foreach (var dialogue in _dialogues)
+        foreach (Dialogue dialogue in _dialogues)
         {
             result.Add(dialogue);
         }

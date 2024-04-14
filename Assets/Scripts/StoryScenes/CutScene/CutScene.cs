@@ -1,46 +1,70 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using TMPro;
-using static Constants;
 
-public class CutScene : MonoBehaviour
+[CreateAssetMenu(fileName = "CutScene", menuName = "Lawrence of Arabia/CutScene")]
+public class CutScene : ScriptableObject
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] private CutSceneAction[] _actions = null;
-    [SerializeField] private Image _skipImage = null;
-    private byte _current = 0;
-    private float _timer = 0.0f;
-    private float _skip = 0.0f;
-    private bool _skipPressed = false;
+    [SerializeField] private CutSceneInfo[] _actions = new CutSceneInfo[0];
+    [SerializeField] private LanguageTypes _currentLanguage = LanguageTypes.English;
+    [SerializeField] private string _nextScene = null;
+
+#if UNITY_EDITOR
+    public LanguageTypes CurrentLanguage
+    {
+        get
+        {
+            return _currentLanguage;
+        }
+        set
+        {
+            _currentLanguage = value;
+        }
+    }
+
+    public string NextScene
+    {
+        get
+        {
+            return _nextScene;
+        }
+        set
+        {
+            _nextScene = value;
+        }
+    }
+#endif
 
 
 
     /* ==================== Public Methods ==================== */
 
-    public void SkipPress(bool pressed)
+    /// <summary>
+    /// Fetchs cut scene actions and set language dictionary.
+    /// </summary>
+    public CutSceneInfo[] GetCutSceneActions()
     {
-        if (pressed)
+        if (_currentLanguage != GameManager.Instance.GameData.CurrentLanguage)
         {
-            _skipPressed = true;
+            SetLanguage(GameManager.Instance.GameData.CurrentLanguage);
         }
-        else
-        {
-            _skipPressed = false;
-            _skip = 0.0f;
-            _skipImage.fillAmount = 0.0f;
-        }
+        return _actions;
+    }
+
+
+    public string GetNextSceneName()
+    {
+        return _nextScene;
     }
 
 
 #if UNITY_EDITOR
-    public List<CutSceneAction> GetActions()
+    public List<CutSceneInfo> GetActionsForEditor()
     {
-        List<CutSceneAction> result = new List<CutSceneAction>();
-        foreach (CutSceneAction action in _actions)
+        List<CutSceneInfo> result = new List<CutSceneInfo>();
+        foreach (CutSceneInfo action in _actions)
         {
             result.Add(action);
         }
@@ -48,7 +72,7 @@ public class CutScene : MonoBehaviour
     }
 
 
-    public void SetActions(CutSceneAction[] actions)
+    public void SetActions(CutSceneInfo[] actions)
     {
         _actions = actions;
     }
@@ -58,154 +82,13 @@ public class CutScene : MonoBehaviour
 
     /* ==================== Private Methods ==================== */
 
-    private void ColourChange(Image image, TextMeshProUGUI text, bool isFadeIn)
+    private void SetLanguage(LanguageTypes language)
     {
-        // Alpha value
-        float alpha = 0.0f;
-
-        // Image colour
-        switch (image)
+        Language.LanguageJson json = JsonUtility.FromJson<Language.LanguageJson>(Resources.Load($"Languages/{name}_{language.ToString()}").ToString());
+        _currentLanguage = language;
+        for (byte i = 0; i < _actions.Length; ++i)
         {
-            case null:
-                break;
-
-            default:
-                if (isFadeIn)
-                {
-                    alpha = image.color.a + Time.deltaTime * CUTSCN_FADEIN_SPEED;
-                    if (alpha >= 1.0f)
-                    {
-                        alpha = 1.0f;
-                    }
-                }
-                else
-                {
-                    alpha = image.color.a - Time.deltaTime * CUTSCN_FADEIN_SPEED;
-                    if (alpha <= 0.0f)
-                    {
-                        alpha = 0.0f;
-                    }
-                }
-                image.color = new Color(
-                    image.color.r,
-                    image.color.g,
-                    image.color.b,
-                    alpha
-                );
-                break;
-        }
-
-        // Text colour
-        switch (text)
-        {
-            case null:
-                break;
-
-            default:
-                if (isFadeIn)
-                {
-                    alpha = text.color.a + Time.deltaTime * CUTSCN_FADEIN_SPEED;
-                    if (alpha >= 1.0f)
-                    {
-                        alpha = 1.0f;
-                    }
-                }
-                else
-                {
-                    alpha = text.color.a - Time.deltaTime * CUTSCN_FADEIN_SPEED;
-                    if (alpha <= 0.0f)
-                    {
-                        alpha = 0.0f;
-                    }
-                }
-                text.color = new Color(
-                    text.color.r,
-                    text.color.g,
-                    text.color.b,
-                    alpha
-                );
-                break;
-        }
-
-        // Colour change end
-        switch (alpha)
-        {
-            case 0.0f:
-            case 1.0f:
-                ++_current;
-                return;
-
-            default:
-                return;
-        }
-    }
-
-
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if (_current >= _actions.Length)
-        {
-            Debug.LogError($"{name}: It has to load a map or disable/distroy this cut scene at the end.");
-            enabled = false;
-            return;
-        }
-#endif
-        // Skip
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SkipPress(true);
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            SkipPress(false);
-        }
-
-        if (_skipPressed)
-        {
-            _skip += Time.deltaTime * CUTSCN_SKIP_SPEED;
-            _skipImage.fillAmount = _skip;
-            if (_skip >= 1.0f)
-            {
-                _current = (byte)(_actions.Length - 1);
-            }
-        }
-
-        // Cut scene action
-        switch (_actions[_current].Action)
-        {
-            case CutSceneActions.FadeIn:
-                ColourChange(_actions[_current].TargetImage, _actions[_current].TargetText, true);
-                return;
-
-            case CutSceneActions.FadeOut:
-                ColourChange(_actions[_current].TargetImage, _actions[_current].TargetText, false);
-                return;
-
-            case CutSceneActions.Enable:
-                _actions[_current].TargetObject.SetActive(true);
-                return;
-
-            case CutSceneActions.Disable:
-                _actions[_current].TargetObject.SetActive(false);
-                return;
-
-            case CutSceneActions.Destroy:
-                Destroy(_actions[_current].TargetObject);
-                return;
-
-            case CutSceneActions.LoadScene:
-                SceneManager.LoadScene(_actions[_current].SceneName);
-                return;
-
-            case CutSceneActions.Wait:
-                _timer += Time.deltaTime;
-                if (_timer >= _actions[_current].Duration)
-                {
-                    _timer -= _actions[_current].Duration;
-                    ++_current;
-                }
-                return;
+            _actions[i].Text = json.Text[i];
         }
     }
 
@@ -214,13 +97,11 @@ public class CutScene : MonoBehaviour
     /* ==================== Struct ==================== */
 
     [Serializable]
-    public struct CutSceneAction
+    public struct CutSceneInfo
     {
-        public CutSceneActions Action;
-        public Image TargetImage;
-        public TextMeshProUGUI TargetText;
-        public GameObject TargetObject;
+        public Sprite Image;
+        public string Text;
+        public AudioClip Audio;
         public float Duration;
-        public string SceneName;
     }
 }

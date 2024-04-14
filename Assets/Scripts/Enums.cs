@@ -135,8 +135,8 @@ public enum NPCs
 
 public enum LanguageTypes
 {
-    Korean,
-    English
+    English,
+    Korean
 }
 
 

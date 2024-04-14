@@ -32,6 +32,7 @@ public class DialogueEditor : ListEditorBase
             if (EditorGUI.EndChangeCheck())
             {
                 _diagolues[i] = element;
+                _script.SetDialogues(_diagolues.ToArray());
                 EditorUtility.SetDirty(_script);
             }
 
@@ -48,6 +49,7 @@ public class DialogueEditor : ListEditorBase
                     {
                         element.Image = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{element.Name}FullImage.PNG");
                         _diagolues[i] = element;
+                        _script.SetDialogues(_diagolues.ToArray());
                         EditorUtility.SetDirty(_script);
                     }
 
@@ -101,6 +103,7 @@ public class DialogueEditor : ListEditorBase
                     {
                         element.Image = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{element.Name}FullImage.png");
                         _diagolues[i] = element;
+                        _script.SetDialogues(_diagolues.ToArray());
                         EditorUtility.SetDirty(_script);
                     }
 
