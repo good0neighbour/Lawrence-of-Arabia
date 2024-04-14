@@ -138,16 +138,3 @@ public enum LanguageTypes
     English,
     Korean
 }
-
-
-public enum Factions
-{
-    Main
-}
-
-
-public enum MainFaction
-{
-    FirstStart,
-    Intro
-}

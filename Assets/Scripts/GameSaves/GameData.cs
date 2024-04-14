@@ -4,5 +4,4 @@ using UnityEngine;
 public class GameData : ScriptableObject
 {
     public LanguageTypes CurrentLanguage;
-    public MainFaction MainFactionStage = MainFaction.FirstStart;
 }
