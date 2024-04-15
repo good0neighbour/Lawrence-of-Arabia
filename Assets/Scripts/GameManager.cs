@@ -8,6 +8,9 @@ public class GameManager
     /* ==================== Fields ==================== */
 
     private static GameManager _instance = null;
+    private static CharacterData _characterData = null;
+    private static NPCData _npcData = null;
+    private static GameData _gameData = null;
 
     public static GameManager Instance
     {
@@ -19,46 +22,49 @@ public class GameManager
             }
             return _instance;
         }
-        private set
+    }
+
+    public static CharacterData CharacterData
+    {
+        get
         {
-            _instance = value;
+            if (_characterData == null)
+            {
+                _characterData = Resources.Load<CharacterData>("CharacterData");
+                _characterData.CharacterDataPreparation();
+            }
+            return _characterData;
         }
     }
 
-    public CharacterData CharacterData
+    public static NPCData NPCData
     {
-        get;
-        private set;
+        get
+        {
+            if (_npcData == null)
+            {
+                _npcData = Resources.Load<NPCData>("NPCData");
+                _npcData.NPCDataPreparation();
+            }
+            return _npcData;
+        }
     }
 
-    public NPCData NPCData
+    public static GameData GameData
     {
-        get;
-        private set;
-    }
-
-    public GameData GameData
-    {
-        get;
-        private set;
+        get
+        {
+            if (_gameData == null)
+            {
+                _gameData = Resources.Load<GameData>("GameData");
+            }
+            return _gameData;
+        }
     }
 
     public Characters[] SelectedCharacters
     {
         get;
         set;
-    }
-
-
-
-    /* ==================== Private Methods ==================== */
-
-    private GameManager()
-    {
-        CharacterData = Resources.Load<CharacterData>("CharacterData");
-        CharacterData.CharacterDataPreparation();
-        NPCData = Resources.Load<NPCData>("NPCData");
-        NPCData.NPCDataPreparation();
-        GameData = Resources.Load<GameData>("GameData");
     }
 }

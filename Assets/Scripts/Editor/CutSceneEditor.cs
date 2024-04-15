@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.EditorGUILayout;
 
 [CustomEditor(typeof(CutScene))]
 public class CutSceneEditor : ListEditorBase
@@ -21,16 +22,16 @@ public class CutSceneEditor : ListEditorBase
 
     public override void OnInspectorGUI()
     {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Current Language", GUILayout.MaxWidth(110.0f));
+        BeginHorizontal();
+        LabelField("Current Language", GUILayout.MaxWidth(110.0f));
         EditorGUI.BeginChangeCheck();
-        _cutScene.CurrentLanguage = (LanguageTypes)EditorGUILayout.EnumPopup(_cutScene.CurrentLanguage, GUILayout.MaxWidth(100.0f));
+        _cutScene.CurrentLanguage = (LanguageTypes)EnumPopup(_cutScene.CurrentLanguage, GUILayout.MaxWidth(100.0f));
         if (EditorGUI.EndChangeCheck())
         {
             EditorUtility.SetDirty(_cutScene);
             _status = null;
         }
-        EditorGUILayout.EndHorizontal();
+        EndHorizontal();
 
         if (GUILayout.Button($"Create {_cutScene.CurrentLanguage.ToString()} Json", GUILayout.MaxWidth(210.0f)))
         {
@@ -46,38 +47,38 @@ public class CutSceneEditor : ListEditorBase
             _status = $"Saved \"Resources/Languages/{_cutScene.name}_{_cutScene.CurrentLanguage.ToString()}.Json\"";
         }
 
-        EditorGUILayout.LabelField(_status);
+        LabelField(_status);
 
-        EditorGUILayout.Space(30.0f);
+        Space(30.0f);
 
         for (byte i = 0; i < _actions.Count; ++i)
         {
             CutScene.CutSceneInfo element = _actions[i];
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField($"Index {i.ToString()}", GUILayout.MaxWidth(120.0f));
-            EditorGUILayout.LabelField("Duration", GUILayout.MaxWidth(55.0f));
+            BeginHorizontal();
+            LabelField($"Index {i.ToString()}", GUILayout.MaxWidth(120.0f));
+            LabelField("Duration", GUILayout.MaxWidth(55.0f));
             EditorGUI.BeginChangeCheck();
-            element.Duration = EditorGUILayout.FloatField(element.Duration, GUILayout.MaxWidth(50.0f));
-            EditorGUILayout.Space(10.0f, false);
-            EditorGUILayout.LabelField("Image", GUILayout.MaxWidth(40.0f));
-            element.Image = (Sprite)EditorGUILayout.ObjectField(element.Image, typeof(Sprite), false, GUILayout.MaxWidth(120.0f));
-            EditorGUILayout.Space(10.0f, false);
-            EditorGUILayout.LabelField("Audio", GUILayout.MaxWidth(35.0f));
-            element.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false);
-            EditorGUILayout.EndHorizontal();
+            element.Duration = FloatField(element.Duration, GUILayout.MaxWidth(50.0f));
+            Space(10.0f, false);
+            LabelField("Image", GUILayout.MaxWidth(40.0f));
+            element.Image = (Sprite)ObjectField(element.Image, typeof(Sprite), false, GUILayout.MaxWidth(120.0f));
+            Space(10.0f, false);
+            LabelField("Audio", GUILayout.MaxWidth(35.0f));
+            element.Audio = (AudioClip)ObjectField(element.Audio, typeof(AudioClip), false);
+            EndHorizontal();
 
-            EditorGUILayout.BeginHorizontal();
+            BeginHorizontal();
             if (element.Image != null)
             {
                 GUILayout.Box(element.Image.texture, GUILayout.MaxWidth(120.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(10.0f), GUILayout.MinHeight(5.0f));
-                element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f), GUILayout.MaxHeight(60.0f));
+                element.Text = TextField(element.Text, GUILayout.MinHeight(20.0f), GUILayout.MaxHeight(60.0f));
             }
             else
             {
-                element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
+                element.Text = TextField(element.Text, GUILayout.MinHeight(20.0f));
             }
-            EditorGUILayout.EndHorizontal();
+            EndHorizontal();
 
 
             if (EditorGUI.EndChangeCheck())
@@ -88,19 +89,19 @@ public class CutSceneEditor : ListEditorBase
                 _status = null;
             }
 
-            EditorGUILayout.Space(30.0f);
+            Space(30.0f);
         }
 
-        EditorGUILayout.LabelField("Next Scene");
+        LabelField("Next Scene");
         EditorGUI.BeginChangeCheck();
-        _cutScene.NextScene = EditorGUILayout.TextField(_cutScene.NextScene, GUILayout.MinHeight(20.0f));
+        _cutScene.NextScene = TextField(_cutScene.NextScene, GUILayout.MinHeight(20.0f));
         if (EditorGUI.EndChangeCheck())
         {
             EditorUtility.SetDirty(_cutScene);
             _status = null;
         }
 
-        EditorGUILayout.Space(30.0f);
+        Space(30.0f);
 
         ListEditor(_cutScene, _actions, () => _cutScene.SetActions(_actions.ToArray()), "CutScene");
     }

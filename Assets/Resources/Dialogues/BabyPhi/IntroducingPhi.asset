@@ -21,3 +21,4 @@ MonoBehaviour:
     Text: This is my daughter.
     Audio: {fileID: 0}
     Branches: []
+  _currentLanguage: 0

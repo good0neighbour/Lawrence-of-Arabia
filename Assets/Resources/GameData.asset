@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7bd94793bb2e914b9ccb1df9127854a, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  MainFactionStage: 0
+  CurrentLanguage: 1
+  MainFaction: 0
+  CurrentHeist: WeaponHeist

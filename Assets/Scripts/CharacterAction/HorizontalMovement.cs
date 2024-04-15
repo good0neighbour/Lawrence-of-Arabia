@@ -108,7 +108,7 @@ public class HorizontalMovement : MonoBehaviour
             {
                 if (DetectIsCeiled())
                 {
-                    // Cannot up jump under BaseGround
+                    // Cannot up jump under Wall layer
                     return;
                 }
                 _velocityY = PLAYER_JUMP_SPEED;
@@ -118,10 +118,9 @@ public class HorizontalMovement : MonoBehaviour
             else
             {
                 _ignoredTerrain = DetectGround();
-                //if (_ignoredTerrain.tag.Equals("BaseGround"))
-                if (_ignoredTerrain.CompareTag("BaseGround"))
+                if (_ignoredTerrain.gameObject.layer == LAYER_D_WALL)
                 {
-                    // Cannot down jump on BaseGround
+                    // Cannot down jump on Wall layer
                     _ignoredTerrain = null;
                     return;
                 }
@@ -147,19 +146,15 @@ public class HorizontalMovement : MonoBehaviour
         Collider2D ceiling = Physics2D.OverlapArea(
             (Vector2)transform.position + new Vector2(-PLAYER_FEET_SIZE, 1.01f),
             (Vector2)transform.position + new Vector2(PLAYER_FEET_SIZE, 0.99f),
-            LAYER_B_TERRAIN
+            LAYER_B_WALL
         );
         if (ceiling == null)
         {
             return false;
         }
-        else if (ceiling.CompareTag("BaseGround"))
-        {
-            return true;
-        }
         else
         {
-            return false;
+            return true;
         }
     }
 

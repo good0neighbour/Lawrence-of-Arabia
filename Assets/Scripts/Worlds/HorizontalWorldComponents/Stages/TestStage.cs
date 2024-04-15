@@ -17,10 +17,16 @@ public class TestStage : StageManagerBase
     }
 
 
+    public override void CustomAction(string action)
+    {
+        
+    }
+
+
     protected override void Start()
     {
         // Get active character
-        CharacterData.Character[] temp = GameManager.Instance.CharacterData.GetCharacterList();
+        CharacterData.Character[] temp = GameManager.CharacterData.GetCharacterList();
 
         // Set character data
         List<Characters> characters = new List<Characters>();

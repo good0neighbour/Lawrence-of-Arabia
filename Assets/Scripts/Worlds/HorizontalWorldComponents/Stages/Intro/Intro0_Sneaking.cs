@@ -12,13 +12,20 @@ public class Intro0_Sneaking : StageManagerBase
 
     public override void StageClear()
     {
-        GameManager.Instance.NPCData.GetNPCList()[(int)NPCs.BabyPhi].RecentDialogue
+        GameManager.NPCData.GetNPCList()[(int)NPCs.BabyPhi].RecentDialogue
             = Resources.Load<DialogueScript>("Dialogues/BabyPhi/IntroducingPhi");
+        GameManager.GameData.CurrentHeist = "WeaponHeist";
         LoadScene("CS_Intro1");
     }
 
 
     public override void StageReturn()
+    {
+        
+    }
+
+
+    public override void CustomAction(string action)
     {
         
     }

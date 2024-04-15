@@ -67,6 +67,12 @@ public abstract class WorldManagerBase : MonoBehaviour
 
 
 
+    /* ==================== Abstract Methods ==================== */
+
+    public abstract void CustomAction(string action);
+
+
+
     /* ==================== Private Methods ==================== */
 
     private void BlackScreenFadeOut()

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
+using static UnityEditor.EditorGUILayout;
 
 [CustomEditor(typeof(DialogueScript))]
 public class DialogueEditor : ListEditorBase
@@ -21,16 +22,16 @@ public class DialogueEditor : ListEditorBase
 
     public override void OnInspectorGUI()
     {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Current Language", GUILayout.MaxWidth(110.0f));
+        BeginHorizontal();
+        LabelField("Current Language", GUILayout.MaxWidth(110.0f));
         EditorGUI.BeginChangeCheck();
-        _script.CurrentLanguage = (LanguageTypes)EditorGUILayout.EnumPopup(_script.CurrentLanguage, GUILayout.MaxWidth(100.0f));
+        _script.CurrentLanguage = (LanguageTypes)EnumPopup(_script.CurrentLanguage, GUILayout.MaxWidth(100.0f));
         if (EditorGUI.EndChangeCheck())
         {
             EditorUtility.SetDirty(_script);
             _status = null;
         }
-        EditorGUILayout.EndHorizontal();
+        EndHorizontal();
 
         if (GUILayout.Button($"Create {_script.CurrentLanguage.ToString()} Json", GUILayout.MaxWidth(210.0f)))
         {
@@ -58,20 +59,20 @@ public class DialogueEditor : ListEditorBase
             _status = $"Saved \"Resources/Languages/{_script.name}_{_script.CurrentLanguage.ToString()}.Json\"";
         }
 
-        EditorGUILayout.LabelField(_status);
+        LabelField(_status);
 
-        EditorGUILayout.Space(30.0f);
+        Space(30.0f);
 
         for (byte i = 0; i < _diagolues.Count; ++i)
         {
             DialogueScript.Dialogue element = _diagolues[i];
 
-            EditorGUILayout.LabelField($"Index {i.ToString()}");
+            LabelField($"Index {i.ToString()}");
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Type", GUILayout.MaxWidth(30.0f));
+            BeginHorizontal();
+            LabelField("Type", GUILayout.MaxWidth(30.0f));
             EditorGUI.BeginChangeCheck();
-            element.Type = (DialogueTypes)EditorGUILayout.EnumPopup(element.Type, GUILayout.MaxWidth(80.0f));
+            element.Type = (DialogueTypes)EnumPopup(element.Type, GUILayout.MaxWidth(100.0f));
             if (EditorGUI.EndChangeCheck())
             {
                 _diagolues[i] = element;
@@ -83,11 +84,11 @@ public class DialogueEditor : ListEditorBase
             {
                 case DialogueTypes.Selection:
                     #region Selection
-                    EditorGUILayout.Space(10.0f, false);
-                    EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
+                    Space(10.0f, false);
+                    LabelField("Name", GUILayout.MaxWidth(40.0f));
 
                     EditorGUI.BeginChangeCheck();
-                    element.Name = EditorGUILayout.TextField(element.Name, GUILayout.MaxWidth(70.0f));
+                    element.Name = TextField(element.Name, GUILayout.MaxWidth(70.0f));
                     if (EditorGUI.EndChangeCheck())
                     {
                         element.Image = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{element.Name}FullImage.PNG");
@@ -96,52 +97,52 @@ public class DialogueEditor : ListEditorBase
                         EditorUtility.SetDirty(_script);
                     }
 
-                    EditorGUILayout.Space(10.0f, false);
-                    EditorGUILayout.LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
+                    Space(10.0f, false);
+                    LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
                     EditorGUI.BeginChangeCheck();
-                    element.NameColour = (NameColours)EditorGUILayout.EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
-                    EditorGUILayout.Space(10.0f, false);
+                    element.NameColour = (NameColours)EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
+                    Space(10.0f, false);
                     if (element.Image == null)
                     {
                         if (string.IsNullOrEmpty(element.Name))
                         {
-                            EditorGUILayout.LabelField("This dialogue will function like narration.");
+                            LabelField("This dialogue will function like narration.");
                         }
                         else
                         {
                             EditorStyles.label.normal.textColor = new Color(1.0f, 0.2f, 0.2f);
-                            EditorGUILayout.LabelField("『Character image isn't loaded. Input Name correctly.『");
+                            LabelField("『Character image isn't loaded. Input Name correctly.『");
                             EditorStyles.label.normal.textColor = Color.white;
                         }
                     }
                     else
                     {
-                        EditorGUILayout.LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
-                        element.ImageDirection = (CharImageDir)EditorGUILayout.EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
+                        LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
+                        element.ImageDirection = (CharImageDir)EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
                     }
-                    EditorGUILayout.EndHorizontal();
+                    EndHorizontal();
                     ShowBranches(ref element);
                     #endregion
                     break;
 
                 case DialogueTypes.Narration:
                     #region Narration
-                    EditorGUILayout.EndHorizontal();
+                    EndHorizontal();
 
-                    EditorGUILayout.BeginHorizontal();
-                    element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
-                    element.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    element.Text = TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Audio = (AudioClip)ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
+                    EndHorizontal();
                     #endregion
                     break;
 
                 case DialogueTypes.Talk:
                     #region Talk
-                    EditorGUILayout.Space(10.0f, false);
-                    EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
+                    Space(10.0f, false);
+                    LabelField("Name", GUILayout.MaxWidth(40.0f));
 
                     EditorGUI.BeginChangeCheck();
-                    element.Name = EditorGUILayout.TextField(element.Name, GUILayout.MaxWidth(70.0f));
+                    element.Name = TextField(element.Name, GUILayout.MaxWidth(70.0f));
                     if (EditorGUI.EndChangeCheck())
                     {
                         element.Image = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{element.Name}FullImage.png");
@@ -150,64 +151,56 @@ public class DialogueEditor : ListEditorBase
                         EditorUtility.SetDirty(_script);
                     }
 
-                    EditorGUILayout.Space(10.0f, false);
-                    EditorGUILayout.LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
+                    Space(10.0f, false);
+                    LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
                     EditorGUI.BeginChangeCheck();
-                    element.NameColour = (NameColours)EditorGUILayout.EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
-                    EditorGUILayout.Space(10.0f, false);
+                    element.NameColour = (NameColours)EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
+                    Space(10.0f, false);
                     if (element.Image == null)
                     {
                         EditorStyles.label.normal.textColor = new Color(1.0f, 0.2f, 0.2f);
-                        EditorGUILayout.LabelField("『Character image isn't loaded. Input Name correctly.『");
+                        LabelField("『Character image isn't loaded. Input Name correctly.『");
                         EditorStyles.label.normal.textColor = Color.white;
                     }
                     else
                     {
-                        EditorGUILayout.LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
-                        element.ImageDirection = (CharImageDir)EditorGUILayout.EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
+                        LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
+                        element.ImageDirection = (CharImageDir)EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
                     }
-                    EditorGUILayout.EndHorizontal();
+                    EndHorizontal();
 
-                    EditorGUILayout.BeginHorizontal();
-                    element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
-                    element.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    element.Text = TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Audio = (AudioClip)ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
+                    EndHorizontal();
                     #endregion
                     break;
 
                 case DialogueTypes.TalkMaunally:
                     #region TalkMaunally
-                    EditorGUILayout.Space(10.0f, false);
-                    EditorGUILayout.LabelField("Name", GUILayout.MaxWidth(40.0f));
+                    Space(10.0f, false);
+                    LabelField("Name", GUILayout.MaxWidth(40.0f));
 
                     EditorGUI.BeginChangeCheck();
-                    element.Name = EditorGUILayout.TextField(element.Name, GUILayout.MaxWidth(70.0f));
+                    element.Name = TextField(element.Name, GUILayout.MaxWidth(70.0f));
 
-                    EditorGUILayout.Space(10.0f, false);
-                    EditorGUILayout.LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
+                    Space(10.0f, false);
+                    LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
                     EditorGUI.BeginChangeCheck();
-                    element.NameColour = (NameColours)EditorGUILayout.EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
-                    EditorGUILayout.Space(10.0f, false);
-                    if (element.Image == null)
-                    {
-                        EditorStyles.label.normal.textColor = new Color(1.0f, 0.2f, 0.2f);
-                        EditorGUILayout.LabelField("『Character image isn't loaded. Input Name correctly.『");
-                        EditorStyles.label.normal.textColor = Color.white;
-                    }
-                    else
-                    {
-                        EditorGUILayout.LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
-                        element.ImageDirection = (CharImageDir)EditorGUILayout.EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
-                    }
+                    element.NameColour = (NameColours)EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
 
-                    EditorGUILayout.Space(10.0f, false);
-                    element.Image = (Sprite)EditorGUILayout.ObjectField(element.Image, typeof(Sprite), false, GUILayout.MaxWidth(200.0f));
-                    EditorGUILayout.EndHorizontal();
+                    Space(10.0f, false);
+                    element.Image = (Sprite)ObjectField(element.Image, typeof(Sprite), false, GUILayout.MaxWidth(200.0f));
 
-                    EditorGUILayout.BeginHorizontal();
-                    element.Text = EditorGUILayout.TextField(element.Text, GUILayout.MinHeight(20.0f));
-                    element.Audio = (AudioClip)EditorGUILayout.ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
-                    EditorGUILayout.EndHorizontal();
+                    Space(10.0f, false);
+                    LabelField("Image Direction", GUILayout.MaxWidth(95.0f));
+                    element.ImageDirection = (CharImageDir)EnumPopup(element.ImageDirection, GUILayout.MaxWidth(60.0f));
+                    EndHorizontal();
+
+                    BeginHorizontal();
+                    element.Text = TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Audio = (AudioClip)ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
+                    EndHorizontal();
                     #endregion
                     break;
             }
@@ -219,7 +212,7 @@ public class DialogueEditor : ListEditorBase
                 EditorUtility.SetDirty(_script);
             }
 
-            EditorGUILayout.Space(30.0f);
+            Space(30.0f);
         }
 
         ListEditor(_script, _diagolues, () => _script.SetDialogues(_diagolues.ToArray()), "dialogue");
@@ -229,24 +222,25 @@ public class DialogueEditor : ListEditorBase
     private void ShowBranches(ref DialogueScript.Dialogue element)
     {
         List<DialogueScript.BranchDialogue> branches = element.GetBranches();
+
         for (byte i = 0; i < branches.Count; ++i)
         {
             DialogueScript.BranchDialogue temp = branches[i];
-            EditorGUILayout.BeginHorizontal();
+            BeginHorizontal();
             EditorGUI.BeginChangeCheck();
-            temp.Text = EditorGUILayout.TextField(branches[i].Text, GUILayout.MinHeight(20.0f));
-            temp.Branch = (DialogueScript)EditorGUILayout.ObjectField(branches[i].Branch, typeof(DialogueScript), false, GUILayout.MaxWidth(200.0f));
-            temp.Audio = (AudioClip)EditorGUILayout.ObjectField(branches[i].Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
+            temp.Text = TextField(branches[i].Text, GUILayout.MinHeight(20.0f));
+            temp.Branch = (DialogueScript)ObjectField(branches[i].Branch, typeof(DialogueScript), false, GUILayout.MaxWidth(200.0f));
+            temp.Audio = (AudioClip)ObjectField(branches[i].Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
             if (EditorGUI.EndChangeCheck())
             {
                 branches[i] = temp;
                 element.SetBranches(branches.ToArray());
                 EditorUtility.SetDirty(_script);
             }
-            EditorGUILayout.EndHorizontal();
+            EndHorizontal();
         }
 
-        EditorGUILayout.BeginHorizontal();
+        BeginHorizontal();
         if (GUILayout.Button("Add a branch to end"))
         {
             branches.Add(new DialogueScript.BranchDialogue());
@@ -259,6 +253,6 @@ public class DialogueEditor : ListEditorBase
             element.SetBranches(branches.ToArray());
             EditorUtility.SetDirty(_script);
         }
-        EditorGUILayout.EndHorizontal();
+        EndHorizontal();
     }
 }

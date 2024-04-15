@@ -198,7 +198,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     public void SetCharacters(Characters[] characters)
     {
         // Get character list
-        CharacterData.Character[] data = GameManager.Instance.CharacterData.GetCharacterList();
+        CharacterData.Character[] data = GameManager.CharacterData.GetCharacterList();
 
         _characters = new CurrentCharacter[characters.Length];
         for (byte i = 0; i < characters.Length; ++i)

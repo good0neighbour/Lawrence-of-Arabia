@@ -6,7 +6,7 @@ public class TriggerBase : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] protected TriggerAction[] Actions = null;
+    [SerializeField, HideInInspector] protected TriggerAction[] Actions = new TriggerAction[0];
 
 
 
@@ -16,13 +16,6 @@ public class TriggerBase : MonoBehaviour
     {
         foreach (TriggerAction act in Actions)
         {
-#if UNITY_EDITOR
-            if (act.TargetObject == null)
-            {
-                Debug.LogError($"{gameObject.name} : Target object is missing.");
-                return;
-            }
-#endif
             switch (act.ActionType)
             {
                 case ActionTypes.Enable:
@@ -49,25 +42,23 @@ public class TriggerBase : MonoBehaviour
                     break;
 
                 case ActionTypes.StartEventScene:
-#if UNITY_EDITOR
-                    IEventScene eventScene = act.TargetObject.GetComponent<IEventScene>();
-                    if (eventScene == null)
+                    act.TargetObject.GetComponent<IEventScene>().StartEventScene();
+                    break;
+
+                case ActionTypes.StageClear:
+                    StageManagerBase.Instance.StageClear();
+                    break;
+
+                case ActionTypes.CustomAction:
+                    if (StageManagerBase.Instance == null)
                     {
-                        Debug.LogError($"{gameObject.name} : Even scene is missing.");
-                        return;
+                        TownManagerBase.Instance.CustomAction(act.Text);
                     }
                     else
                     {
-                        eventScene.StartEventScene();
+                        StageManagerBase.Instance.CustomAction(act.Text);
                     }
-#else
-                    act.TargetObject.GetComponent<IEventScene>().StartEventScene();
-#endif
                     break;
-
-                    case ActionTypes.StageClear:
-                        StageManagerBase.Instance.StageClear();
-                        break;
             }
         }
     }
@@ -100,5 +91,6 @@ public class TriggerBase : MonoBehaviour
     {
         public ActionTypes ActionType;
         public GameObject TargetObject;
+        public string Text;
     }
 }

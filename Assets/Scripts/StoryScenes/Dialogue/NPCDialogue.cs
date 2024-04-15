@@ -15,7 +15,7 @@ public class NPCDialogue : DialogueBase
 
     public override List<DialogueScript.Dialogue> GetDialogueScript()
     {
-        NPCData.NPC[] npcs = GameManager.Instance.NPCData.GetNPCList();
+        NPCData.NPC[] npcs = GameManager.NPCData.GetNPCList();
         DialogueScript script = npcs[(int)_name].RecentDialogue;
         if (script != null)
         {

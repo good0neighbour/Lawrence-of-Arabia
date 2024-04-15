@@ -18,7 +18,7 @@ public class CharacterDialogue : DialogueBase
 
     public override List<DialogueScript.Dialogue> GetDialogueScript()
     {
-        CharacterData.Character[] characters = GameManager.Instance.CharacterData.GetCharacterList();
+        CharacterData.Character[] characters = GameManager.CharacterData.GetCharacterList();
         DialogueScript script = characters[(int)_name].RecentDialogue;
         if (script != null)
         {

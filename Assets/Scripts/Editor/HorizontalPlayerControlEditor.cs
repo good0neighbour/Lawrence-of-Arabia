@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using static UnityEditor.EditorGUILayout;
 
 [CustomEditor(typeof(HorizontalPlayerControl))]
 public class HorizontalPlayerControlEditor : Editor
@@ -17,17 +18,17 @@ public class HorizontalPlayerControlEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Flip", GUILayout.MaxWidth(40.0f));
+        BeginHorizontal();
+        LabelField("Flip", GUILayout.MaxWidth(40.0f));
         EditorGUI.BeginChangeCheck();
-        _flip = EditorGUILayout.Toggle(_flip);
+        _flip = Toggle(_flip);
         if (EditorGUI.EndChangeCheck())
         {
             _character.Flip = _flip;
             EditorUtility.SetDirty(_character);
         }
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.Space(10.0f);
+        EndHorizontal();
+        Space(10.0f);
         base.OnInspectorGUI();
     }
 }

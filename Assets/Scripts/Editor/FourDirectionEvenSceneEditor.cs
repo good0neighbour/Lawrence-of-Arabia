@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using static UnityEditor.EditorGUILayout;
 
 [CustomEditor(typeof(FourDirectionEventScene))]
 public class FourDirectionEventSceneEditor : ListEditorBase
@@ -23,89 +24,89 @@ public class FourDirectionEventSceneEditor : ListEditorBase
         {
             EventSceneBase.EventSceneAction element = _actions[i];
 
-            EditorGUILayout.LabelField($"Index {i.ToString()}");
+            LabelField($"Index {i.ToString()}");
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Action Type", GUILayout.MaxWidth(120.0f));
+            BeginHorizontal();
+            LabelField("Action Type", GUILayout.MaxWidth(120.0f));
             EditorGUI.BeginChangeCheck();
-            element.Action = (EventSceneActions)EditorGUILayout.EnumPopup(element.Action, GUILayout.MaxWidth(150.0f));
-            EditorGUILayout.EndHorizontal();
+            element.Action = (EventSceneActions)EnumPopup(element.Action, GUILayout.MaxWidth(150.0f));
+            EndHorizontal();
 
             switch (element.Action)
             {
                 case EventSceneActions.CameraMove:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Target Position", GUILayout.MaxWidth(120.0f));
-                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Target Position", GUILayout.MaxWidth(120.0f));
+                    element.TargetTransform = (Transform)ObjectField(element.TargetTransform, typeof(Transform), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.NPCMove:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
-                    EditorGUILayout.EndHorizontal();
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Target Position", GUILayout.MaxWidth(120.0f));
-                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)ObjectField(element.TargetObject, typeof(GameObject), true);
+                    EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Target Position", GUILayout.MaxWidth(120.0f));
+                    element.TargetTransform = (Transform)ObjectField(element.TargetTransform, typeof(Transform), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.NPCJump:
-                    EditorGUILayout.LabelField("Cannot jump in FourDirection map.");
+                    LabelField("Cannot jump in FourDirection map.");
                     break;
 
                 case EventSceneActions.NPCLookAtTarget:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
-                    EditorGUILayout.EndHorizontal();
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Look at", GUILayout.MaxWidth(120.0f));
-                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)ObjectField(element.TargetObject, typeof(GameObject), true);
+                    EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Look at", GUILayout.MaxWidth(120.0f));
+                    element.TargetTransform = (Transform)ObjectField(element.TargetTransform, typeof(Transform), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.NPCLookAtPlayer:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)ObjectField(element.TargetObject, typeof(GameObject), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.PlayerLookAt:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Look at", GUILayout.MaxWidth(120.0f));
-                    element.TargetTransform = (Transform)EditorGUILayout.ObjectField(element.TargetTransform, typeof(Transform), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Look at", GUILayout.MaxWidth(120.0f));
+                    element.TargetTransform = (Transform)ObjectField(element.TargetTransform, typeof(Transform), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.Enable:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Target Object", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Target Object", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)ObjectField(element.TargetObject, typeof(GameObject), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.Disable:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Target Object", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Target Object", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)ObjectField(element.TargetObject, typeof(GameObject), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.Destroy:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Target Object", GUILayout.MaxWidth(120.0f));
-                    element.TargetObject = (GameObject)EditorGUILayout.ObjectField(element.TargetObject, typeof(GameObject), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Target Object", GUILayout.MaxWidth(120.0f));
+                    element.TargetObject = (GameObject)ObjectField(element.TargetObject, typeof(GameObject), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.StartDialogue:
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Dialogue Script", GUILayout.MaxWidth(120.0f));
-                    element.DialogueScript = (DialogueBase)EditorGUILayout.ObjectField(element.DialogueScript, typeof(DialogueBase), true);
-                    EditorGUILayout.EndHorizontal();
+                    BeginHorizontal();
+                    LabelField("Dialogue Script", GUILayout.MaxWidth(120.0f));
+                    element.DialogueScript = (DialogueBase)ObjectField(element.DialogueScript, typeof(DialogueBase), true);
+                    EndHorizontal();
                     break;
 
                 case EventSceneActions.CloseDialogue:
@@ -113,10 +114,10 @@ public class FourDirectionEventSceneEditor : ListEditorBase
                     break;
             }
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Duration", GUILayout.MaxWidth(120.0f));
-            element.Duration = EditorGUILayout.FloatField(element.Duration);
-            EditorGUILayout.EndHorizontal();
+            BeginHorizontal();
+            LabelField("Duration", GUILayout.MaxWidth(120.0f));
+            element.Duration = FloatField(element.Duration);
+            EndHorizontal();
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -125,7 +126,7 @@ public class FourDirectionEventSceneEditor : ListEditorBase
                 EditorUtility.SetDirty(_scene);
             }
 
-            EditorGUILayout.Space(20.0f);
+            Space(20.0f);
         }
 
         ListEditor(_scene, _actions, () => _scene.SetActions(_actions.ToArray()), "EventScene action");

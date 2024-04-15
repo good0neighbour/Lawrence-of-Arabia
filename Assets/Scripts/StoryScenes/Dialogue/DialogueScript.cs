@@ -31,7 +31,7 @@ public class DialogueScript : DialogueBase
     public override List<Dialogue> GetDialogueScript()
     {
         List<Dialogue> result = new List<Dialogue>();
-        if (_currentLanguage == GameManager.Instance.GameData.CurrentLanguage)
+        if (_currentLanguage == GameManager.GameData.CurrentLanguage)
         {
             for (byte i = 0; i < _dialogues.Length; ++i)
             {
@@ -43,7 +43,7 @@ public class DialogueScript : DialogueBase
             for (byte i = 0; i < _dialogues.Length; ++i)
             {
                 // New language
-                _currentLanguage = GameManager.Instance.GameData.CurrentLanguage;
+                _currentLanguage = GameManager.GameData.CurrentLanguage;
 
                 // Load Json file
                 Language.LanguageJson json = JsonUtility.FromJson<Language.LanguageJson>(Resources.Load($"Languages/{name}_{_currentLanguage.ToString()}").ToString());
@@ -112,9 +112,16 @@ public class DialogueScript : DialogueBase
         public List<BranchDialogue> GetBranches()
         {
             List<BranchDialogue> result = new List<BranchDialogue>();
-            foreach (BranchDialogue item in Branches)
+            if (Branches == null)
             {
-                result.Add(item);
+                Branches = new BranchDialogue[0];
+            }
+            else
+            {
+                foreach (BranchDialogue item in Branches)
+                {
+                    result.Add(item);
+                }
             }
             return result;
         }

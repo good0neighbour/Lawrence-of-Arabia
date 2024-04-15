@@ -24,7 +24,7 @@ public class Language
     {
         get
         {
-            switch (GameManager.Instance.GameData.CurrentLanguage)
+            switch (GameManager.GameData.CurrentLanguage)
             {
                 case LanguageTypes.English:
                     return en;

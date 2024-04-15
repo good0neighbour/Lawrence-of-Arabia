@@ -42,7 +42,8 @@ public enum ActionTypes
     Delete,
     PlayerTeleport,
     StartEventScene,
-    StageClear
+    StageClear,
+    CustomAction
 }
 
 
@@ -136,5 +137,12 @@ public enum NPCs
 public enum LanguageTypes
 {
     English,
-    Korean
+    Korean,
+    Taiwanese
+}
+
+
+public enum MainFaction
+{
+    Intro
 }

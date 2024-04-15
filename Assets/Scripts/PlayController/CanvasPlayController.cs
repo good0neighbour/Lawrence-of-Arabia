@@ -98,7 +98,7 @@ public class CanvasPlayController : MonoBehaviour
     public void SetCharacterButtons(Characters[] characters)
     {
         // Get character list
-        CharacterData.Character[] data = GameManager.Instance.CharacterData.GetCharacterList();
+        CharacterData.Character[] data = GameManager.CharacterData.GetCharacterList();
 
         // Set character Buttons
         for (byte i = 0; i < characters.Length; ++i)

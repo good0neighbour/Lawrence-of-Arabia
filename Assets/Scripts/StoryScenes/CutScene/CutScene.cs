@@ -46,9 +46,9 @@ public class CutScene : ScriptableObject
     /// </summary>
     public CutSceneInfo[] GetCutSceneActions()
     {
-        if (_currentLanguage != GameManager.Instance.GameData.CurrentLanguage)
+        if (_currentLanguage != GameManager.GameData.CurrentLanguage)
         {
-            SetLanguage(GameManager.Instance.GameData.CurrentLanguage);
+            SetLanguage(GameManager.GameData.CurrentLanguage);
         }
         return _actions;
     }

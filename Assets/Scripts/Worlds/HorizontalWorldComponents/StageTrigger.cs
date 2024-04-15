@@ -6,7 +6,7 @@ public class StageTrigger : TriggerBase
 {
     /* ==================== Fields ==================== */
 
-    [SerializeField] private ConditionInfo[] _conditions = null;
+    [SerializeField] private ConditionInfo[] _conditions = new ConditionInfo[0];
 
 
 

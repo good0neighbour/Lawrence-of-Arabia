@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.EditorGUILayout;
 
 public class LanguageCreatorEditor : EditorWindow
 {
@@ -32,14 +33,14 @@ public class LanguageCreatorEditor : EditorWindow
     {
         List<string> texts = new List<string>();
 
-        EditorGUILayout.LabelField("Target Type");
-        _type = (TargetTypes)EditorGUILayout.EnumPopup(_type, GUILayout.MaxWidth(200.0f));
+        LabelField("Target Type");
+        _type = (TargetTypes)EnumPopup(_type, GUILayout.MaxWidth(200.0f));
 
         switch (_type)
         {
             case TargetTypes.Dialogue:
                 EditorGUI.BeginChangeCheck();
-                _dialogue = (DialogueScript)EditorGUILayout.ObjectField(_dialogue, typeof(DialogueScript), false);
+                _dialogue = (DialogueScript)ObjectField(_dialogue, typeof(DialogueScript), false);
                 if (EditorGUI.EndChangeCheck() && _dialogue != null)
                 {
                     List<DialogueScript.Dialogue> dia = _dialogue.GetDialogueScript();
@@ -68,7 +69,7 @@ public class LanguageCreatorEditor : EditorWindow
 
             case TargetTypes.CutScene:
                 EditorGUI.BeginChangeCheck();
-                _cutscene = (CutScene)EditorGUILayout.ObjectField(_cutscene, typeof(CutScene), false);
+                _cutscene = (CutScene)ObjectField(_cutscene, typeof(CutScene), false);
                 if (EditorGUI.EndChangeCheck() && _cutscene != null)
                 {
                     CutScene.CutSceneInfo[] actions = _cutscene.GetCutSceneActions();
@@ -96,7 +97,7 @@ public class LanguageCreatorEditor : EditorWindow
             _status = "English Json file has been saved.";
         }
 
-        EditorGUILayout.LabelField(_status);
+        LabelField(_status);
     }
 
 
