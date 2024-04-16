@@ -1673,7 +1673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Actions:
-  - ActionType: 6
+  - ActionType: 7
     TargetObject: {fileID: 0}
     Text: HeistPlan
   _interactableRadius: 1.5

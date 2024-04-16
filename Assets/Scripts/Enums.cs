@@ -95,7 +95,8 @@ public enum HeistPlanType
 public enum Characters
 {
     Lawrence,
-    Phi
+    Phi,
+    End
 }
 
 

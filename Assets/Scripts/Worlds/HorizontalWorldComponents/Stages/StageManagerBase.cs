@@ -46,6 +46,13 @@ public abstract class StageManagerBase : WorldManagerBase
         {
             enemy.SetEnemyPause(pause);
         }
+
+        // Objective
+        if (_showObjective)
+        {
+            _objectiveText.gameObject.SetActive(!pause);
+            _objectiveArrow.gameObject.SetActive(!pause);
+        }
     }
 
 

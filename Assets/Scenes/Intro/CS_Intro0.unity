@@ -732,6 +732,7 @@ MonoBehaviour:
   _image: {fileID: 959427896}
   _text: {fileID: 459008154}
   _audioSource: {fileID: 1198912109}
+  _skipButton: {fileID: 2013641459}
 --- !u!82 &1198912109
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1017,7 +1018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2013641460
 RectTransform:
   m_ObjectHideFlags: 0

@@ -84,6 +84,11 @@ public class Constants
     // Audio Settings
     public const byte SOUND_CHANNEL = 4;
 
+    // Character Selection Settings
+    public const float CHARSEL_MIN_ANCHOR = 0.1f;
+    public const float CHARSEL_MAX_ANCHOR = 0.6f;
+    public const float CHARSEL_ANIM_SPEED = 1.0f;
+
     // Physics
     public const float GRAVITY_ACCELERATION = -50.0f;
     public const float DELTA_TIME_LIMIT = 0.02f;
@@ -151,5 +156,7 @@ public class Constants
     public const float ENEMY_JUMP_UP_POSI = ENEMY_MOVE_POSI + ENEMY_MOVE_POSI_DOUBLE + ENEMY_JUMP_POSI;
     public const float ENEMY_JUMP_DOWN_POSI = ENEMY_JUMP_UP_POSI + ENEMY_JUMP_POSI;
     public const float ENEMY_URGENT_JUMP_POSI_ACTUAL = ENEMY_URGENT_MOVE_POSI + ENEMY_URGENT_JUMP_POSI;
+    public const float CHARSEL_ANCHOR_MULT = -0.5f * (CHARSEL_MAX_ANCHOR - CHARSEL_MIN_ANCHOR);
+    public const float CHARSEL_ANCHOR_ADD = CHARSEL_MIN_ANCHOR - CHARSEL_ANCHOR_MULT;
     public const float RAD_TO_DEG = 180.0f / Mathf.PI;
 }

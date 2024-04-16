@@ -22,7 +22,9 @@ MonoBehaviour:
     DamageIncrease: 10
     RangeRateIncrease: 10
     LvForArmorIncrease: 1
-    FullImage: {fileID: 21300000, guid: 699318b04b833ec4bbdd874a2f1104f2, type: 3}
+    FullImage: {fileID: 21300000, guid: 0aac6bc7d490f834494ce3b18d114f4a, type: 3}
+    ButtonImage: {fileID: 21300000, guid: 4cf10903ec8a72349bdb9f99b763ecc6, type: 3}
+    ProfileImage: {fileID: 21300000, guid: 8c6d6656d39dd7e4aabbc0c643c56d6c, type: 3}
     Sprite: {fileID: 21300000, guid: 2d2a1eed6620446459a2a22595a0ce2e, type: 3}
     CurRange: 10
     CurHealth: 100
@@ -32,6 +34,8 @@ MonoBehaviour:
     Type: 1
     Weapon: 0
     Level: 0
+    Trust: 0
+    RecentDialogue: {fileID: 0}
   - Name: 1
     BaseHealth: 10
     BaseArmor: 0
@@ -42,6 +46,8 @@ MonoBehaviour:
     RangeRateIncrease: 5
     LvForArmorIncrease: 5
     FullImage: {fileID: 21300000, guid: 10905e1cd2f3a654f9761e9c0ae91563, type: 3}
+    ButtonImage: {fileID: 21300000, guid: 403581344d9f9714f8a660decc5807c8, type: 3}
+    ProfileImage: {fileID: 21300000, guid: 94b88bb36d535264e892b955383c4da6, type: 3}
     Sprite: {fileID: 21300000, guid: 4ffddc4e754a7fb4bab6f4419b206ab3, type: 3}
     CurRange: 0
     CurHealth: 10
@@ -51,3 +57,5 @@ MonoBehaviour:
     Type: 1
     Weapon: 0
     Level: 0
+    Trust: 0
+    RecentDialogue: {fileID: 0}

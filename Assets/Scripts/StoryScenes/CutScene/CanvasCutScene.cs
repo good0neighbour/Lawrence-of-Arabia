@@ -13,6 +13,7 @@ public class CanvasCutScene : MonoBehaviour
     [SerializeField] private Image _image = null;
     [SerializeField] private TextMeshProUGUI _text = null;
     [SerializeField] private AudioSource _audioSource = null;
+    [SerializeField] private GameObject _skipButton = null;
     private CutScene.CutSceneInfo[] _actions = null;
     private byte _current = 0;
     private byte _state = CUTSCENE_FADEIN;
@@ -65,6 +66,15 @@ public class CanvasCutScene : MonoBehaviour
     }
 
 
+    private void CutSceneEnd()
+    {
+        _text.text = null;
+        _state = CUTSCENE_FADEOUT;
+        _timer = 1.0f;
+        _skipButton.SetActive(false);
+    }
+
+
     private void Awake()
     {
         _actions = _cutScene.GetCutSceneActions();
@@ -76,45 +86,69 @@ public class CanvasCutScene : MonoBehaviour
 
     private void Update()
     {
-        // Skip
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SkipPress(true);
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            SkipPress(false);
-        }
-
-        if (_skipPressed)
-        {
-            _skip += Time.deltaTime * CUTSCN_SKIP_SPEED;
-            _skipImage.fillAmount = _skip;
-            if (_skip >= 1.0f)
-            {
-                SceneManager.LoadScene(_cutScene.GetNextSceneName());
-                return;
-            }
-        }
-
-        // FadeIn
         switch (_state)
         {
             case CUTSCENE_FADEIN:
+                #region FadeIn
                 _timer += Time.deltaTime;
                 if (_timer >= 1.0f)
                 {
                     _image.color = Color.white;
                     CurrentAction();
+                    _skipButton.SetActive(true);
                     _state = CUTSCENE_ACTION;
                 }
                 else
                 {
                     _image.color = new Color(_timer, _timer, _timer, 1.0f);
                 }
+                #endregion
+                return;
+
+            case CUTSCENE_ACTION:
+                #region Action
+                // Skip
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SkipPress(true);
+                }
+                else if (Input.GetKeyUp(KeyCode.Space))
+                {
+                    SkipPress(false);
+                }
+
+                if (_skipPressed)
+                {
+                    _skip += Time.deltaTime * CUTSCN_SKIP_SPEED;
+                    _skipImage.fillAmount = _skip;
+                    if (_skip >= 1.0f)
+                    {
+                        CutSceneEnd();
+                        SkipPress(false);
+                        return;
+                    }
+                }
+
+                // CutScene actions
+                _timer += Time.deltaTime;
+                if (_timer >= _actions[_current].Duration)
+                {
+                    ++_current;
+                    if (_current < _actions.Length)
+                    {
+                        CurrentAction();
+                    }
+                    else
+                    {
+                        CutSceneEnd();
+                        return;
+                    }
+                }
+                #endregion
                 return;
 
             case CUTSCENE_FADEOUT:
+                #region FadeOut
                 _timer -= Time.deltaTime;
                 if (_timer <= 0.0f)
                 {
@@ -126,28 +160,8 @@ public class CanvasCutScene : MonoBehaviour
                     _image.color = new Color(_timer, _timer, _timer, 1.0f);
                     _audioSource.volume = _timer;
                 }
+                #endregion
                 return;
-
-            default:
-                break;
-        }
-
-        // CutScene actions
-        _timer += Time.deltaTime;
-        if (_timer >= _actions[_current].Duration)
-        {
-            ++_current;
-            if (_current < _actions.Length)
-            {
-                CurrentAction();
-            }
-            else
-            {
-                _text.text = null;
-                _state = CUTSCENE_FADEOUT;
-                _timer = 1.0f;
-                return;
-            }
         }
     }
 }
