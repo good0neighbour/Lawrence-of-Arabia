@@ -12456,6 +12456,11 @@ MonoBehaviour:
   _mapNameText: {fileID: 6677295559509775652}
   _joystick: {fileID: 826337707}
   _failureScreen: {fileID: 1802292800}
+  _objectiveText: {fileID: 6677295559509775655}
+  _objectiveArrow: {fileID: 1816991755337950026}
+  _objectives:
+  - Text: Escape from this stage.
+    Target: {fileID: 4212897227414074811}
 --- !u!1001 &1702637822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14607,6 +14612,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01e21bed83b5d184ebf9b99e18195126, type: 3}
+--- !u!224 &1816991755337950026 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1761611984881611856, guid: 01e21bed83b5d184ebf9b99e18195126, type: 3}
+  m_PrefabInstance: {fileID: 1816991755337950025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3085902969248232959 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7721604055207074664, guid: 44e43dc790bfa6c44aa6e61824a37750, type: 3}
@@ -15018,6 +15028,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasStageUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1570475885845396135, guid: feea9184cc4384c4fa8ff32e32143d22, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4441407134014759003, guid: feea9184cc4384c4fa8ff32e32143d22, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -15123,6 +15137,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6677295559509775655 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2875066842139356823, guid: feea9184cc4384c4fa8ff32e32143d22, type: 3}
+  m_PrefabInstance: {fileID: 6677295559509775651}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!61 &6790035888198940814
@@ -15240,7 +15265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Actions:
-  - ActionType: 5
+  - ActionType: 6
     TargetObject: {fileID: 9149318117118592271}
     Text: 
   _triggerType: 0

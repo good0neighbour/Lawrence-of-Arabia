@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 using static Constants;
 
 public abstract class StageManagerBase : WorldManagerBase
@@ -8,7 +10,13 @@ public abstract class StageManagerBase : WorldManagerBase
     /* ==================== Fields ==================== */
 
     [SerializeField] protected GameObject _failureScreen = null;
+    [SerializeField] private TextMeshProUGUI _objectiveText = null;
+    [SerializeField] private RectTransform _objectiveArrow = null;
+    [Header("Objectives")]
+    [SerializeField] private ObjectiveInfo[] _objectives = null;
     private List<EnemyBase> _enemies = new List<EnemyBase>();
+    private byte _currentObjective = 0;
+    private bool _showObjective = false;
 
     public static StageManagerBase Instance
     {
@@ -74,6 +82,23 @@ public abstract class StageManagerBase : WorldManagerBase
     }
 
 
+    public void NextObjective()
+    {
+        if (_currentObjective < _objectives.Length - 1)
+        {
+            ++_currentObjective;
+            _objectiveText.text = _objectives[_currentObjective].Text;
+            StageMessage.Instance.EnqueueMessage($"<size=80%>New Objective</size>\n{_objectives[_currentObjective].Text}");
+        }
+        else
+        {
+            _objectiveText.text = null;
+            _objectiveArrow.gameObject.SetActive(false);
+            _showObjective = false;
+        }
+    }
+
+
 
     /* ==================== Protected Methods ==================== */
 
@@ -84,6 +109,18 @@ public abstract class StageManagerBase : WorldManagerBase
         HorizontalPlayerControl.Instance.DeleteInstance();
         CameraHorizontalMovement.Instance.DeleteInstance();
         ObjectPool = null;
+    }
+
+
+    protected override void OnStageStart()
+    {
+        // Set objective
+        if (_objectives != null && _objectives.Length > 0)
+        {
+            _objectiveText.text = _objectives[0].Text;
+            _objectiveArrow.gameObject.SetActive(true);
+            _showObjective = true;
+        }
     }
 
 
@@ -112,6 +149,33 @@ public abstract class StageManagerBase : WorldManagerBase
     }
 
 
+    protected override void Update()
+    {
+        base.Update();
+        if (_showObjective)
+        {
+            // Objective direction
+            Vector2 dir = new Vector2(
+                _objectives[_currentObjective].Target.position.x - HorizontalPlayerControl.Instance.transform.position.x,
+                _objectives[_currentObjective].Target.position.y - HorizontalPlayerControl.Instance.transform.position.y
+            );
+
+            // Arrow rotation
+            Quaternion rot;
+            if (dir.x > 0.0f)
+            {
+                rot = Quaternion.Euler(0.0f, 0.0f, Mathf.Atan(dir.y / dir.x) * RAD_TO_DEG);
+            }
+            else
+            {
+                rot = Quaternion.Euler(0.0f, 0.0f, 180.0f + Mathf.Atan(dir.y / dir.x) * RAD_TO_DEG);
+            }
+            _objectiveArrow.localRotation = rot;
+            _objectiveArrow.localPosition = rot * new Vector3(PLAYER_OBJARROW_DISTANCE, 0.0f, 0.0f);
+        }
+    }
+
+
 
     /* ==================== Abstract Methods ==================== */
 
@@ -131,5 +195,16 @@ public abstract class StageManagerBase : WorldManagerBase
         {
             _failureScreen.SetActive(true);
         }
+    }
+
+
+
+    /* ==================== Struct ==================== */
+
+    [Serializable]
+    private struct ObjectiveInfo
+    {
+        public string Text;
+        public Transform Target;
     }
 }

@@ -27,4 +27,13 @@ public class IntroSafeHouse : TownManagerBase
                 break;
         }
     }
+
+
+
+    /* ==================== Protected Methods ==================== */
+
+    protected override void OnStageStart()
+    {
+        
+    }
 }

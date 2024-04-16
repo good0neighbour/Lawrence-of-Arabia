@@ -26,6 +26,7 @@ public abstract class ActionEditorBase : ListEditorBase
                     act.TargetObject = (GameObject)ObjectField(act.TargetObject, typeof(GameObject), true);
                     break;
 
+                case ActionTypes.NextObjective:
                 case ActionTypes.StageClear:
                     break;
 

@@ -45,6 +45,10 @@ public class TriggerBase : MonoBehaviour
                     act.TargetObject.GetComponent<IEventScene>().StartEventScene();
                     break;
 
+                case ActionTypes.NextObjective:
+                    StageManagerBase.Instance.NextObjective();
+                    break;
+
                 case ActionTypes.StageClear:
                     StageManagerBase.Instance.StageClear();
                     break;

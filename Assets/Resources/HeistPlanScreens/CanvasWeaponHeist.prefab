@@ -309,8 +309,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Heist
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3902dc10a44c41a40a136a9f52e9c1b2, type: 2}
-  m_sharedMaterial: {fileID: -7125767402029968195, guid: 3902dc10a44c41a40a136a9f52e9c1b2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3166b13321a26c94da8731235c80fd8d, type: 2}
+  m_sharedMaterial: {fileID: 5326444654906061225, guid: 3166b13321a26c94da8731235c80fd8d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64
+  m_fontSize: 54.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -443,8 +443,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Begin Heist
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3902dc10a44c41a40a136a9f52e9c1b2, type: 2}
-  m_sharedMaterial: {fileID: -7125767402029968195, guid: 3902dc10a44c41a40a136a9f52e9c1b2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3166b13321a26c94da8731235c80fd8d, type: 2}
+  m_sharedMaterial: {fileID: 5326444654906061225, guid: 3166b13321a26c94da8731235c80fd8d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -728,8 +728,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Options
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3902dc10a44c41a40a136a9f52e9c1b2, type: 2}
-  m_sharedMaterial: {fileID: -7125767402029968195, guid: 3902dc10a44c41a40a136a9f52e9c1b2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3166b13321a26c94da8731235c80fd8d, type: 2}
+  m_sharedMaterial: {fileID: 5326444654906061225, guid: 3166b13321a26c94da8731235c80fd8d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1082,8 +1082,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Preparations
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3902dc10a44c41a40a136a9f52e9c1b2, type: 2}
-  m_sharedMaterial: {fileID: -7125767402029968195, guid: 3902dc10a44c41a40a136a9f52e9c1b2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3166b13321a26c94da8731235c80fd8d, type: 2}
+  m_sharedMaterial: {fileID: 5326444654906061225, guid: 3166b13321a26c94da8731235c80fd8d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -1028,7 +1028,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 323297341914641391, guid: feea9184cc4384c4fa8ff32e32143d22, type: 3}
       propertyPath: m_Name
-      value: CanvasIntro
+      value: CanvasStageUI
       objectReference: {fileID: 0}
     - target: {fileID: 4441407134014759003, guid: feea9184cc4384c4fa8ff32e32143d22, type: 3}
       propertyPath: m_Pivot.x

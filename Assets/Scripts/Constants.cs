@@ -13,6 +13,7 @@ public class Constants
     public const float PLAYER_RADIUS = 0.5f;
     public const float PLAYER_IMMUNE_TIME = 3.0f;
     public const float PLAYER_DEATH_STANDBY_TIME = 3.0f;
+    public const float PLAYER_OBJARROW_DISTANCE = 0.75f;
     public static readonly Vector2 PLAYER_ATKEFT_POS = new Vector2(0.4f, 0.6f);
 
     // Enemy Settings
@@ -150,4 +151,5 @@ public class Constants
     public const float ENEMY_JUMP_UP_POSI = ENEMY_MOVE_POSI + ENEMY_MOVE_POSI_DOUBLE + ENEMY_JUMP_POSI;
     public const float ENEMY_JUMP_DOWN_POSI = ENEMY_JUMP_UP_POSI + ENEMY_JUMP_POSI;
     public const float ENEMY_URGENT_JUMP_POSI_ACTUAL = ENEMY_URGENT_MOVE_POSI + ENEMY_URGENT_JUMP_POSI;
+    public const float RAD_TO_DEG = 180.0f / Mathf.PI;
 }

@@ -66,10 +66,19 @@ public abstract class WorldManagerBase : MonoBehaviour
     }
 
 
+    protected virtual void Update()
+    {
+        Delegate.Invoke();
+    }
+
+
 
     /* ==================== Abstract Methods ==================== */
 
     public abstract void CustomAction(string action);
+
+
+    protected abstract void OnStageStart();
 
 
 
@@ -90,6 +99,7 @@ public abstract class WorldManagerBase : MonoBehaviour
                 );
                 PauseGame(false);
                 _blackScreen.gameObject.SetActive(false);
+                OnStageStart();
             }
             else
             {
@@ -187,11 +197,5 @@ public abstract class WorldManagerBase : MonoBehaviour
         Timer = 1.0f;
         Delegate += BlackScreenFadeIn;
         _blackScreen.gameObject.SetActive(true);
-    }
-
-
-    private void Update()
-    {
-        Delegate.Invoke();
     }
 }

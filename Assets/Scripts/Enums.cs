@@ -42,6 +42,7 @@ public enum ActionTypes
     Delete,
     PlayerTeleport,
     StartEventScene,
+    NextObjective,
     StageClear,
     CustomAction
 }
@@ -84,10 +85,10 @@ public enum CutSceneActions
 }
 
 
-public enum FDInteractionTypes
+public enum HeistPlanType
 {
-    Enable,
-    StartEventScene
+    Essential,
+    Optional
 }
 
 

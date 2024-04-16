@@ -12,9 +12,15 @@ public class Intro0_Sneaking : StageManagerBase
 
     public override void StageClear()
     {
+        // New dialogue
         GameManager.NPCData.GetNPCList()[(int)NPCs.BabyPhi].RecentDialogue
             = Resources.Load<DialogueScript>("Dialogues/BabyPhi/IntroducingPhi");
+
+        // Game data
         GameManager.GameData.CurrentHeist = "WeaponHeist";
+        GameManager.GameData.CurrentPreperation = 0;
+
+        // Next scene
         LoadScene("CS_Intro1");
     }
 
