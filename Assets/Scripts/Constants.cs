@@ -85,8 +85,8 @@ public class Constants
     public const byte SOUND_CHANNEL = 4;
 
     // Character Selection Settings
-    public const float CHARSEL_MIN_ANCHOR = 0.1f;
-    public const float CHARSEL_MAX_ANCHOR = 0.6f;
+    public const float CHARSEL_MIN_ANCHOR = 0.05f;
+    public const float CHARSEL_MAX_ANCHOR = 0.5f;
     public const float CHARSEL_ANIM_SPEED = 1.0f;
 
     // Physics

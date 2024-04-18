@@ -146,7 +146,7 @@ public class CanvasHeistPlanScreen : MonoBehaviour
         // Set character buttons
         GameObject charBtn = _charImage.transform.parent.gameObject;
         Transform parent = charBtn.transform.parent;
-        _charList = TownManagerBase.Instance.GetActiveCharList();
+        _charList = GameManager.Instance.GetActiveCharList();
         _charImage.sprite = _charList[0].ButtonImage;
         for (byte i = 1; i < _charList.Length; ++i)
         {

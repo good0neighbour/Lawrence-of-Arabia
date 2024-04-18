@@ -52,10 +52,6 @@ public class FourDirectionEventSceneEditor : ListEditorBase
                     EndHorizontal();
                     break;
 
-                case EventSceneActions.NPCJump:
-                    LabelField("Cannot jump in FourDirection map.");
-                    break;
-
                 case EventSceneActions.NPCLookAtTarget:
                     BeginHorizontal();
                     LabelField("Target NPC", GUILayout.MaxWidth(120.0f));
@@ -110,7 +106,18 @@ public class FourDirectionEventSceneEditor : ListEditorBase
                     break;
 
                 case EventSceneActions.CloseDialogue:
+                    break;
+
+                case EventSceneActions.CustomAction:
+                    BeginHorizontal();
+                    LabelField("Custom Action", GUILayout.MaxWidth(120.0f));
+                    element.Text = TextField(element.Text);
+                    EndHorizontal();
+                    break;
+
+                case EventSceneActions.NPCJump:
                 case EventSceneActions.StageClear:
+                    LabelField("Cannot be used in FourDeirection stage.");
                     break;
             }
 
@@ -128,6 +135,18 @@ public class FourDirectionEventSceneEditor : ListEditorBase
 
             Space(20.0f);
         }
+
+        BeginHorizontal();
+        EditorGUI.BeginChangeCheck();
+        _scene.ResumeAtTheEnd = Toggle(_scene.ResumeAtTheEnd, GUILayout.MaxWidth(20.0f));
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(_scene);
+        }
+        LabelField("Resume game at the end of this event scene.");
+        EndHorizontal();
+
+        Space(20.0f);
 
         ListEditor(_scene, _actions, () => _scene.SetActions(_actions.ToArray()), "EventScene action");
     }

@@ -130,7 +130,7 @@ public class DialogueEditor : ListEditorBase
                     EndHorizontal();
 
                     BeginHorizontal();
-                    element.Text = TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Text = TextArea(element.Text);
                     element.Audio = (AudioClip)ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
                     EndHorizontal();
                     #endregion
@@ -170,7 +170,7 @@ public class DialogueEditor : ListEditorBase
                     EndHorizontal();
 
                     BeginHorizontal();
-                    element.Text = TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Text = TextArea(element.Text);
                     element.Audio = (AudioClip)ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
                     EndHorizontal();
                     #endregion
@@ -198,7 +198,7 @@ public class DialogueEditor : ListEditorBase
                     EndHorizontal();
 
                     BeginHorizontal();
-                    element.Text = TextField(element.Text, GUILayout.MinHeight(20.0f));
+                    element.Text = TextArea(element.Text);
                     element.Audio = (AudioClip)ObjectField(element.Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
                     EndHorizontal();
                     #endregion
@@ -228,7 +228,7 @@ public class DialogueEditor : ListEditorBase
             DialogueScript.BranchDialogue temp = branches[i];
             BeginHorizontal();
             EditorGUI.BeginChangeCheck();
-            temp.Text = TextField(branches[i].Text, GUILayout.MinHeight(20.0f));
+            temp.Text = TextArea(branches[i].Text);
             temp.Branch = (DialogueScript)ObjectField(branches[i].Branch, typeof(DialogueScript), false, GUILayout.MaxWidth(200.0f));
             temp.Audio = (AudioClip)ObjectField(branches[i].Audio, typeof(AudioClip), false, GUILayout.MaxWidth(200.0f));
             if (EditorGUI.EndChangeCheck())

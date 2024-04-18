@@ -7,4 +7,5 @@ public class GameData : ScriptableObject
     public MainFaction MainFaction;
     public string CurrentHeist;
     public byte CurrentPreperation;
+    public ushort LevelAvailable;
 }

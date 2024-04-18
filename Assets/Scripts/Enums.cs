@@ -69,7 +69,8 @@ public enum EventSceneActions
     Destroy,
     StartDialogue,
     CloseDialogue,
-    StageClear
+    StageClear,
+    CustomAction
 }
 
 

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentLanguage: 1
   MainFaction: 0
-  CurrentHeist: WeaponHeist
+  CurrentHeist: Tutorial
+  CurrentPreperation: 0

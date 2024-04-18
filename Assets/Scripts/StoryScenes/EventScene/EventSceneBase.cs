@@ -7,8 +7,23 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
     /* ==================== Fields ==================== */
 
     [SerializeField] protected EventSceneAction[] Actions = new EventSceneAction[0];
+    [SerializeField] protected bool ResumeAtEnd = true;
     protected byte Current = 0;
     private float _timer = 0.0f;
+
+#if UNITY_EDITOR
+    public bool ResumeAtTheEnd
+    {
+        get
+        {
+            return ResumeAtEnd;
+        }
+        set
+        {
+            ResumeAtEnd = value;
+        }
+    }
+#endif
 
 
 
@@ -105,5 +120,6 @@ public abstract class EventSceneBase : MonoBehaviour, IEventScene
         public Transform TargetTransform;
         public float Duration;
         public DialogueBase DialogueScript;
+        public string Text;
     }
 }

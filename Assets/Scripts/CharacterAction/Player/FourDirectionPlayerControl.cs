@@ -65,6 +65,15 @@ public class FourDirectionPlayerControl : MonoBehaviour
     }
 
 
+    public void Interact(InteractableObjectBase target)
+    {
+        _interactionPoint = target.GetInteractionPos();
+        PlayerSetDestination(_interactionPoint.x, _interactionPoint.y);
+        _interaction = target.Interaction;
+        _isReserved = true;
+    }
+
+
     public void SetInteractionActive(InteractableObjectBase target, bool active)
     {
         if (active)
@@ -205,8 +214,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
             else if (hit.collider.includeLayers == LAYER_B_PLATFORM)
             {
                 // Interact
-                _interactableObject.Add(hit.collider.GetComponent<InteractableObjectBase>());
-                Interact();
+                Interact(hit.collider.GetComponent<InteractableObjectBase>());
             }
         }
 

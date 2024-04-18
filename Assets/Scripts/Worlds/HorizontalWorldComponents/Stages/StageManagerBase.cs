@@ -151,7 +151,10 @@ public abstract class StageManagerBase : WorldManagerBase
 
     protected virtual void Start()
     {
-        HorizontalPlayerControl.Instance.SetCharacters(GameManager.Instance.SelectedCharacters);
+        HorizontalPlayerControl.Instance.SetCharacters(
+            GameManager.Instance.SelectedCharacters,
+            GameManager.Instance.SelectedWeapons
+        );
         CanvasPlayController.Instance.SetCharacterButtons(GameManager.Instance.SelectedCharacters);
     }
 

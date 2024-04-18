@@ -16,7 +16,10 @@ public class FourDirectionEventScene : EventSceneBase
     protected override void EndEventScene()
     {
         CameraFourDirectionMovement.Instance.TargetChange(FourDirectionPlayerControl.Instance.CameraPos);
-        TownManagerBase.Instance.PauseGame(false);
+        if (ResumeAtEnd)
+        {
+            TownManagerBase.Instance.PauseGame(false);
+        }
     }
 
 
@@ -63,6 +66,10 @@ public class FourDirectionEventScene : EventSceneBase
 
             case EventSceneActions.CloseDialogue:
                 DialogueScreen.Instance.CloseDialogueScreen();
+                return;
+
+            case EventSceneActions.CustomAction:
+                TownManagerBase.Instance.CustomAction(Actions[Current].Text);
                 return;
 
 #if UNITY_EDITOR

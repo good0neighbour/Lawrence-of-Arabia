@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void GameDelegate();
@@ -11,6 +12,8 @@ public class GameManager
     private static CharacterData _characterData = null;
     private static NPCData _npcData = null;
     private static GameData _gameData = null;
+    private List<CharacterData.Character> _charsGot = new List<CharacterData.Character>();
+    private List<CharacterData.Character> _activeChars = new List<CharacterData.Character>();
 
     public static GameManager Instance
     {
@@ -66,5 +69,53 @@ public class GameManager
     {
         get;
         set;
+    }
+
+    public CharacterWeapons[] SelectedWeapons
+    {
+        get;
+        set;
+    }
+
+
+
+    /* ==================== Public Methods ==================== */
+
+    public GameManager()
+    {
+        // Characters got
+        CharacterData.Character[] allChar = CharacterData.GetCharacterList();
+        for (byte i = 0; i < allChar.Length; ++i)
+        {
+            switch (allChar[i].Status)
+            {
+                case CharacterStatus.None:
+                    break;
+
+                case CharacterStatus.Away:
+                case CharacterStatus.Injury:
+                case CharacterStatus.MIA:
+                case CharacterStatus.KIA:
+                    _charsGot.Add(allChar[i]);
+                    break;
+
+                case CharacterStatus.Active:
+                    _charsGot.Add(allChar[i]);
+                    _activeChars.Add(allChar[i]);
+                    break;
+            }
+        }
+    }
+
+
+    public CharacterData.Character[] GetCharactersGot()
+    {
+        return _charsGot.ToArray();
+    }
+
+
+    public CharacterData.Character[] GetActiveCharList()
+    {
+        return _activeChars.ToArray();
     }
 }

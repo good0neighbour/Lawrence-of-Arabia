@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class Intro0_Sneaking : StageManagerBase
 {
-    /* ==================== Fields ==================== */
-
-    private Characters[] _fixedCharacters = { Characters.Lawrence };
-
-
-
     /* ==================== Public Methods ==================== */
 
     public override void StageClear()
@@ -17,7 +11,7 @@ public class Intro0_Sneaking : StageManagerBase
             = Resources.Load<DialogueScript>("Dialogues/BabyPhi/IntroducingPhi");
 
         // Game data
-        GameManager.GameData.CurrentHeist = "WeaponHeist";
+        GameManager.GameData.CurrentHeist = "Tutorial";
         GameManager.GameData.CurrentPreperation = 0;
 
         // Next scene
@@ -42,8 +36,13 @@ public class Intro0_Sneaking : StageManagerBase
 
     protected override void Start()
     {
+        Characters[] _fixedCharacters = { Characters.Lawrence };
+
         // Send character data to Player controller
-        HorizontalPlayerControl.Instance.SetCharacters(_fixedCharacters);
+        HorizontalPlayerControl.Instance.SetCharacters(
+            _fixedCharacters,
+            new CharacterWeapons[1] { CharacterWeapons.None }
+        );
 
         // Send character data to controller
         CanvasPlayController.Instance.SetCharacterButtons(_fixedCharacters);

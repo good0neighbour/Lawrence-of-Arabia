@@ -32,8 +32,6 @@ public class CharacterDataEditor : Editor
     {
         for (byte i = 0; i < _charArray.Length; ++i)
         {
-            Undo.RecordObject(_charData, "Character data moidified");
-
             BeginHorizontal();
             LabelField(_charArray[i].Name.ToString(), EditorStyles.boldLabel, GUILayout.MaxWidth(180.0f));
             if (_charArray[i].FullImage != null)
@@ -59,7 +57,20 @@ public class CharacterDataEditor : Editor
                 _charArray[i].ProfileImage = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}ProfileImage.png");
                 _charArray[i].Sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}Sprite.png");
             }
+            LabelField(" Background", GUILayout.MaxWidth(80.0f));
+            if (_charArray[i].BackgroundImage != null)
+            {
+                GUILayout.Box(_charArray[i].BackgroundImage.texture, GUILayout.MaxWidth(64.0f), GUILayout.MaxHeight(64.0f), GUILayout.MinWidth(5.0f), GUILayout.MinHeight(5.0f));
+            }
+            EditorGUI.BeginChangeCheck();
+            _charArray[i].BackgroundImage = (Sprite)ObjectField(_charArray[i].BackgroundImage, typeof(Sprite), false, GUILayout.MaxWidth(180.0f));
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(_charData);
+            }
             EndHorizontal();
+
+            Undo.RecordObject(_charData, "Character data moidified");
 
             BeginHorizontal();
             LabelField("  Base Health", GUILayout.MaxWidth(180.0f));
@@ -101,6 +112,11 @@ public class CharacterDataEditor : Editor
             _charArray[i].LvForArmorIncrease = (byte)IntField(_charArray[i].LvForArmorIncrease);
             EndHorizontal();
 
+            BeginHorizontal();
+            LabelField("  Character Information", GUILayout.MaxWidth(180.0f));
+            _charArray[i].Information = TextArea(_charArray[i].Information);
+            EndHorizontal();
+
             LabelField("  Game Play Data", EditorStyles.boldLabel);
 
             BeginHorizontal();
@@ -111,11 +127,6 @@ public class CharacterDataEditor : Editor
             BeginHorizontal();
             LabelField("  Type", GUILayout.MaxWidth(180.0f));
             _charArray[i].Type = (CharacterTypes)EnumPopup(_charArray[i].Type, GUILayout.MaxWidth(180.0f));
-            EndHorizontal();
-
-            BeginHorizontal();
-            LabelField("  Weapon", GUILayout.MaxWidth(180.0f));
-            _charArray[i].Weapon = (CharacterWeapons)EnumPopup(_charArray[i].Weapon, GUILayout.MaxWidth(180.0f));
             EndHorizontal();
 
             BeginHorizontal();

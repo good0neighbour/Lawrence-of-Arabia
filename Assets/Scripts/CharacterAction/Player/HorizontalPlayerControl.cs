@@ -195,7 +195,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
-    public void SetCharacters(Characters[] characters)
+    public void SetCharacters(Characters[] characters, CharacterWeapons[] weapons)
     {
         // Get character list
         CharacterData.Character[] data = GameManager.CharacterData.GetCharacterList();
@@ -211,20 +211,20 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             _characters[i].Range = data[(int)characters[i]].CurRange / 100.0f;
             _characters[i].Sprite = data[(int)characters[i]].Sprite;
             _characters[i].Type = data[(int)characters[i]].Type;
-            _characters[i].Weapon = data[(int)characters[i]].Weapon;
+            _characters[i].Weapon = weapons[i];
 
             // Weapon set
-            if (_characters[i].Weapon != CharacterWeapons.None)
+            if (weapons[i] != CharacterWeapons.None)
             {
-                SetWeapon(i);
+                SetWeapon(weapons[i]);
             }
         }
 
         // Set default character
         CharacterChange(0);
-        if (_characters[_curChar].Weapon != CharacterWeapons.None)
+        if (_characters[0].Weapon != CharacterWeapons.None)
         {
-            _attackTimer = _weapons[(int)_characters[_curChar].Weapon].AttackTime;
+            _attackTimer = _weapons[(int)_characters[0].Weapon].AttackTime;
         }
     }
 
@@ -278,19 +278,19 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     /* ==================== Private Methods ==================== */
 
-    private void SetWeapon(byte index)
+    private void SetWeapon(CharacterWeapons type)
     {
         // Doesn't need to double construct
-        if (_weapons[(int)_characters[index].Weapon] != null)
+        if (_weapons[(int)type] != null)
         {
             return;
         }
 
         // Weapon set
-        switch (_characters[index].Weapon)
+        switch (type)
         {
             case CharacterWeapons.Pistol:
-                _weapons[(int)_characters[index].Weapon] = new WeaponPistol();
+                _weapons[(int)CharacterWeapons.Pistol] = new WeaponPistol();
                 break;
 
             case CharacterWeapons.Rifle:

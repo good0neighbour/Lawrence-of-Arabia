@@ -43,10 +43,22 @@ public class CharacterData : ScriptableObject
 
     public void CharacterLevelUp(Characters character)
     {
-        ++_baseData[(int)character].Level;
-        _baseData[(int)character].CurHealth += _baseData[(int)character].HealthIncrease;
-        _baseData[(int)character].CurDamage += _baseData[(int)character].DamageIncrease;
-        _baseData[(int)character].CurArmor = (ushort)(_baseData[(int)character].Level / _baseData[(int)character].LvForArmorIncrease);
+        byte index = (byte)character;
+        ++_baseData[index].Level;
+
+        _baseData[index].CurHealth += _baseData[index].HealthIncrease;
+        _baseData[index].CurDamage += _baseData[index].DamageIncrease;
+        _baseData[index].CurArmor = (ushort)(_baseData[index].Level / _baseData[index].LvForArmorIncrease);
+
+        int range = _baseData[index].BaseRangeRate + _baseData[index].RangeRateIncrease * _baseData[index].Level;
+        if (range >= 200)
+        {
+            _baseData[index].CurRange = 200;
+        }
+        else
+        {
+            _baseData[index].CurRange = (byte)range;
+        }
     }
 
 
@@ -75,6 +87,8 @@ public class CharacterData : ScriptableObject
         public Sprite ButtonImage;
         public Sprite ProfileImage;
         public Sprite Sprite;
+        public Sprite BackgroundImage;
+        public string Information;
 
         public byte CurRange;
         public int CurHealth;
@@ -83,7 +97,6 @@ public class CharacterData : ScriptableObject
 
         public CharacterStatus Status;
         public CharacterTypes Type;
-        public CharacterWeapons Weapon;
         public byte Level;
         public byte Trust;
         public DialogueScript RecentDialogue;

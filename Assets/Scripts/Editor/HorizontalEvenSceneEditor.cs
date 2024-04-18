@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using static UnityEditor.EditorGUILayout;
+using System.Xml.Linq;
 
 [CustomEditor(typeof(HoriaontalEventScene))]
 public class HoriaontalEventSceneEditor : ListEditorBase
@@ -116,6 +117,13 @@ public class HoriaontalEventSceneEditor : ListEditorBase
                     EndHorizontal();
                     break;
 
+                case EventSceneActions.CustomAction:
+                    BeginHorizontal();
+                    LabelField("Custom Action", GUILayout.MaxWidth(120.0f));
+                    element.Text = TextField(element.Text);
+                    EndHorizontal();
+                    break;
+
                 case EventSceneActions.CloseDialogue:
                 case EventSceneActions.StageClear:
                     break;
@@ -135,6 +143,18 @@ public class HoriaontalEventSceneEditor : ListEditorBase
 
             Space(20.0f);
         }
+
+        BeginHorizontal();
+        EditorGUI.BeginChangeCheck();
+        _scene.ResumeAtTheEnd = Toggle(_scene.ResumeAtTheEnd, GUILayout.MaxWidth(20.0f));
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(_scene);
+        }
+        LabelField("Resume game at the end of this event scene.");
+        EndHorizontal();
+
+        Space(20.0f);
 
         ListEditor(_scene, _actions, () => _scene.SetActions(_actions.ToArray()), "EventScene action");
     }
