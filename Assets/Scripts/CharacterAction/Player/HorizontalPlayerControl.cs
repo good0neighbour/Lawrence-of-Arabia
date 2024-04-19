@@ -129,9 +129,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 transform.position.x + PLAYER_ATKEFT_POS.x * IsFlipNum,
                 transform.position.y + PLAYER_ATKEFT_POS.y
             ),
-            IsFlipNum,
-            _characters[_curChar].Range,
-            _characters[_curChar].Damage
+            IsFlipNum
         );
 
         _attackTimer = 0.0f;
@@ -247,10 +245,18 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         CanvasPlayController.Instance.CharacterChange(index);
         if (_characters[_curChar].Weapon == CharacterWeapons.None)
         {
+            // Button unavailable
             CanvasPlayController.Instance.SetBtnActive(BUTTON_ATTACK, false);
         }
         else
         {
+            // Set weapon
+            _weapons[(int)_characters[_curChar].Weapon].WeaponSet(
+                _characters[_curChar].Damage,
+                _characters[_curChar].Range
+            );
+
+            // Button available
             CanvasPlayController.Instance.SetBtnActive(BUTTON_ATTACK, true);
         }
 

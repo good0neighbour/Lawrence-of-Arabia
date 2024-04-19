@@ -68,6 +68,14 @@ public class CharacterData : ScriptableObject
     }
 
 
+#if UNITY_EDITOR
+    public void SetCharacterList(Character[] newArray)
+    {
+        _baseData = newArray;
+    }
+#endif
+
+
 
     /* ==================== Struct ==================== */
 

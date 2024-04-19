@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEditor;
 using static UnityEditor.EditorGUILayout;
-using System.Text;
-using System.Xml.Linq;
 
 [CustomEditor(typeof(CharacterData))]
 public class CharacterDataEditor : Editor
@@ -20,9 +18,14 @@ public class CharacterDataEditor : Editor
             CharacterData.Character[] newArray = new CharacterData.Character[(int)Characters.End];
             for (byte i = 0; i < (byte)Characters.End; ++i)
             {
+                if (i >= _charArray.Length)
+                {
+                    break;
+                }
                 newArray[i] = _charArray[i];
             }
             _charArray = newArray;
+            _charData.SetCharacterList(newArray);
             EditorUtility.SetDirty(_charData);
         }
     }
@@ -32,6 +35,8 @@ public class CharacterDataEditor : Editor
     {
         for (byte i = 0; i < _charArray.Length; ++i)
         {
+            Undo.RecordObject(_charData, "Character data moidified");
+
             BeginHorizontal();
             LabelField(_charArray[i].Name.ToString(), EditorStyles.boldLabel, GUILayout.MaxWidth(180.0f));
             if (_charArray[i].FullImage != null)
@@ -62,15 +67,8 @@ public class CharacterDataEditor : Editor
             {
                 GUILayout.Box(_charArray[i].BackgroundImage.texture, GUILayout.MaxWidth(64.0f), GUILayout.MaxHeight(64.0f), GUILayout.MinWidth(5.0f), GUILayout.MinHeight(5.0f));
             }
-            EditorGUI.BeginChangeCheck();
             _charArray[i].BackgroundImage = (Sprite)ObjectField(_charArray[i].BackgroundImage, typeof(Sprite), false, GUILayout.MaxWidth(180.0f));
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorUtility.SetDirty(_charData);
-            }
             EndHorizontal();
-
-            Undo.RecordObject(_charData, "Character data moidified");
 
             BeginHorizontal();
             LabelField("  Base Health", GUILayout.MaxWidth(180.0f));

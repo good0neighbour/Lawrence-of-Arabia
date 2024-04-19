@@ -13,6 +13,7 @@ public class Intro0_Sneaking : StageManagerBase
         // Game data
         GameManager.GameData.CurrentHeist = "Tutorial";
         GameManager.GameData.CurrentPreperation = 0;
+        GameManager.WeaponData.GetWeaponList()[(int)CharacterWeapons.Pistol].Stock = 1;
 
         // Next scene
         LoadScene("CS_Intro1");

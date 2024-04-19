@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentLanguage: 1
   MainFaction: 0
-  CurrentHeist: Tutorial
+  CurrentHeist: WeaponHeist
   CurrentPreperation: 0
+  LevelAvailable: 0
+  weapons: 010000000000000000000000

@@ -11,13 +11,18 @@ public class CanvasHeistPlanScreen : MonoBehaviour
 
     [SerializeField] private PlanInfo[] _planButtons = null;
     [SerializeField] private Image[] _selectedImage = null;
+    [SerializeField] private Image[] _selectedWeaponImage = null;
     [SerializeField] private GameObject _planScreen = null;
     [SerializeField] private GameObject _charScreen = null;
+    [SerializeField] private GameObject _charSelection = null;
+    [SerializeField] private GameObject _weaponSelection = null;
+    [SerializeField] private GameObject _beginButton = null;
     [SerializeField] private Image _charImage = null;
     [SerializeField] private RectTransform _scrollView = null;
     private List<Characters> _selectedChars = new List<Characters>();
     private CharacterData.Character[] _charList = null;
-    private byte _current = 0;
+    private WeaponData.Weapon[] _weaponList = null;
+    private CharacterWeapons[] _selectedWeapons = null;
     private float _timer = 1.0f;
 
 
@@ -33,7 +38,7 @@ public class CanvasHeistPlanScreen : MonoBehaviour
         }
 
         // Character selection screen
-        _current = (byte)index;
+        GameManager.Instance.CurrentPlanIndex = (byte)index;
         _planScreen.SetActive(false);
         _charScreen.SetActive(true);
         _timer = 0.0f;
@@ -98,7 +103,7 @@ public class CanvasHeistPlanScreen : MonoBehaviour
 
     public void ButtonCharCancel(int index)
     {
-        if (index < _selectedChars.Count)
+        if (index < _selectedChars.Count && _charSelection.activeSelf)
         {
             _selectedChars.RemoveAt(index);
             for (byte j = (byte)index; j < HS_MAX_CHARACTER; ++j)
@@ -113,6 +118,56 @@ public class CanvasHeistPlanScreen : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    public void ButtonNext()
+    {
+        // Screen change
+        _charSelection.SetActive(false);
+        _weaponSelection.SetActive(true);
+
+        // Selected weapon number
+        for (byte i = 0; i < _selectedChars.Count; ++i)
+        {
+            _selectedWeaponImage[i].gameObject.SetActive(true);
+        }
+        _selectedWeapons = new CharacterWeapons[_selectedChars.Count];
+
+        // Disable begin button
+        _beginButton.SetActive(false);
+    }
+
+
+    public void ButtonWeaponScreenClose()
+    {
+        _charSelection.SetActive(true);
+        _weaponSelection.SetActive(false);
+        _selectedWeapons = null;
+        foreach (Image image in _selectedWeaponImage)
+        {
+            image.sprite = null;
+            image.gameObject.SetActive(false);
+        }
+    }
+
+
+    public void ButtonWeapon()
+    {
+
+    }
+
+
+    public void ButtonWeaponCancel(int index)
+    {
+        _selectedWeapons[index] = CharacterWeapons.None;
+        _selectedWeaponImage[index].sprite = null;
+        _beginButton.SetActive(false);
+    }
+
+
+    public void ButtonBegin()
+    {
     }
 
 
@@ -152,6 +207,9 @@ public class CanvasHeistPlanScreen : MonoBehaviour
         {
             Instantiate(charBtn, parent).transform.GetChild(0).GetComponent<Image>().sprite = _charList[i].ButtonImage;
         }
+
+        // WeaponList
+        _weaponList = GameManager.WeaponData.GetWeaponList();
     }
 
 
@@ -171,6 +229,15 @@ public class CanvasHeistPlanScreen : MonoBehaviour
                     CHARSEL_ANCHOR_ADD + Mathf.Cos(_timer * Mathf.PI) * CHARSEL_ANCHOR_MULT
                 );
             }
+        }
+    }
+
+
+    private void OnEnable()
+    {
+        for (byte i = 0; i < _weaponList.Length; ++i)
+        {
+
         }
     }
 

@@ -19,7 +19,7 @@ public class TestStage : StageManagerBase
 
     public override void CustomAction(string action)
     {
-        
+        Debug.Log($"Custom action: {action}");
     }
 
 

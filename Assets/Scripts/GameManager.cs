@@ -11,6 +11,7 @@ public class GameManager
     private static GameManager _instance = null;
     private static CharacterData _characterData = null;
     private static NPCData _npcData = null;
+    private static WeaponData _weaponData = null;
     private static GameData _gameData = null;
     private List<CharacterData.Character> _charsGot = new List<CharacterData.Character>();
     private List<CharacterData.Character> _activeChars = new List<CharacterData.Character>();
@@ -53,6 +54,18 @@ public class GameManager
         }
     }
 
+    public static WeaponData WeaponData
+    {
+        get
+        {
+            if (_weaponData == null)
+            {
+                _weaponData = Resources.Load<WeaponData>("WeaponData");
+            }
+            return _weaponData;
+        }
+    }
+
     public static GameData GameData
     {
         get
@@ -72,6 +85,12 @@ public class GameManager
     }
 
     public CharacterWeapons[] SelectedWeapons
+    {
+        get;
+        set;
+    }
+
+    public byte CurrentPlanIndex
     {
         get;
         set;
