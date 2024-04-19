@@ -13,12 +13,20 @@ MonoBehaviour:
   m_Name: IntroducingPhi
   m_EditorClassIdentifier: 
   _dialogues:
-  - Type: 0
-    Name: 
+  - Type: 1
+    Name: Lawrence
     NameColour: 4
-    Image: {fileID: 0}
+    Image: {fileID: 21300000, guid: 0aac6bc7d490f834494ce3b18d114f4a, type: 3}
     ImageDirection: 0
-    Text: This is my daughter.
+    Text: "\uD30C\uC774. \uC5EC\uAE30\uB294 \uC5B4\uCA50 \uC77C\uC774\uC57C?"
     Audio: {fileID: 0}
     Branches: []
-  _currentLanguage: 0
+  - Type: 2
+    Name: Phi
+    NameColour: 0
+    Image: {fileID: 21300000, guid: ed9aef5889a871c4db426e01fb9eea17, type: 3}
+    ImageDirection: 1
+    Text: 
+    Audio: {fileID: 0}
+    Branches: []
+  _currentLanguage: 1

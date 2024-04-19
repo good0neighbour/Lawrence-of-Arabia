@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEditor.EditorGUILayout;
 
-[CustomEditor(typeof(CutScene))]
+[CustomEditor(typeof(CutScene)), CanEditMultipleObjects]
 public class CutSceneEditor : ListEditorBase
 {
     private List<CutScene.CutSceneInfo> _actions = null;
@@ -49,7 +49,7 @@ public class CutSceneEditor : ListEditorBase
 
         LabelField(_status);
 
-        Space(30.0f);
+        Space(20.0f);
 
         for (byte i = 0; i < _actions.Count; ++i)
         {

@@ -9,7 +9,11 @@ public class CanvasHeistPlanScreen : MonoBehaviour
 {
     /* ==================== Fields ==================== */
 
+    [Header("Plans")]
     [SerializeField] private PlanInfo[] _planButtons = null;
+    [Header("Finale Scene")]
+    [SerializeField] private string _finaleScene = null;
+    [Header("Reference")]
     [SerializeField] private Image[] _selectedImage = null;
     [SerializeField] private Image[] _selectedWeaponImage = null;
     [SerializeField] private GameObject _planScreen = null;
@@ -18,12 +22,15 @@ public class CanvasHeistPlanScreen : MonoBehaviour
     [SerializeField] private GameObject _weaponSelection = null;
     [SerializeField] private GameObject _beginButton = null;
     [SerializeField] private Image _charImage = null;
+    [SerializeField] private Transform _weaponparent = null;
     [SerializeField] private RectTransform _scrollView = null;
     private List<Characters> _selectedChars = new List<Characters>();
     private CharacterData.Character[] _charList = null;
     private WeaponData.Weapon[] _weaponList = null;
+    private GameObject[] _selectedWeaponButton = null;
     private CharacterWeapons[] _selectedWeapons = null;
     private float _timer = 1.0f;
+    private byte _current = 0;
 
 
 
@@ -38,7 +45,17 @@ public class CanvasHeistPlanScreen : MonoBehaviour
         }
 
         // Character selection screen
+        _current = (byte)index;
         GameManager.Instance.CurrentPlanIndex = (byte)index;
+        _planScreen.SetActive(false);
+        _charScreen.SetActive(true);
+        _timer = 0.0f;
+    }
+
+
+    public void ButtonFinale()
+    {
+        _current = byte.MaxValue;
         _planScreen.SetActive(false);
         _charScreen.SetActive(true);
         _timer = 0.0f;
@@ -49,6 +66,10 @@ public class CanvasHeistPlanScreen : MonoBehaviour
     {
        gameObject.SetActive(false);
         TownManagerBase.Instance.PauseGame(false);
+        for (ushort i = 0; i < _weaponparent.childCount; ++i)
+        {
+            _weaponparent.GetChild(i).gameObject.SetActive(false);
+        }
     }
 
 
@@ -128,11 +149,16 @@ public class CanvasHeistPlanScreen : MonoBehaviour
         _weaponSelection.SetActive(true);
 
         // Selected weapon number
+        _selectedWeapons = new CharacterWeapons[_selectedChars.Count];
+        _selectedWeaponButton = new GameObject[_selectedChars.Count];
         for (byte i = 0; i < _selectedChars.Count; ++i)
         {
             _selectedWeaponImage[i].gameObject.SetActive(true);
+            _selectedWeapons[i] = CharacterWeapons.None;
         }
-        _selectedWeapons = new CharacterWeapons[_selectedChars.Count];
+
+        // Weapon buttons
+        SetWeaponButtonList();
 
         // Disable begin button
         _beginButton.SetActive(false);
@@ -144,6 +170,7 @@ public class CanvasHeistPlanScreen : MonoBehaviour
         _charSelection.SetActive(true);
         _weaponSelection.SetActive(false);
         _selectedWeapons = null;
+        _selectedWeaponButton = null;
         foreach (Image image in _selectedWeaponImage)
         {
             image.sprite = null;
@@ -154,25 +181,102 @@ public class CanvasHeistPlanScreen : MonoBehaviour
 
     public void ButtonWeapon()
     {
+        bool isSetting = true;
 
+        // Fill from the left
+        for (byte i = 0; i < _selectedWeapons.Length; ++i)
+        {
+            if (isSetting && _selectedWeapons[i] == CharacterWeapons.None)
+            {
+                // pressed button
+                _selectedWeaponButton[i] = EventSystem.current.currentSelectedGameObject;
+                _selectedWeaponButton[i].SetActive(false);
+
+                // Weapon index
+                byte weaponIndex = byte.Parse(_selectedWeaponButton[i].name);
+
+                // Weapon set
+                _selectedWeapons[i] = (CharacterWeapons)weaponIndex;
+                _selectedWeaponImage[i].sprite = _weaponList[weaponIndex].Image;
+
+                isSetting = false;
+            }
+            else if (_selectedWeapons[_selectedWeapons.Length - 1] == CharacterWeapons.None)
+            {
+                // Check if all set
+                return;
+            }
+        }
+
+        // Ready to go
+        _beginButton.SetActive(true);
     }
 
 
     public void ButtonWeaponCancel(int index)
     {
-        _selectedWeapons[index] = CharacterWeapons.None;
-        _selectedWeaponImage[index].sprite = null;
-        _beginButton.SetActive(false);
+        if (_selectedWeapons[index] != CharacterWeapons.None)
+        {
+            _selectedWeapons[index] = CharacterWeapons.None;
+            _selectedWeaponImage[index].sprite = null;
+            _selectedWeaponButton[index].SetActive(true);
+            _selectedWeaponButton[index] = null;
+            _beginButton.SetActive(false);
+        }
     }
 
 
     public void ButtonBegin()
     {
+        // Character, weapon data
+        GameManager.Instance.SelectedCharacters = _selectedChars.ToArray();
+        GameManager.Instance.SelectedWeapons = _selectedWeapons;
+
+        // Scene to load
+        if (_current < byte.MaxValue)
+        {
+            TownManagerBase.Instance.LoadScene(_planButtons[_current].SceneToLoad);
+        }
+        else
+        {
+            TownManagerBase.Instance.LoadScene(_finaleScene);
+        }
     }
 
 
 
     /* ==================== Private Methods ==================== */
+
+    private void SetWeaponButtonList()
+    {
+        ushort maxCount = (ushort)_weaponparent.childCount;
+        ushort currentCount = 0;
+        for (sbyte i = (sbyte)(_weaponList.Length - 1); i >= 0; --i)
+        {
+            for (ushort j = 0; j < _weaponList[i].Stock; ++j)
+            {
+                if (currentCount < maxCount)
+                {
+                    Transform image = _weaponparent.GetChild(currentCount);
+                    image.GetComponent<Image>().sprite = _weaponList[i].Image;
+                    image.gameObject.SetActive(true);
+                    image.name = i.ToString();
+                    ++currentCount;
+                }
+                else
+                {
+                    GameObject goj = Instantiate(
+                        _weaponparent.GetChild(0).gameObject,
+                        _weaponparent
+                    );
+                    goj.GetComponent<Image>().sprite = _weaponList[i].Image;
+                    goj.SetActive(true);
+                    goj.name = i.ToString();
+                }
+            }
+        }
+    }
+
 
     private void Awake()
     {
@@ -210,6 +314,9 @@ public class CanvasHeistPlanScreen : MonoBehaviour
 
         // WeaponList
         _weaponList = GameManager.WeaponData.GetWeaponList();
+
+        // Default
+        gameObject.SetActive(false);
     }
 
 
@@ -233,15 +340,6 @@ public class CanvasHeistPlanScreen : MonoBehaviour
     }
 
 
-    private void OnEnable()
-    {
-        for (byte i = 0; i < _weaponList.Length; ++i)
-        {
-
-        }
-    }
-
-
 
     /* ==================== Struct ==================== */
 
@@ -252,6 +350,7 @@ public class CanvasHeistPlanScreen : MonoBehaviour
         [Range(0, 7)]
         public byte Index;
         public HeistPlanType Type;
+        public string SceneToLoad;
         [Header("OnCleared")]
         [Tooltip("Objects to enable when this plan is cleared.")]
         public GameObject[] Enable;

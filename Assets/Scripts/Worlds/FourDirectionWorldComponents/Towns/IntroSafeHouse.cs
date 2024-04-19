@@ -69,11 +69,5 @@ public class IntroSafeHouse : TownManagerBase
                 _heistScreen = Instantiate(Resources.Load<GameObject>("HeistPlanScreens/CanvasWeaponHeist"));
                 break;
         }
-
-        // Disable heist screen
-        if (_heistScreen != null)
-        {
-            _heistScreen.SetActive(false);
-        }
     }
 }

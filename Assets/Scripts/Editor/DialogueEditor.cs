@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using static UnityEditor.EditorGUILayout;
 
-[CustomEditor(typeof(DialogueScript))]
+[CustomEditor(typeof(DialogueScript)), CanEditMultipleObjects]
 public class DialogueEditor : ListEditorBase
 {
     private List<DialogueScript.Dialogue> _diagolues = null;
@@ -61,7 +61,7 @@ public class DialogueEditor : ListEditorBase
 
         LabelField(_status);
 
-        Space(30.0f);
+        Space(20.0f);
 
         for (byte i = 0; i < _diagolues.Count; ++i)
         {
@@ -186,7 +186,6 @@ public class DialogueEditor : ListEditorBase
 
                     Space(10.0f, false);
                     LabelField("Name Colour", GUILayout.MaxWidth(80.0f));
-                    EditorGUI.BeginChangeCheck();
                     element.NameColour = (NameColours)EnumPopup(element.NameColour, GUILayout.MaxWidth(70.0f));
 
                     Space(10.0f, false);
