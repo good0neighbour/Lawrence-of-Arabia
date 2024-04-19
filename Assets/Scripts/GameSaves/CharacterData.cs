@@ -95,6 +95,7 @@ public class CharacterData : ScriptableObject
         public Sprite ButtonImage;
         public Sprite ProfileImage;
         public Sprite Sprite;
+        public Sprite SpriteDead;
         public Sprite BackgroundImage;
         public string Information;
 

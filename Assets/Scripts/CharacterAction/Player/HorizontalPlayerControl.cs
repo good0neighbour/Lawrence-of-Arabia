@@ -13,7 +13,6 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     [SerializeField] private Transform _cameraPos = null;
     [SerializeField] private ParticleSystem _charChangeEft = null;
     [SerializeField] private GameObject _bloodEftPrefab = null;
-    [SerializeField] private Sprite _graveSprite = null;
     private List<GameDelegate> _onInteract = new List<GameDelegate>();
     private PlayerWeaponBase[] _weapons = new PlayerWeaponBase[(int)CharacterWeapons.None];
     private CurrentCharacter[] _characters = null;
@@ -97,8 +96,21 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 _immuneTimer = 0.0f;
 
                 // Animator
-                _animator.SetBool("Dead", true);
-                _sprite.sprite = _graveSprite;
+                _sprite.sprite = _characters[_curChar].SpriteDead;
+
+                // KnockBack
+                if (direction >= 0.0f)
+                {
+                    _knockback = PLAYER_DEATH_KNOCKBACK_AMOUNT;
+                }
+                else
+                {
+                    _knockback = -PLAYER_DEATH_KNOCKBACK_AMOUNT;
+                }
+
+                // Camera effect
+                CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEATH_SIZE);
+                CameraHorizontalMovement.Instance.TargetChange(_sprite.transform);
 
                 // Ends here
                 return;
@@ -208,6 +220,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             _characters[i].Damage = data[(int)characters[i]].CurDamage;
             _characters[i].Range = data[(int)characters[i]].CurRange / 100.0f;
             _characters[i].Sprite = data[(int)characters[i]].Sprite;
+            _characters[i].SpriteDead = data[(int)characters[i]].SpriteDead;
             _characters[i].Type = data[(int)characters[i]].Type;
             _characters[i].Weapon = weapons[i];
 
@@ -230,7 +243,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     public void CharacterChange(byte index)
     {
         // Not change
-        if (_curChar == index)
+        if (_curChar == index || _characters[index].Health <= 0)
         {
             return;
         }
@@ -361,12 +374,13 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             yield return null;
         }
 
-        // Animator
-        _animator.SetBool("Dead", false);
-
         // Character switch
         CharacterChange(index);
         StageManagerBase.Instance.PauseGame(false);
+
+        // Camera effect
+        CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
+        CameraHorizontalMovement.Instance.TargetChange(_cameraPos);
     }
 
 
@@ -533,6 +547,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         public ushort Damage;
         public float Range;
         public Sprite Sprite;
+        public Sprite SpriteDead;
         public CharacterTypes Type;
         public CharacterWeapons Weapon;
     }

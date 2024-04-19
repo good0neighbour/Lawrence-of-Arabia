@@ -10245,7 +10245,6 @@ MonoBehaviour:
   _cameraPos: {fileID: 5433596542237892238}
   _charChangeEft: {fileID: 4471704265576410988}
   _bloodEftPrefab: {fileID: 5748454816918499764, guid: 2efd9c288108cdf4db78febd35c97cc9, type: 3}
-  _graveSprite: {fileID: 21300000, guid: d12a4bd1c61045b48947515cc2f6f625, type: 3}
 --- !u!95 &6293058727956807477
 Animator:
   serializedVersion: 5

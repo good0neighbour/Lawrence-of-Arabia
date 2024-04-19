@@ -41,19 +41,23 @@ public class CharacterDataEditor : Editor
             LabelField(_charArray[i].Name.ToString(), EditorStyles.boldLabel, GUILayout.MaxWidth(180.0f));
             if (_charArray[i].FullImage != null)
             {
-                GUILayout.Box(_charArray[i].FullImage.texture, GUILayout.MaxWidth(64.0f), GUILayout.MaxHeight(64.0f), GUILayout.MinWidth(5.0f), GUILayout.MinHeight(5.0f));
+                GUILayout.Box(_charArray[i].FullImage.texture, GUILayout.MaxWidth(40.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(4.0f), GUILayout.MinHeight(6.0f));
             }
             if (_charArray[i].ButtonImage != null)
             {
-                GUILayout.Box(_charArray[i].ButtonImage.texture, GUILayout.MaxWidth(64.0f), GUILayout.MaxHeight(64.0f), GUILayout.MinWidth(5.0f), GUILayout.MinHeight(5.0f));
+                GUILayout.Box(_charArray[i].ButtonImage.texture, GUILayout.MaxWidth(20.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(4.0f), GUILayout.MinHeight(6.0f));
             }
             if (_charArray[i].ProfileImage != null)
             {
-                GUILayout.Box(_charArray[i].ProfileImage.texture, GUILayout.MaxWidth(64.0f), GUILayout.MaxHeight(64.0f), GUILayout.MinWidth(5.0f), GUILayout.MinHeight(5.0f));
+                GUILayout.Box(_charArray[i].ProfileImage.texture, GUILayout.MaxWidth(60.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(6.0f), GUILayout.MinHeight(6.0f));
             }
             if (_charArray[i].Sprite != null)
             {
-                GUILayout.Box(_charArray[i].Sprite.texture, GUILayout.MaxWidth(64.0f), GUILayout.MaxHeight(64.0f), GUILayout.MinWidth(5.0f), GUILayout.MinHeight(5.0f));
+                GUILayout.Box(_charArray[i].Sprite.texture, GUILayout.MaxWidth(60.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(6.0f), GUILayout.MinHeight(6.0f));
+            }
+            if (_charArray[i].SpriteDead != null)
+            {
+                GUILayout.Box(_charArray[i].SpriteDead.texture, GUILayout.MaxWidth(60.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(6.0f), GUILayout.MinHeight(6.0f));
             }
             if (GUILayout.Button("Update Images", GUILayout.MaxWidth(180.0f)))
             {
@@ -61,11 +65,12 @@ public class CharacterDataEditor : Editor
                 _charArray[i].ButtonImage = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}ButtonImage.png");
                 _charArray[i].ProfileImage = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}ProfileImage.png");
                 _charArray[i].Sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}Sprite.png");
+                _charArray[i].SpriteDead = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}SpriteDead.png");
             }
-            LabelField(" Background", GUILayout.MaxWidth(80.0f));
+            LabelField(" Background", GUILayout.MaxWidth(74.0f));
             if (_charArray[i].BackgroundImage != null)
             {
-                GUILayout.Box(_charArray[i].BackgroundImage.texture, GUILayout.MaxWidth(64.0f), GUILayout.MaxHeight(64.0f), GUILayout.MinWidth(5.0f), GUILayout.MinHeight(5.0f));
+                GUILayout.Box(_charArray[i].BackgroundImage.texture, GUILayout.MaxWidth(40.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(4.0f), GUILayout.MinHeight(6.0f));
             }
             _charArray[i].BackgroundImage = (Sprite)ObjectField(_charArray[i].BackgroundImage, typeof(Sprite), false, GUILayout.MaxWidth(180.0f));
             EndHorizontal();

@@ -7,12 +7,14 @@ public class CameraHorizontalMovement : MonoBehaviour
 
     [SerializeField] private Transform _target = null;
     [SerializeField] private Transform _background = null;
+    [SerializeField] private Camera _camera = null;
     [SerializeField] private Vector2 _mapTopLeft = Vector2.zero;
     [SerializeField] private Vector2 _mapRightBottom = Vector2.zero;
     [SerializeField] private Vector2 _backgroundTopLeft = Vector2.zero;
     [SerializeField] private Vector2 _backgroundRightBottom = Vector2.zero;
     private Vector2 _mapLength = Vector2.zero;
     private Vector2 _backgroundLength = Vector2.zero;
+    private float _targetSize = HOR_CAM_DEFAULT_SIZE;
 
     public static CameraHorizontalMovement Instance
     {
@@ -36,6 +38,12 @@ public class CameraHorizontalMovement : MonoBehaviour
     }
 
 
+    public void SetTargetSize(float targetSize)
+    {
+        _targetSize = targetSize;
+    }
+
+
 
     /* ==================== Private Methods ==================== */
 
@@ -53,6 +61,9 @@ public class CameraHorizontalMovement : MonoBehaviour
     {
         // Camer position
         transform.position = Vector3.Lerp(transform.position, _target.position, HOR_CAM_SPEED);
+
+        // Camera Size
+        _camera.orthographicSize += (_targetSize - _camera.orthographicSize) * Time.deltaTime * HOR_CAM_SIZE_SPEED;
 
         // Background position
         Vector2 camPos = (Vector2)transform.position;

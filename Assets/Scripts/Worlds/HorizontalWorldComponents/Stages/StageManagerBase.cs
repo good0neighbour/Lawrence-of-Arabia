@@ -161,7 +161,6 @@ public abstract class StageManagerBase : WorldManagerBase
 
     protected override void Update()
     {
-        base.Update();
         if (_showObjective)
         {
             // Objective direction
@@ -183,6 +182,7 @@ public abstract class StageManagerBase : WorldManagerBase
             _objectiveArrow.localRotation = rot;
             _objectiveArrow.localPosition = rot * new Vector3(PLAYER_OBJARROW_DISTANCE, 0.0f, 0.0f);
         }
+        base.Update();
     }
 
 

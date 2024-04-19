@@ -23,10 +23,84 @@ MonoBehaviour:
     Branches: []
   - Type: 2
     Name: Phi
-    NameColour: 0
+    NameColour: 7
     Image: {fileID: 21300000, guid: ed9aef5889a871c4db426e01fb9eea17, type: 3}
     ImageDirection: 1
-    Text: 
+    Text: "\uC880 \uD53C\uACE4\uD574\uC11C.."
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 1
+    Name: Lawrence
+    NameColour: 4
+    Image: {fileID: 21300000, guid: 0aac6bc7d490f834494ce3b18d114f4a, type: 3}
+    ImageDirection: 0
+    Text: "\uC9D1\uC73C\uB85C \uAC00 \uC788\uC9C0. \uC65C \uC5EC\uAE30\uAE4C\uC9C0
+      \uC654\uC5B4?"
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 2
+    Name: Phi
+    NameColour: 7
+    Image: {fileID: 21300000, guid: ed9aef5889a871c4db426e01fb9eea17, type: 3}
+    ImageDirection: 1
+    Text: "\uB098 \uD63C\uC790 \uC788\uAE30 \uC2EB\uB2E8 \uB9D0\uC774\uC57C."
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 2
+    Name: Phi
+    NameColour: 7
+    Image: {fileID: 21300000, guid: ed9aef5889a871c4db426e01fb9eea17, type: 3}
+    ImageDirection: 1
+    Text: "\uC5EC\uAE30 \uC624\uBA74 \uB9C8\uCF54\uAC00 \uBA38\uD540\uB3C4 \uC918."
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 1
+    Name: Lawrence
+    NameColour: 4
+    Image: {fileID: 21300000, guid: 0aac6bc7d490f834494ce3b18d114f4a, type: 3}
+    ImageDirection: 0
+    Text: "\uADF8\uB7AC\uAD6C\uB098.."
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 2
+    Name: Phi
+    NameColour: 7
+    Image: {fileID: 21300000, guid: ed9aef5889a871c4db426e01fb9eea17, type: 3}
+    ImageDirection: 1
+    Text: "\uADFC\uB370 \uBA38\uD540\uC774 \uC880 \uD37D\uD37D\uD574."
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 1
+    Name: Lawrence
+    NameColour: 4
+    Image: {fileID: 21300000, guid: 0aac6bc7d490f834494ce3b18d114f4a, type: 3}
+    ImageDirection: 0
+    Text: "\uC5EC\uAE30\uB294 \uB0C9\uC7A5\uACE0\uAC00 \uC5C6\uC5B4\uC11C \uC624\uB798
+      \uBCF4\uAD00\uD560 \uC74C\uC2DD\uB9CC \uBAA8\uC544\uB450\uACE0 \uC788\uC5B4."
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 1
+    Name: Lawrence
+    NameColour: 4
+    Image: {fileID: 21300000, guid: 0aac6bc7d490f834494ce3b18d114f4a, type: 3}
+    ImageDirection: 0
+    Text: "\uB108\uAC00 \uBA39\uAE30\uB294 \uD37D\uD37D\uD560 \uAC70\uC57C."
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 2
+    Name: Phi
+    NameColour: 7
+    Image: {fileID: 21300000, guid: ed9aef5889a871c4db426e01fb9eea17, type: 3}
+    ImageDirection: 1
+    Text: "\uC2E0\uC120\uD55C \uC74C\uC2DD\uC744 \uBA39\uACE0 \uC2F6\uC5B4.."
+    Audio: {fileID: 0}
+    Branches: []
+  - Type: 2
+    Name: Phi
+    NameColour: 7
+    Image: {fileID: 21300000, guid: ed9aef5889a871c4db426e01fb9eea17, type: 3}
+    ImageDirection: 1
+    Text: "\uC544\uBE60\uB3C4 \uBE68\uB9AC \uB3CC\uC544\uC654\uC73C\uBA74 \uC88B\uACA0\uC5B4."
     Audio: {fileID: 0}
     Branches: []
   _currentLanguage: 1

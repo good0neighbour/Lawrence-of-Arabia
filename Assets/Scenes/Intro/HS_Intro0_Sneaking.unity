@@ -3859,6 +3859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 9122538099129451050}
   _background: {fileID: 1865669440}
+  _camera: {fileID: 519420031}
   _mapTopLeft: {x: 0, y: 35}
   _mapRightBottom: {x: 80, y: 0}
   _backgroundTopLeft: {x: -14, y: 2}

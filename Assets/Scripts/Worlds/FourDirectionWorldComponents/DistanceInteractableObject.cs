@@ -26,9 +26,9 @@ public class DistanceInteractableObject : InteractableObjectBase
     /* ==================== Private Methods ==================== */
 
 #if UNITY_EDITOR
-    protected override void OnDrawGizmos()
+    protected override void OnDrawGizmosSelected()
     {
-        base.OnDrawGizmos();
+        base.OnDrawGizmosSelected();
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, _activeDistance);
     }

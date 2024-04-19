@@ -3718,6 +3718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 9122538099129451050}
   _background: {fileID: 1865669440}
+  _camera: {fileID: 519420031}
   _mapTopLeft: {x: 0, y: 35}
   _mapRightBottom: {x: 80, y: 0}
   _backgroundTopLeft: {x: -14, y: 2}
@@ -12412,6 +12413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1693764554}
   - component: {fileID: 1693764555}
+  - component: {fileID: 1693764556}
   m_Layer: 0
   m_Name: Stage
   m_TagString: Untagged
@@ -12446,7 +12448,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693764553}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32e328d23ec68614fb9f028885f35324, type: 3}
   m_Name: 
@@ -12461,6 +12463,26 @@ MonoBehaviour:
   _objectives:
   - Text: Escape from this stage.
     Target: {fileID: 4212897227414074811}
+--- !u!114 &1693764556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693764553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0425bfb2ab165e4db963c3e07dfde00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _worldName: 
+  _blackScreen: {fileID: 6677295559509775653}
+  _mapNameText: {fileID: 6677295559509775652}
+  _joystick: {fileID: 826337707}
+  _failureScreen: {fileID: 1802292800}
+  _objectiveText: {fileID: 6677295559509775655}
+  _objectiveArrow: {fileID: 1816991755337950026}
+  _objectives: []
 --- !u!1001 &1702637822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14657,7 +14679,7 @@ PrefabInstance:
     - target: {fileID: 701242571718837457, guid: 2275655bf5fc94c48a8103ee8c5dae5e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1693764555}
+      objectReference: {fileID: 1693764556}
     - target: {fileID: 701242571718837457, guid: 2275655bf5fc94c48a8103ee8c5dae5e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StageRestart

@@ -8,6 +8,7 @@ public class Constants
     public const float PLAYER_MAX_FALLING_VEL = -10.0f;
     public const float PLAYER_FEET_SIZE = 0.1f;
     public const float PLAYER_KNOCKBACK_AMOUNT = 2.0f;
+    public const float PLAYER_DEATH_KNOCKBACK_AMOUNT = 4.0f;
     public const float PLAYER_KNOCKBACK_ACC = 6.0f;
     public const float PLAYER_INTERACTION_DISTANCE = 0.01f;
     public const float PLAYER_RADIUS = 0.5f;
@@ -33,6 +34,9 @@ public class Constants
 
     // Camera Settings
     public const float HOR_CAM_SPEED = 0.03f;
+    public const float HOR_CAM_DEFAULT_SIZE = 3.0f;
+    public const float HOR_CAM_DEATH_SIZE = 1.5f;
+    public const float HOR_CAM_SIZE_SPEED = 4.0f;
     public const float FD_CAM_SPEED = 0.03f;
     public const float FD_CAM_ROT_OFFSET = -2.0F;
     public static readonly Vector2 HOR_CAM_OFFSET = new Vector2(1.0f, 1.0f);

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _NPCdata:
   - Name: 0
-    RecentDialogue: {fileID: 11400000, guid: c4bb64eeb235fab4ba6a0d33318e6823, type: 2}
+    RecentDialogue: {fileID: 0}

@@ -69,7 +69,7 @@ public abstract class InteractableObjectBase : TriggerBase
 
 
 #if UNITY_EDITOR
-    protected virtual void OnDrawGizmos()
+    protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _interactableRadius);
