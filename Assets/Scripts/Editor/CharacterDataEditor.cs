@@ -35,7 +35,6 @@ public class CharacterDataEditor : Editor
     {
         for (byte i = 0; i < _charArray.Length; ++i)
         {
-
             BeginHorizontal();
             LabelField(_charArray[i].Name.ToString(), EditorStyles.boldLabel, GUILayout.MaxWidth(180.0f));
             if (_charArray[i].FullImage != null)
@@ -65,22 +64,14 @@ public class CharacterDataEditor : Editor
                 _charArray[i].ProfileImage = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}ProfileImage.png");
                 _charArray[i].Sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}Sprite.png");
                 _charArray[i].SpriteDead = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}SpriteDead.png");
-                EditorUtility.SetDirty(_charData);
             }
             LabelField(" Background", GUILayout.MaxWidth(74.0f));
             if (_charArray[i].BackgroundImage != null)
             {
                 GUILayout.Box(_charArray[i].BackgroundImage.texture, GUILayout.MaxWidth(40.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(4.0f), GUILayout.MinHeight(6.0f));
             }
-            EditorGUI.BeginChangeCheck();
             _charArray[i].BackgroundImage = (Sprite)ObjectField(_charArray[i].BackgroundImage, typeof(Sprite), false, GUILayout.MaxWidth(180.0f));
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorUtility.SetDirty(_charData);
-            }
             EndHorizontal();
-
-            Undo.RecordObject(_charData, "Character data moidified");
 
             BeginHorizontal();
             LabelField("  Base Health", GUILayout.MaxWidth(180.0f));
@@ -142,6 +133,11 @@ public class CharacterDataEditor : Editor
             BeginHorizontal();
             LabelField("  Level", GUILayout.MaxWidth(180.0f));
             _charArray[i].Level = (byte)IntField(_charArray[i].Level, GUILayout.MaxWidth(180.0f));
+            EndHorizontal();
+
+            BeginHorizontal();
+            LabelField("  Trust", GUILayout.MaxWidth(180.0f));
+            _charArray[i].Trust = (byte)IntField(_charArray[i].Trust, GUILayout.MaxWidth(180.0f));
             EndHorizontal();
 
             BeginHorizontal();

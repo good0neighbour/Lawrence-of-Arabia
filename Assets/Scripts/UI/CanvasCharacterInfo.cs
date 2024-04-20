@@ -28,6 +28,7 @@ public class CanvasCharacterInfo : MonoBehaviour
     {
         gameObject.SetActive(false);
         TownManagerBase.Instance.PauseGame(false);
+        _charBackground.gameObject.SetActive(false);
         foreach (GameObject image in _charImageList)
         {
             image.SetActive(false);
@@ -47,6 +48,7 @@ public class CanvasCharacterInfo : MonoBehaviour
     {
         if (_curChar == byte.MaxValue)
         {
+            _charBackground.gameObject.SetActive(true);
             _charImageList[0].SetActive(true);
             foreach (GameObject btn in _nextImageButtons)
             {

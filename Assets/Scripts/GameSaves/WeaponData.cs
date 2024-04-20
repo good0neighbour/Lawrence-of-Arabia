@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Lawrence of Arabia/WeaponData")]
+[PreferBinarySerialization]
 public class WeaponData : ScriptableObject
 {
     /* ==================== Fields ==================== */

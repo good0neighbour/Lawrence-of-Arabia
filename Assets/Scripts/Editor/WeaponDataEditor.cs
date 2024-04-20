@@ -35,8 +35,6 @@ public class WeaponDataEditor : Editor
     {
         for (CharacterWeapons i = 0; i < CharacterWeapons.None; ++i)
         {
-            Undo.RecordObject(_weaponData, "Weapon data modified");
-
             BeginHorizontal();
             LabelField(i.ToString(), EditorStyles.boldLabel, GUILayout.MaxWidth(180.0f));
             if (_weaponArray[(int)i].Image != null)

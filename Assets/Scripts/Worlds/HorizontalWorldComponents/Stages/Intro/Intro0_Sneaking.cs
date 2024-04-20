@@ -11,18 +11,13 @@ public class Intro0_Sneaking : StageManagerBase
             = Resources.Load<DialogueScript>("Dialogues/BabyPhi/IntroducingPhi");
 
         // Game data
+        GameManager.GameData.CurrentTown = "FD_Intro_SafeHouse";
         GameManager.GameData.CurrentHeist = "Tutorial";
         GameManager.GameData.CurrentPreperation = 0;
         GameManager.WeaponData.GetWeaponList()[(int)CharacterWeapons.Pistol].Stock = 1;
 
         // Next scene
         LoadScene("CS_Intro1");
-    }
-
-
-    public override void StageReturn()
-    {
-        
     }
 
 

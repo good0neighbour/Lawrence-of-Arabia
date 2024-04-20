@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NPCData", menuName = "Lawrence of Arabia/NPCData")]
+[PreferBinarySerialization]
 public class NPCData : ScriptableObject
 {
     /* ==================== Fields ==================== */

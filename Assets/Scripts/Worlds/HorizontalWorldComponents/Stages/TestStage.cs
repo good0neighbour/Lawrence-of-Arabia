@@ -11,12 +11,6 @@ public class TestStage : StageManagerBase
     }
 
 
-    public override void StageReturn()
-    {
-        Debug.Log("Return");
-    }
-
-
     public override void CustomAction(string action)
     {
         Debug.Log($"Custom action: {action}");

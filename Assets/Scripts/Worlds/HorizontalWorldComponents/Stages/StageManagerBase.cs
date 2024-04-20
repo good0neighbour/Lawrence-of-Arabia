@@ -110,6 +110,12 @@ public abstract class StageManagerBase : WorldManagerBase
     }
 
 
+    public void StageReturn()
+    {
+        LoadScene(GameManager.GameData.CurrentTown);
+    }
+
+
 
     /* ==================== Protected Methods ==================== */
 
@@ -194,9 +200,6 @@ public abstract class StageManagerBase : WorldManagerBase
     /* ==================== Abstract Methods ==================== */
 
     public abstract void StageClear();
-
-
-    public abstract void StageReturn();
 
 
 

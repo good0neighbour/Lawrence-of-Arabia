@@ -186,22 +186,25 @@ public class CanvasHeistPlanScreen : MonoBehaviour
         // Fill from the left
         for (byte i = 0; i < _selectedWeapons.Length; ++i)
         {
-            if (isSetting && _selectedWeapons[i] == CharacterWeapons.None)
+            if (isSetting)
             {
-                // pressed button
-                _selectedWeaponButton[i] = EventSystem.current.currentSelectedGameObject;
-                _selectedWeaponButton[i].SetActive(false);
+                if (_selectedWeapons[i] == CharacterWeapons.None)
+                {
+                    // pressed button
+                    _selectedWeaponButton[i] = EventSystem.current.currentSelectedGameObject;
+                    _selectedWeaponButton[i].SetActive(false);
 
-                // Weapon index
-                byte weaponIndex = byte.Parse(_selectedWeaponButton[i].name);
+                    // Weapon index
+                    byte weaponIndex = byte.Parse(_selectedWeaponButton[i].name);
 
-                // Weapon set
-                _selectedWeapons[i] = (CharacterWeapons)weaponIndex;
-                _selectedWeaponImage[i].sprite = _weaponList[weaponIndex].Image;
+                    // Weapon set
+                    _selectedWeapons[i] = (CharacterWeapons)weaponIndex;
+                    _selectedWeaponImage[i].sprite = _weaponList[weaponIndex].Image;
 
-                isSetting = false;
+                    isSetting = false;
+                }
             }
-            else if (_selectedWeapons[_selectedWeapons.Length - 1] == CharacterWeapons.None)
+            else if (_selectedWeapons[i] == CharacterWeapons.None)
             {
                 // Check if all set
                 return;

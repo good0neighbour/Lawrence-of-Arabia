@@ -28,7 +28,6 @@ public class DialogueEditor : ListEditorBase
         _script.CurrentLanguage = (LanguageTypes)EnumPopup(_script.CurrentLanguage, GUILayout.MaxWidth(100.0f));
         if (EditorGUI.EndChangeCheck())
         {
-            EditorUtility.SetDirty(_script);
             _status = null;
         }
         EndHorizontal();
@@ -77,7 +76,6 @@ public class DialogueEditor : ListEditorBase
             {
                 _diagolues[i] = element;
                 _script.SetDialogues(_diagolues.ToArray());
-                EditorUtility.SetDirty(_script);
             }
 
             switch (_diagolues[i].Type)
@@ -94,7 +92,6 @@ public class DialogueEditor : ListEditorBase
                         element.Image = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{element.Name}FullImage.PNG");
                         _diagolues[i] = element;
                         _script.SetDialogues(_diagolues.ToArray());
-                        EditorUtility.SetDirty(_script);
                     }
 
                     Space(10.0f, false);
@@ -148,7 +145,6 @@ public class DialogueEditor : ListEditorBase
                         element.Image = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{element.Name}FullImage.png");
                         _diagolues[i] = element;
                         _script.SetDialogues(_diagolues.ToArray());
-                        EditorUtility.SetDirty(_script);
                     }
 
                     Space(10.0f, false);
@@ -208,7 +204,6 @@ public class DialogueEditor : ListEditorBase
             {
                 _diagolues[i] = element;
                 _script.SetDialogues(_diagolues.ToArray());
-                EditorUtility.SetDirty(_script);
             }
 
             Space(30.0f);
@@ -234,7 +229,6 @@ public class DialogueEditor : ListEditorBase
             {
                 branches[i] = temp;
                 element.SetBranches(branches.ToArray());
-                EditorUtility.SetDirty(_script);
             }
             EndHorizontal();
         }
@@ -244,13 +238,11 @@ public class DialogueEditor : ListEditorBase
         {
             branches.Add(new DialogueScript.BranchDialogue());
             element.SetBranches(branches.ToArray());
-            EditorUtility.SetDirty(_script);
         }
         if (GUILayout.Button("Delete branch at end"))
         {
             branches.RemoveAt(branches.Count - 1);
             element.SetBranches(branches.ToArray());
-            EditorUtility.SetDirty(_script);
         }
         EndHorizontal();
     }

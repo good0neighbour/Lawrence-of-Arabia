@@ -989,27 +989,27 @@ MonoBehaviour:
     Destroy: []
   - Index: 1
     Type: 0
-    SceneToLoad: 
+    SceneToLoad: HS_Intro1_KeyCard
     Enable:
     - {fileID: 5120383328491048985}
     - {fileID: 8718120076433949062}
     Destroy: []
   - Index: 2
     Type: 0
-    SceneToLoad: 
+    SceneToLoad: HS_Intro1_TelecomHacking
     Enable:
     - {fileID: 3973828948317328066}
     - {fileID: 2764951142446143261}
     Destroy: []
   - Index: 3
     Type: 0
-    SceneToLoad: 
+    SceneToLoad: HS_Intro1_WeaponDisruption
     Enable:
     - {fileID: 5513094937311213703}
     Destroy: []
   - Index: 4
     Type: 0
-    SceneToLoad: 
+    SceneToLoad: HS_Intro1_DefenseDisruption
     Enable:
     - {fileID: 8189298870088457691}
     Destroy: []

@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Lawrence of Arabia/CharacterData")]
+[PreferBinarySerialization]
 public class CharacterData : ScriptableObject
 {
     /* ==================== Fields ==================== */

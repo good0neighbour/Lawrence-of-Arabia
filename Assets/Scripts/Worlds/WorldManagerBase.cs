@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public abstract class WorldManagerBase : MonoBehaviour
 {
@@ -45,11 +46,17 @@ public abstract class WorldManagerBase : MonoBehaviour
 
     /* ==================== Protected Methods ==================== */
 
+    protected void LoatStageClearScene()
+    {
+        LoadScene("StageClearScene");
+    }
+
+
     protected virtual void DeleteInstance()
     {
         CanvasPlayController.Instance.DeleteInstance();
         DialogueScreen.Instance.DeleteInstance();
-        StageMessage.Instance.DeleteInstance();
+        StageMessage.Instance?.DeleteInstance();
     }
 
 
@@ -160,34 +167,26 @@ public abstract class WorldManagerBase : MonoBehaviour
 
     private void BlackScreenFadeIn()
     {
-        if (Timer < 2.0f)
+        Timer += Time.deltaTime;
+        if (Timer >= 2.0f)
         {
-            Timer += Time.deltaTime;
-            if (Timer >= 2.0f)
-            {
-                _blackScreen.color = new Color(
-                    0.0f,
-                    0.0f,
-                    0.0f,
-                    1.0f
-                );
-                Delegate = null;
-                DeleteInstance();
-                SceneManager.LoadScene(SceneToLoad);
-            }
-            else
-            {
-                _blackScreen.color = new Color(
-                    0.0f,
-                    0.0f,
-                    0.0f,
-                    Mathf.Cos(Timer * Mathf.PI) * 0.5f + 0.5f
-                );
-            }
+            _blackScreen.color = new Color(
+                0.0f,
+                0.0f,
+                0.0f,
+                1.0f
+            );
+            DeleteInstance();
+            SceneManager.LoadScene(SceneToLoad);
         }
         else
         {
-            Timer += Time.deltaTime;
+            _blackScreen.color = new Color(
+                0.0f,
+                0.0f,
+                0.0f,
+                Mathf.Cos(Timer * Mathf.PI) * 0.5f + 0.5f
+            );
         }
     }
 
