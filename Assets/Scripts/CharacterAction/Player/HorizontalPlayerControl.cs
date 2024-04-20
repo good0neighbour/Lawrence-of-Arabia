@@ -95,7 +95,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 _immune = true;
                 _immuneTimer = 0.0f;
 
-                // Animator
+                // Sprite change
                 _sprite.sprite = _characters[_curChar].SpriteDead;
 
                 // KnockBack
@@ -109,7 +109,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 }
 
                 // Camera effect
-                CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEATH_SIZE);
+                CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMIN_SIZE);
                 CameraHorizontalMovement.Instance.TargetChange(_sprite.transform);
 
                 // Ends here
@@ -518,6 +518,24 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             && _characters[2].Health > 0)
         {
             CharacterChange(2);
+        }
+
+        // Camera zoom in, out
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMOUT_SIZE);
+        }
+        else if (Input.GetKeyUp(KeyCode.Z))
+        {
+            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMIN_SIZE);
+        }
+        else if (Input.GetKeyUp(KeyCode.X))
+        {
+            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
         }
         #endregion
 

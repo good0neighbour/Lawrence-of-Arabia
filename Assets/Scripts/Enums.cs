@@ -97,6 +97,7 @@ public enum Characters
 {
     Lawrence,
     Phi,
+    Noya,
     End
 }
 

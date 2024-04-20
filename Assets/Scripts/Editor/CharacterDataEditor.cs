@@ -18,11 +18,11 @@ public class CharacterDataEditor : Editor
             CharacterData.Character[] newArray = new CharacterData.Character[(int)Characters.End];
             for (byte i = 0; i < (byte)Characters.End; ++i)
             {
-                if (i >= _charArray.Length)
+                if (i < _charArray.Length)
                 {
-                    break;
+                    newArray[i] = _charArray[i];
                 }
-                newArray[i] = _charArray[i];
+                newArray[i].Name = (Characters)i;
             }
             _charArray = newArray;
             _charData.SetCharacterList(newArray);
@@ -35,7 +35,6 @@ public class CharacterDataEditor : Editor
     {
         for (byte i = 0; i < _charArray.Length; ++i)
         {
-            Undo.RecordObject(_charData, "Character data moidified");
 
             BeginHorizontal();
             LabelField(_charArray[i].Name.ToString(), EditorStyles.boldLabel, GUILayout.MaxWidth(180.0f));
@@ -66,14 +65,22 @@ public class CharacterDataEditor : Editor
                 _charArray[i].ProfileImage = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}ProfileImage.png");
                 _charArray[i].Sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}Sprite.png");
                 _charArray[i].SpriteDead = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/Characters/{_charArray[i].Name.ToString()}SpriteDead.png");
+                EditorUtility.SetDirty(_charData);
             }
             LabelField(" Background", GUILayout.MaxWidth(74.0f));
             if (_charArray[i].BackgroundImage != null)
             {
                 GUILayout.Box(_charArray[i].BackgroundImage.texture, GUILayout.MaxWidth(40.0f), GUILayout.MaxHeight(60.0f), GUILayout.MinWidth(4.0f), GUILayout.MinHeight(6.0f));
             }
+            EditorGUI.BeginChangeCheck();
             _charArray[i].BackgroundImage = (Sprite)ObjectField(_charArray[i].BackgroundImage, typeof(Sprite), false, GUILayout.MaxWidth(180.0f));
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(_charData);
+            }
             EndHorizontal();
+
+            Undo.RecordObject(_charData, "Character data moidified");
 
             BeginHorizontal();
             LabelField("  Base Health", GUILayout.MaxWidth(180.0f));

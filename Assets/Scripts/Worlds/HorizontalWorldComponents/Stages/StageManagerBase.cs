@@ -53,6 +53,9 @@ public abstract class StageManagerBase : WorldManagerBase
             _objectiveText.gameObject.SetActive(!pause);
             _objectiveArrow.gameObject.SetActive(!pause);
         }
+
+        // Camera size
+        CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
     }
 
 
@@ -78,7 +81,6 @@ public abstract class StageManagerBase : WorldManagerBase
     public void GameFailed()
     {
         Timer = 0.0f;
-        Delegate = null;
         Delegate += ShowFailureScreen;
     }
 
@@ -96,6 +98,8 @@ public abstract class StageManagerBase : WorldManagerBase
             ++_currentObjective;
             _objectiveText.text = _objectives[_currentObjective].Text;
             StageMessage.Instance.EnqueueMessage($"<size=80%>New Objective</size>\n{_objectives[_currentObjective].Text}");
+            _showObjective = _objectives[0].Target != null;
+            _objectiveArrow.gameObject.SetActive(_showObjective);
         }
         else
         {
@@ -125,8 +129,8 @@ public abstract class StageManagerBase : WorldManagerBase
         if (_objectives != null && _objectives.Length > 0)
         {
             _objectiveText.text = _objectives[0].Text;
-            _objectiveArrow.gameObject.SetActive(true);
-            _showObjective = true;
+            _showObjective = _objectives[0].Target != null;
+            _objectiveArrow.gameObject.SetActive(_showObjective);
         }
     }
 
@@ -203,6 +207,7 @@ public abstract class StageManagerBase : WorldManagerBase
         Timer += Time.deltaTime;
         if (Timer >= PLAYER_DEATH_STANDBY_TIME)
         {
+            Delegate -= ShowFailureScreen;
             _failureScreen.SetActive(true);
         }
     }

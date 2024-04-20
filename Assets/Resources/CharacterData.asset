@@ -26,8 +26,9 @@ MonoBehaviour:
     ButtonImage: {fileID: 21300000, guid: 4cf10903ec8a72349bdb9f99b763ecc6, type: 3}
     ProfileImage: {fileID: 21300000, guid: 8c6d6656d39dd7e4aabbc0c643c56d6c, type: 3}
     Sprite: {fileID: 21300000, guid: 2d2a1eed6620446459a2a22595a0ce2e, type: 3}
+    SpriteDead: {fileID: 21300000, guid: 61b9248e34e7b994480d7f4fb08fe167, type: 3}
     BackgroundImage: {fileID: 21300000, guid: c2ee98d6a1000474e9e71103a944676f, type: 3}
-    Information: 
+    Information: "\uB808\uAC00\uB9AC\uB098\uD2F0\uC624 \uCD9C\uC2E0"
     CurRange: 10
     CurHealth: 100
     CurArmor: 5
@@ -50,8 +51,34 @@ MonoBehaviour:
     ButtonImage: {fileID: 21300000, guid: 403581344d9f9714f8a660decc5807c8, type: 3}
     ProfileImage: {fileID: 21300000, guid: 94b88bb36d535264e892b955383c4da6, type: 3}
     Sprite: {fileID: 21300000, guid: 4ffddc4e754a7fb4bab6f4419b206ab3, type: 3}
+    SpriteDead: {fileID: 21300000, guid: 1ad9aa9bd85481a43a9f8be3338589a9, type: 3}
     BackgroundImage: {fileID: 21300000, guid: c2ee98d6a1000474e9e71103a944676f, type: 3}
-    Information: 
+    Information: "\uB808\uAC00\uB9AC\uB098\uD2F0\uC624 \uCD9C\uC2E0"
+    CurRange: 0
+    CurHealth: 10
+    CurArmor: 0
+    CurDamage: 0
+    Status: 1
+    Type: 1
+    Level: 0
+    Trust: 0
+    RecentDialogue: {fileID: 0}
+  - Name: 2
+    BaseHealth: 10
+    BaseArmor: 0
+    BaseDamage: 0
+    BaseRangeRate: 0
+    HealthIncrease: 5
+    DamageIncrease: 5
+    RangeRateIncrease: 5
+    LvForArmorIncrease: 5
+    FullImage: {fileID: 21300000, guid: f15e16341c5938644b50082278843e02, type: 3}
+    ButtonImage: {fileID: 21300000, guid: 8d7eb84412bfff643a544f8cbbc7b7d9, type: 3}
+    ProfileImage: {fileID: 21300000, guid: cf668cc78be1348469ccf303a4e53c51, type: 3}
+    Sprite: {fileID: 21300000, guid: 342ec52b989543b439f8a8129f58ed51, type: 3}
+    SpriteDead: {fileID: 21300000, guid: 6cfcbc2b93196434cb578f51152feeaa, type: 3}
+    BackgroundImage: {fileID: 21300000, guid: bcc60e05d2483e04885940befcd1f0ea, type: 3}
+    Information: "\uD758\uB77C\uB4DC\uB178\uB4DC\uB974\uC790\uBC14 \uCD9C\uC2E0"
     CurRange: 0
     CurHealth: 10
     CurArmor: 0
