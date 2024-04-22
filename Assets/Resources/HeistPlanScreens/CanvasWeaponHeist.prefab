@@ -1002,13 +1002,13 @@ MonoBehaviour:
     - {fileID: 2764951142446143261}
     Destroy: []
   - Index: 3
-    Type: 0
+    Type: 1
     SceneToLoad: HS_Intro1_WeaponDisruption
     Enable:
     - {fileID: 5513094937311213703}
     Destroy: []
   - Index: 4
-    Type: 0
+    Type: 1
     SceneToLoad: HS_Intro1_DefenseDisruption
     Enable:
     - {fileID: 8189298870088457691}
@@ -1027,6 +1027,7 @@ MonoBehaviour:
   _charSelection: {fileID: 2931627587052273037}
   _weaponSelection: {fileID: 5342975594141744762}
   _beginButton: {fileID: 3235624097884627338}
+  _finaleButton: {fileID: 2950143863135019540}
   _charImage: {fileID: 8695254010055572387}
   _weaponparent: {fileID: 7041938596430598369}
   _scrollView: {fileID: 7928524920195506355}

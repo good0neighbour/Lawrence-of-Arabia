@@ -21,6 +21,7 @@ public class CanvasHeistPlanScreen : MonoBehaviour
     [SerializeField] private GameObject _charSelection = null;
     [SerializeField] private GameObject _weaponSelection = null;
     [SerializeField] private GameObject _beginButton = null;
+    [SerializeField] private GameObject _finaleButton = null;
     [SerializeField] private Image _charImage = null;
     [SerializeField] private Transform _weaponparent = null;
     [SerializeField] private RectTransform _scrollView = null;
@@ -284,6 +285,7 @@ public class CanvasHeistPlanScreen : MonoBehaviour
     private void Awake()
     {
         // Set plan buttons
+        bool finale = true;
         for (byte i = 0; i < _planButtons.Length; ++i)
         {
             if ((GameManager.GameData.CurrentPreperation & 1 << _planButtons[i].Index) > 0)
@@ -303,7 +305,14 @@ public class CanvasHeistPlanScreen : MonoBehaviour
                     }
                 }
             }
+            else if (_planButtons[i].Type == HeistPlanType.Essential)
+            {
+                finale = false;
+            }
         }
+
+        // Set finale button
+        _finaleButton.SetActive(finale);
 
         // Set character buttons
         GameObject charBtn = _charImage.transform.parent.gameObject;
