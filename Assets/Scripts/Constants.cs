@@ -37,6 +37,7 @@ public class Constants
     public const float HOR_CAM_DEFAULT_SIZE = 3.0f;
     public const float HOR_CAM_ZOOMIN_SIZE = 1.5f;
     public const float HOR_CAM_ZOOMOUT_SIZE = 5.0f;
+    public const float HOR_CAM_DEATH_SIZE = 2.0f;
     public const float HOR_CAM_SIZE_SPEED = 4.0f;
     public const float FD_CAM_SPEED = 0.03f;
     public const float FD_CAM_ROT_OFFSET = -2.0F;

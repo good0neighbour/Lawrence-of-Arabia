@@ -6,7 +6,6 @@ public class HorizontalMovement : MonoBehaviour
     /* ==================== Fields ==================== */
 
     [SerializeField, HideInInspector] protected sbyte IsFlipNum = 1;
-    protected float DeltaTime = 0.0f;
     protected bool IsGrounded = true;
     private GameDelegate _jumpState = null;
     private Collider2D _ignoredTerrain = null;
@@ -42,21 +41,11 @@ public class HorizontalMovement : MonoBehaviour
     /// </summary>
     protected void SetPosition(float weightX)
     {
-        // Delta time limit
-        if (Time.deltaTime >= DELTA_TIME_LIMIT)
-        {
-            DeltaTime = DELTA_TIME_LIMIT;
-        }
-        else
-        {
-            DeltaTime = Time.deltaTime;
-        }
-
         // Position
         _jumpState.Invoke();
         transform.localPosition = new Vector3(
-            transform.localPosition.x + weightX * DeltaTime * PLAYER_VEL,
-            transform.localPosition.y + _velocityY * DeltaTime,
+            transform.localPosition.x + weightX * Time.fixedDeltaTime * PLAYER_VEL,
+            transform.localPosition.y + _velocityY * Time.fixedDeltaTime,
             0.0f
         );
 
@@ -203,7 +192,7 @@ public class HorizontalMovement : MonoBehaviour
             _velocityY = 0.0f;
             return;
         }
-        _velocityY = _velocityY + GRAVITY_ACCELERATION * DeltaTime;
+        _velocityY = _velocityY + GRAVITY_ACCELERATION * Time.fixedDeltaTime;
     }
 
 
@@ -224,7 +213,7 @@ public class HorizontalMovement : MonoBehaviour
         }
         else if (_velocityY > PLAYER_MAX_FALLING_VEL)
         {
-            _velocityY = _velocityY + GRAVITY_ACCELERATION * DeltaTime;
+            _velocityY = _velocityY + GRAVITY_ACCELERATION * Time.fixedDeltaTime;
         }
     }
 }

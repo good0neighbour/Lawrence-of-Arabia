@@ -59,11 +59,15 @@ public class CameraHorizontalMovement : MonoBehaviour
 
     private void Update()
     {
-        // Camer position
-        transform.position = Vector3.Lerp(transform.position, _target.position, HOR_CAM_SPEED);
-
         // Camera Size
         _camera.orthographicSize += (_targetSize - _camera.orthographicSize) * Time.deltaTime * HOR_CAM_SIZE_SPEED;
+    }
+
+
+    private void FixedUpdate()
+    {
+        // Camer position
+        transform.position = Vector3.Lerp(transform.position, _target.position, HOR_CAM_SPEED);
 
         // Background position
         Vector2 camPos = (Vector2)transform.position;

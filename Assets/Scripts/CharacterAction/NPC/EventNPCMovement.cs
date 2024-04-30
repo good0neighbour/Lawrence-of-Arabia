@@ -78,7 +78,7 @@ public class EventNPCMovement : HorizontalMovement
 
     private void MoveLeft()
     {
-        _velocity -= DeltaTime * _acceleration;
+        _velocity -= Time.fixedDeltaTime * _acceleration;
         if (_velocity <= -_moveSpeed)
         {
             _velocity = -_moveSpeed;
@@ -89,7 +89,7 @@ public class EventNPCMovement : HorizontalMovement
 
     private void StopMovingLeft()
     {
-        _velocity += DeltaTime * _acceleration;
+        _velocity += Time.fixedDeltaTime * _acceleration;
         if (_velocity >= 0.0f)
         {
             _velocity = 0.0f;
@@ -100,7 +100,7 @@ public class EventNPCMovement : HorizontalMovement
 
     private void MoveRight()
     {
-        _velocity += DeltaTime * _acceleration;
+        _velocity += Time.fixedDeltaTime * _acceleration;
         if (_velocity >= _moveSpeed)
         {
             _velocity = _moveSpeed;
@@ -111,7 +111,7 @@ public class EventNPCMovement : HorizontalMovement
 
     private void StopMovingRight()
     {
-        _velocity -= DeltaTime * _acceleration;
+        _velocity -= Time.fixedDeltaTime * _acceleration;
         if (_velocity <= 0.0f)
         {
             _velocity = 0.0f;
@@ -122,10 +122,6 @@ public class EventNPCMovement : HorizontalMovement
 
     private void Update()
     {
-        // Moving
-        _behavDel?.Invoke();
-        SetPositionWithFlip(_velocity);
-
         // Moving stop
         if (_velocity != 0.0f)
         {
@@ -167,5 +163,13 @@ public class EventNPCMovement : HorizontalMovement
             _animator.SetBool("IsGrounded", true);
             _isGroundedMem = true;
         }
+    }
+
+
+    private void FixedUpdate()
+    {
+        // Moving
+        _behavDel?.Invoke();
+        SetPositionWithFlip(_velocity);
     }
 }

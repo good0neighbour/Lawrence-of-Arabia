@@ -13,6 +13,8 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     [SerializeField] private Transform _cameraPos = null;
     [SerializeField] private ParticleSystem _charChangeEft = null;
     [SerializeField] private GameObject _bloodEftPrefab = null;
+    [SerializeField] private AudioSource _audioSource = null;
+    [SerializeField] private AudioClip[] _playerHitSounds = null;
     private List<GameDelegate> _onInteract = new List<GameDelegate>();
     private PlayerWeaponBase[] _weapons = new PlayerWeaponBase[(int)CharacterWeapons.None];
     private CurrentCharacter[] _characters = null;
@@ -49,7 +51,16 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         set
         {
             base.Flip = value;
+            
+            // Sprite flip
             _sprite.flipX = value;
+
+            // Camera position
+            _cameraPos.localPosition = new Vector3(
+                HOR_CAM_OFFSET.x * IsFlipNum,
+                HOR_CAM_OFFSET.y,
+                0.0f
+            );
         }
     }
 
@@ -59,6 +70,14 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     public void Hit(ushort damage, sbyte direction)
     {
+        // Hit sound
+        if (!_audioSource.isPlaying)
+        {
+            _audioSource.clip = _playerHitSounds[Random.Range(0, _playerHitSounds.Length)];
+            _audioSource.Play();
+        }
+
+        // Immune
         if (_immune)
         {
             return;
@@ -109,7 +128,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 }
 
                 // Camera effect
-                CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMIN_SIZE);
+                CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEATH_SIZE);
                 CameraHorizontalMovement.Instance.TargetChange(_sprite.transform);
 
                 // Ends here
@@ -290,7 +309,16 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     protected override void Awake()
     {
         base.Awake();
+
+        // Singleton pattern
         Instance = this;
+
+        // Camera position
+        _cameraPos.localPosition = new Vector3(
+            HOR_CAM_OFFSET.x * IsFlipNum,
+            HOR_CAM_OFFSET.y,
+            0.0f
+        );
     }
 
 
@@ -415,16 +443,6 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
             _jumpAvailable = true;
         }
 
-        // Sprite flip, position
-        SetPositionWithFlip(joystick.x);
-
-        // Camera position
-        _cameraPos.localPosition = new Vector3(
-            HOR_CAM_OFFSET.x * IsFlipNum,
-            HOR_CAM_OFFSET.y,
-            0.0f
-        );
-
         // Animation
         if (_isGroundedMem)
         {
@@ -452,13 +470,13 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
             default:
                 transform.localPosition = new Vector3(
-                    transform.localPosition.x + _knockback * DeltaTime,
+                    transform.localPosition.x + _knockback * Time.fixedDeltaTime,
                     transform.localPosition.y,
                     0.0f
                 );
                 if (_knockback > 0.0f)
                 {
-                    _knockback -= PLAYER_KNOCKBACK_ACC * DeltaTime;
+                    _knockback -= PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
                     if (_knockback < 0.0f)
                     {
                         _knockback = 0.0f;
@@ -466,7 +484,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
                 }
                 else
                 {
-                    _knockback += PLAYER_KNOCKBACK_ACC * DeltaTime;
+                    _knockback += PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
                     if (_knockback > 0.0f)
                     {
                         _knockback = 0.0f;
@@ -540,17 +558,24 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         #endregion
 
         // Attack timer
-        _attackTimer += DeltaTime;
+        _attackTimer += Time.fixedDeltaTime;
 
         // Immune timer
         if (_immune)
         {
-            _immuneTimer += DeltaTime;
+            _immuneTimer += Time.fixedDeltaTime;
             if (_immuneTimer >= PLAYER_IMMUNE_TIME)
             {
                 _immune = false;
             }
         }
+    }
+
+
+    private void FixedUpdate()
+    {
+        // Sprite flip, position
+        SetPositionWithFlip(_joystick.JoystickWeight.x);
     }
 
 
