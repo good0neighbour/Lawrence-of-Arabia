@@ -219,7 +219,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                 })
                 .Action(() =>
                 {
-                    _suspiciousTimer += Time.fixedDeltaTime;
+                    _suspiciousTimer += Time.deltaTime;
                     if (_suspiciousTimer >= ENEMY_SUSPICIOUS_TIME)
                     {
                         StateChange(ENEMY_SILENCE);
@@ -255,12 +255,12 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                                 return FAILURE;
                         }
                 })
+                .Action(LookAtPlayer)
                 .Action(DetectPlayer)
                 .SubSequence(SUCCESS)
                     .Action(() =>
                     {
-                        LookAtPlayer();
-                        _timer += Time.fixedDeltaTime;
+                        _timer += Time.deltaTime;
                         if (_timer >= _attackTimer)
                         {
                             _timer -= _attackTimer;
@@ -305,6 +305,9 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             return;
         }
 
+        // Enemy behaviour
+        _behav.Execute();
+
         // Animation
         if (_isGroundedMem)
         {
@@ -329,9 +332,17 @@ public abstract class EnemyBase : HorizontalMovement, IHit
 
     private void FixedUpdate()
     {
-        // Enemy behaviour
-        _behav.Execute();
+        // Active check
+        if (_paused)
+        {
+            return;
+        }
+
+        // Move direction deligate
         _behavDel?.Invoke();
+
+        // Position, Flip
+        SetPositionWithFlip(_velocity);
 
         // KnockBack
         switch (_knockback)
@@ -388,7 +399,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             if (_playerDir.x > 0.0f)
             {
                 transform.localPosition = new Vector3(
-                    transform.localPosition.x + (_playerDis - _pushingRange) * Time.fixedDeltaTime,
+                    transform.localPosition.x + (_playerDis - _pushingRange) * Time.deltaTime,
                     transform.localPosition.y,
                     0.0f
                 );
@@ -396,7 +407,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             else if (_playerDir.x < 0.0f)
             {
                 transform.localPosition = new Vector3(
-                    transform.localPosition.x + (_pushingRange - _playerDis) * Time.fixedDeltaTime,
+                    transform.localPosition.x + (_pushingRange - _playerDis) * Time.deltaTime,
                     transform.localPosition.y,
                     0.0f
                 );
@@ -467,11 +478,8 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         }
         else
         {
-            _timer += Time.fixedDeltaTime;
+            _timer += Time.deltaTime;
         }
-
-        // Position, Flip
-        SetPositionWithFlip(_velocity);
 
         //Return
         return SUCCESS;
@@ -520,7 +528,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                     switch (DetectPlayer(_silenceSightAngle, _silenceSightRange))
                     {
                         case SUCCESS:
-                            UrgentMeterChange(_urgentMeter + Time.fixedDeltaTime * ENEMY_URGENT_SPEED);
+                            UrgentMeterChange(Time.deltaTime * ENEMY_URGENT_SPEED);
                             if (_urgentMeter >= 1.0f)
                             {
                                 return SUCCESS;
@@ -533,14 +541,14 @@ public abstract class EnemyBase : HorizontalMovement, IHit
                         case FAILURE:
                             if (_urgentMeter > 0.0f)
                             {
-                                UrgentMeterChange(_urgentMeter - Time.fixedDeltaTime * ENEMY_URGENT_SPEED);
+                                UrgentMeterChange(Time.deltaTime * -ENEMY_URGENT_SPEED);
                             }
                             return FAILURE;
                     }
                 }
-                if (_urgentMeter > 0.0f)
+                else if (_urgentMeter > 0.0f)
                 {
-                    UrgentMeterChange(_urgentMeter - Time.fixedDeltaTime * ENEMY_URGENT_SPEED);
+                    UrgentMeterChange(Time.deltaTime * -ENEMY_URGENT_SPEED);
                 }
                 return FAILURE;
 
@@ -616,14 +624,8 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         }
         else
         {
-            _timer += Time.fixedDeltaTime;
+            _timer += Time.deltaTime;
         }
-
-        // Look at Player
-        LookAtPlayer();
-
-        // Move
-        SetPosition(_velocity);
 
         // Return
         return SUCCESS;
@@ -688,7 +690,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     }
 
 
-    private void LookAtPlayer()
+    private byte LookAtPlayer()
     {
         if (_playerDir.x > 0.0f)
         {
@@ -700,6 +702,8 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             _sprite.flipX = true;
             IsFlipNum = -1;
         }
+
+        return SUCCESS;
     }
 
 
@@ -721,7 +725,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
 
     private void UrgentMeterChange(float value)
     {
-        _urgentMeter = value;
+        _urgentMeter += value;
         if (_urgentMeter < 0.0f)
         {
             _urgentMeter = 0.0f;

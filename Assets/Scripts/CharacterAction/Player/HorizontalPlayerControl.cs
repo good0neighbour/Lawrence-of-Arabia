@@ -13,8 +13,8 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     [SerializeField] private Transform _cameraPos = null;
     [SerializeField] private ParticleSystem _charChangeEft = null;
     [SerializeField] private GameObject _bloodEftPrefab = null;
-    [SerializeField] private AudioSource _audioSource = null;
-    [SerializeField] private AudioClip[] _playerHitSounds = null;
+    //[SerializeField] private AudioSource _audioSource = null;
+    //[SerializeField] private AudioClip[] _playerHitSounds = null;
     private List<GameDelegate> _onInteract = new List<GameDelegate>();
     private PlayerWeaponBase[] _weapons = new PlayerWeaponBase[(int)CharacterWeapons.None];
     private CurrentCharacter[] _characters = null;
@@ -71,11 +71,11 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     public void Hit(ushort damage, sbyte direction)
     {
         // Hit sound
-        if (!_audioSource.isPlaying)
-        {
-            _audioSource.clip = _playerHitSounds[Random.Range(0, _playerHitSounds.Length)];
-            _audioSource.Play();
-        }
+        //if (!_audioSource.isPlaying)
+        //{
+        //    _audioSource.clip = _playerHitSounds[Random.Range(0, _playerHitSounds.Length)];
+        //    _audioSource.Play();
+        //}
 
         // Immune
         if (_immune)

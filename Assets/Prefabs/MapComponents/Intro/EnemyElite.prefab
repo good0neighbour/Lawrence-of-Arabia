@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.6}
+  m_AnchoredPosition: {x: 0, y: 0.3}
   m_SizeDelta: {x: 0.3, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7245250377237570996
@@ -405,7 +405,7 @@ MonoBehaviour:
   _moveSpeed: 0.1
   _acceleration: 0.05
   _silenceSightRange: 2
-  _silenceSightAngle: 45
+  _silenceSightAngle: 60
   _urgentSightRange: 4
   _sightHight: 0.9
   _health: 100
@@ -413,7 +413,7 @@ MonoBehaviour:
   _attackRange: 3
   _attackTimer: 0.25
   AttackDamage: 7
-  _attackAngle: 90
+  _attackAngle: 120
   _sendUrgentReport: 1
   _receiveUrgentReport: 1
   _pushingRange: 0.5
