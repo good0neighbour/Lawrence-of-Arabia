@@ -93,8 +93,7 @@ public class Constants
     public const float CHARSEL_ANIM_SPEED = 1.0f;
 
     // Physics
-    public const float GRAVITY_ACCELERATION = -50.0f;
-    public const float DELTA_TIME_LIMIT = 0.02f;
+    public const float GRAVITY_SCALE = 5.0f;
 
     // UI
     public const float CANVAS_WIDTH = 1920.0f;

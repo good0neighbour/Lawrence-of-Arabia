@@ -6,11 +6,15 @@ public class HorizontalMovement : MonoBehaviour
     /* ==================== Fields ==================== */
 
     [SerializeField, HideInInspector] protected sbyte IsFlipNum = 1;
+    [SerializeField, HideInInspector] private bool _isFlip = false;
+    protected Joystick Joystick = null;
+    protected Animator Animator = null;
     protected bool IsGrounded = true;
+    protected bool Paused = true;
     private GameDelegate _jumpState = null;
     private Collider2D _ignoredTerrain = null;
-    private float _velocityY = 0.0f;
-    [SerializeField, HideInInspector] private bool _isFlip = false;
+    private Rigidbody2D _rigidbody = null;
+    private bool _isGroundedMem = true;
 
     public virtual bool Flip
     {
@@ -41,31 +45,11 @@ public class HorizontalMovement : MonoBehaviour
     /// </summary>
     protected void SetPosition(float weightX)
     {
-        // Position
+        // Jump action
         _jumpState.Invoke();
-        transform.localPosition = new Vector3(
-            transform.localPosition.x + weightX * Time.fixedDeltaTime * PLAYER_VEL,
-            transform.localPosition.y + _velocityY * Time.fixedDeltaTime,
-            0.0f
-        );
 
-        // Wall detecting
-        switch (Physics2D.OverlapArea(
-                (Vector2)transform.position + new Vector2(-0.48f, 0.5f),
-                (Vector2)transform.position + new Vector2(0.48f, 0.4f),
-                LAYER_B_WALL))
-        {
-            case null:
-                return;
-
-            default:
-                transform.localPosition = new Vector3(
-                    Mathf.Round(transform.localPosition.x + 0.5f) - 0.5f,
-                    transform.localPosition.y,
-                    0.0f
-                );
-                break;
-        }
+        // Position
+        _rigidbody.velocity = new Vector3(weightX * PLAYER_VEL, _rigidbody.velocity.y, 0.0f);
     }
 
 
@@ -95,12 +79,8 @@ public class HorizontalMovement : MonoBehaviour
         {
             if (isUpJump)
             {
-                if (DetectIsCeiled())
-                {
-                    // Cannot up jump under Wall layer
-                    return;
-                }
-                _velocityY = PLAYER_JUMP_SPEED;
+                _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, PLAYER_JUMP_SPEED, 0.0f);
+                _rigidbody.gravityScale = GRAVITY_SCALE;
                 _jumpState = JumpUp;
                 IsGrounded = false;
             }
@@ -113,6 +93,7 @@ public class HorizontalMovement : MonoBehaviour
                     _ignoredTerrain = null;
                     return;
                 }
+                _rigidbody.gravityScale = GRAVITY_SCALE;
                 _jumpState = JumpDown;
                 IsGrounded = false;
             }
@@ -122,36 +103,51 @@ public class HorizontalMovement : MonoBehaviour
 
     protected virtual void Awake()
     {
+        // Reference
+        _rigidbody = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
+
+        // Initial jump action
         _jumpState = JumpNone;
+    }
+
+
+    protected virtual void Start()
+    {
+        Joystick = CanvasPlayController.Instance.Joystick;
+    }
+
+
+    protected virtual void Update()
+    {
+        // Animation
+        if (_isGroundedMem)
+        {
+            if (IsGrounded)
+            {
+                Animator.SetFloat("Velocity", Mathf.Abs(_rigidbody.velocity.x));
+            }
+            else
+            {
+                Animator.SetBool("IsGrounded", false);
+                _isGroundedMem = false;
+            }
+        }
+        else if (IsGrounded)
+        {
+            Animator.SetBool("IsGrounded", true);
+            _isGroundedMem = true;
+        }
     }
 
 
 
     /* ==================== Private Methods ==================== */
 
-
-    private bool DetectIsCeiled()
-    {
-        Collider2D ceiling = Physics2D.OverlapArea(
-            (Vector2)transform.position + new Vector2(-PLAYER_FEET_SIZE, 1.01f),
-            (Vector2)transform.position + new Vector2(PLAYER_FEET_SIZE, 0.99f),
-            LAYER_B_WALL
-        );
-        if (ceiling == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-
     private Collider2D DetectGround()
     {
         return Physics2D.OverlapArea(
-            (Vector2)transform.position + new Vector2(-PLAYER_FEET_SIZE, 0.1f),
+            (Vector2)transform.position + new Vector2(-PLAYER_FEET_SIZE, 0.2f),
             (Vector2)transform.position + new Vector2(PLAYER_FEET_SIZE, -0.01f),
             LAYER_B_TERRAIN
         );
@@ -178,6 +174,7 @@ public class HorizontalMovement : MonoBehaviour
         if (!DetectIsGrounded())
         {
             _jumpState = JumpDown;
+            _rigidbody.gravityScale = GRAVITY_SCALE;
             IsGrounded = false;
         }
     }
@@ -185,14 +182,12 @@ public class HorizontalMovement : MonoBehaviour
 
     private void JumpUp()
     {
-        if (_velocityY <= 0.0f)
+        if (_rigidbody.velocity.y <= 0.0f)
         {
             _jumpState = JumpDown;
             JumpDown();
-            _velocityY = 0.0f;
             return;
         }
-        _velocityY = _velocityY + GRAVITY_ACCELERATION * Time.fixedDeltaTime;
     }
 
 
@@ -201,7 +196,8 @@ public class HorizontalMovement : MonoBehaviour
         if (DetectIsGrounded())
         {
             _jumpState = JumpNone;
-            _velocityY = 0.0f;
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0.0f, 0.0f);
+            _rigidbody.gravityScale = 0.0f;
             _ignoredTerrain = null;
             transform.position = new Vector3(
                 transform.position.x,
@@ -209,11 +205,11 @@ public class HorizontalMovement : MonoBehaviour
                 0.0f
             );
             IsGrounded = true;
-            return;
         }
-        else if (_velocityY > PLAYER_MAX_FALLING_VEL)
+        else if (_rigidbody.velocity.y < PLAYER_MAX_FALLING_VEL)
         {
-            _velocityY = _velocityY + GRAVITY_ACCELERATION * Time.fixedDeltaTime;
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, PLAYER_MAX_FALLING_VEL, 0.0f);
+            _rigidbody.gravityScale = 0.0f;
         }
     }
 }

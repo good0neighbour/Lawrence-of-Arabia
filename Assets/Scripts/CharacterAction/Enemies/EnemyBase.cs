@@ -40,7 +40,6 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     [SerializeField] private SpriteRenderer _sprite = null;
     [SerializeField] private RectTransform _sightUI = null;
     [SerializeField] private Image _notice = null;
-    [SerializeField] private Animator _animator = null;
     protected Transform Player = null;
     private GameDelegate _behavDel = null;
     private BehaviourTree _behav = new BehaviourTree();
@@ -52,8 +51,6 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     private float _knockback = 0.0f;
     private float _suspiciousTimer = 0.0f;
     private float _timer = 0.0f;
-    private bool _isGroundedMem = true;
-    private bool _paused = true;
 
     public override bool Flip
     {
@@ -131,12 +128,12 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     {
         if (pause)
         {
-            _paused = true;
-            _animator.SetFloat("Velocity", 0.0f);
+            Paused = true;
+            Animator.SetFloat("Velocity", 0.0f);
         }
         else
         {
-            _paused = false;
+            Paused = false;
         }
     }
 
@@ -287,8 +284,10 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     }
 
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
+
         // Player Transform
         Player = HorizontalPlayerControl.Instance.transform;
 
@@ -297,43 +296,25 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     }
 
 
-    protected virtual void Update()
+    protected override void Update()
     {
         // Active check
-        if (_paused)
+        if (Paused)
         {
             return;
         }
 
+        base.Update();
+
         // Enemy behaviour
         _behav.Execute();
-
-        // Animation
-        if (_isGroundedMem)
-        {
-            if (IsGrounded)
-            {
-                _animator.SetFloat("Velocity", Mathf.Abs(_velocity * ENEMY_ANIM_MULT));
-            }
-            else
-            {
-                _animator.SetBool("IsGrounded", false);
-                _isGroundedMem = false;
-            }
-        }
-        else if (IsGrounded)
-        {
-            _animator.SetBool("IsGrounded", true);
-            _isGroundedMem = true;
-        }
-
     }
 
 
     private void FixedUpdate()
     {
         // Active check
-        if (_paused)
+        if (Paused)
         {
             return;
         }

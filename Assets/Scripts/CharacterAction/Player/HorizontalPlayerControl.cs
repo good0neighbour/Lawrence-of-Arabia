@@ -8,8 +8,6 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     /* ==================== Fields ==================== */
 
     [SerializeField] private SpriteRenderer _sprite = null;
-    [SerializeField] private Joystick _joystick = null;
-    [SerializeField] private Animator _animator = null;
     [SerializeField] private Transform _cameraPos = null;
     [SerializeField] private ParticleSystem _charChangeEft = null;
     [SerializeField] private GameObject _bloodEftPrefab = null;
@@ -22,11 +20,9 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     private float _knockback = 0.0f;
     private float _immuneTimer = 0.0f;
     private float _attackTimer = 0.0f;
-    private bool _jumpAvailable = true;
-    private bool _isGroundedMem = true;
-    private bool _paused = true;
     private bool _interaction = false;
     private bool _immune = false;
+    private bool _jumpAvailable = true;
 
     public static HorizontalPlayerControl Instance
     {
@@ -187,7 +183,7 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
     public void PausePlayerControl(bool pause)
     {
-        _paused = pause;
+        Paused = pause;
     }
 
 
@@ -322,6 +318,150 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
+    protected override void Start()
+    {
+        base.Start();
+
+        // ObjectPool Prepare
+        StageManagerBase.ObjectPool.PoolPreparing(_bloodEftPrefab);
+    }
+
+
+    protected override void Update()
+    {
+        base.Update();
+
+        #region Always Functioning
+        // KnockBack
+        switch (_knockback)
+        {
+            case 0.0f:
+                break;
+
+            default:
+                transform.localPosition = new Vector3(
+                    transform.localPosition.x + _knockback * Time.fixedDeltaTime,
+                    transform.localPosition.y,
+                    0.0f
+                );
+                if (_knockback > 0.0f)
+                {
+                    _knockback -= PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
+                    if (_knockback < 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                else
+                {
+                    _knockback += PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
+                    if (_knockback > 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                break;
+        }
+        #endregion
+
+        // Not functioning while game is paused
+        if (Paused)
+        {
+            return;
+        }
+
+        #region Input
+        // Character actions
+        if (Input.GetKey(KeyCode.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
+        {
+            Attack();
+        }
+        else if (Input.GetKeyUp(KeyCode.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
+        {
+            AttackKeyUp();
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Extra();
+        }
+        else if (_interaction && Input.GetKeyDown(KeyCode.E))
+        {
+            Interact();
+        }
+
+        // Switch character
+        else if (Input.GetKeyDown(KeyCode.Alpha1)
+            && _characters[0].Health > 0)
+        {
+            CharacterChange(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)
+            && _characters.Length > 1
+            && _characters[1].Health > 0)
+        {
+            CharacterChange(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3)
+            && _characters.Length > 2
+            && _characters[2].Health > 0)
+        {
+            CharacterChange(2);
+        }
+
+        // Camera zoom in, out
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMOUT_SIZE);
+        }
+        else if (Input.GetKeyUp(KeyCode.Z))
+        {
+            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMIN_SIZE);
+        }
+        else if (Input.GetKeyUp(KeyCode.X))
+        {
+            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
+        }
+        #endregion
+
+        // Jump
+        float yWeight = Joystick.JoystickWeight.y;
+        if (_jumpAvailable)
+        {
+            if (JOYSTICK_JUMP_WEIGHT <= yWeight)
+            {
+                Jump(true);
+                _jumpAvailable = false;
+            }
+            else if (-JOYSTICK_JUMP_WEIGHT >= yWeight)
+            {
+                Jump(false);
+                _jumpAvailable = false;
+            }
+        }
+        else if (JOYSTICK_JUMP_WEIGHT > yWeight && -JOYSTICK_JUMP_WEIGHT < yWeight)
+        {
+            _jumpAvailable = true;
+        }
+
+        // Attack timer
+        _attackTimer += Time.fixedDeltaTime;
+
+        // Immune timer
+        if (_immune)
+        {
+            _immuneTimer += Time.fixedDeltaTime;
+            if (_immuneTimer >= PLAYER_IMMUNE_TIME)
+            {
+                _immune = false;
+            }
+        }
+    }
+
+
 
     /* ==================== Private Methods ==================== */
 
@@ -412,170 +552,10 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
-    private void Start()
-    {
-        // ObjectPool Prepare
-        StageManagerBase.ObjectPool.PoolPreparing(_bloodEftPrefab);
-    }
-
-
-    private void Update()
-    {
-        #region Always Functioning
-        Vector2 joystick = _joystick.JoystickWeight;
-
-        // Jump
-        if (_jumpAvailable)
-        {
-            if (joystick.y > JOYSTICK_JUMP_WEIGHT)
-            {
-                Jump(true);
-                _jumpAvailable = false;
-            }
-            else if (joystick.y < -JOYSTICK_JUMP_WEIGHT)
-            {
-                Jump(false);
-                _jumpAvailable = false;
-            }
-        }
-        else if (joystick.y < JOYSTICK_JUMP_WEIGHT && joystick.y > -JOYSTICK_JUMP_WEIGHT)
-        {
-            _jumpAvailable = true;
-        }
-
-        // Animation
-        if (_isGroundedMem)
-        {
-            if (IsGrounded)
-            {
-                _animator.SetFloat("Velocity", Mathf.Abs(joystick.x));
-            }
-            else
-            {
-                _animator.SetBool("IsGrounded", false);
-                _isGroundedMem = false;
-            }
-        }
-        else if (IsGrounded)
-        {
-            _animator.SetBool("IsGrounded", true);
-            _isGroundedMem = true;
-        }
-
-        // KnockBack
-        switch (_knockback)
-        {
-            case 0.0f:
-                break;
-
-            default:
-                transform.localPosition = new Vector3(
-                    transform.localPosition.x + _knockback * Time.fixedDeltaTime,
-                    transform.localPosition.y,
-                    0.0f
-                );
-                if (_knockback > 0.0f)
-                {
-                    _knockback -= PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
-                    if (_knockback < 0.0f)
-                    {
-                        _knockback = 0.0f;
-                    }
-                }
-                else
-                {
-                    _knockback += PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
-                    if (_knockback > 0.0f)
-                    {
-                        _knockback = 0.0f;
-                    }
-                }
-                break;
-        }
-        #endregion
-
-        // Not functioning while game is paused
-        if (_paused)
-        {
-            return;
-        }
-
-        #region Input
-        // Character actions
-        if (Input.GetKey(KeyCode.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
-        {
-            Attack();
-        }
-        else if (Input.GetKeyUp(KeyCode.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
-        {
-            AttackKeyUp();
-        }
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Extra();
-        }
-        else if (_interaction && Input.GetKeyDown(KeyCode.E))
-        {
-            Interact();
-        }
-
-        // Switch character
-        else if (Input.GetKeyDown(KeyCode.Alpha1)
-            && _characters[0].Health > 0)
-        {
-            CharacterChange(0);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)
-            && _characters.Length > 1
-            && _characters[1].Health > 0)
-        {
-            CharacterChange(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3)
-            && _characters.Length > 2
-            && _characters[2].Health > 0)
-        {
-            CharacterChange(2);
-        }
-
-        // Camera zoom in, out
-        else if (Input.GetKeyDown(KeyCode.Z))
-        {
-            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMOUT_SIZE);
-        }
-        else if (Input.GetKeyUp(KeyCode.Z))
-        {
-            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
-        }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMIN_SIZE);
-        }
-        else if (Input.GetKeyUp(KeyCode.X))
-        {
-            CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
-        }
-        #endregion
-
-        // Attack timer
-        _attackTimer += Time.fixedDeltaTime;
-
-        // Immune timer
-        if (_immune)
-        {
-            _immuneTimer += Time.fixedDeltaTime;
-            if (_immuneTimer >= PLAYER_IMMUNE_TIME)
-            {
-                _immune = false;
-            }
-        }
-    }
-
-
     private void FixedUpdate()
     {
         // Sprite flip, position
-        SetPositionWithFlip(_joystick.JoystickWeight.x);
+        SetPositionWithFlip(Joystick.JoystickWeight.x);
     }
 
 

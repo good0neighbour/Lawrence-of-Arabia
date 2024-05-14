@@ -10241,28 +10241,9 @@ MonoBehaviour:
   IsFlipNum: 1
   _isFlip: 0
   _sprite: {fileID: 3046547952890353273}
-  _joystick: {fileID: 0}
-  _animator: {fileID: 6293058727956807477}
   _cameraPos: {fileID: 5433596542237892238}
   _charChangeEft: {fileID: 4471704265576410988}
   _bloodEftPrefab: {fileID: 5748454816918499764, guid: 2efd9c288108cdf4db78febd35c97cc9, type: 3}
-  _audioSource: {fileID: 4602171877370105091}
-  _playerHitSounds:
-  - {fileID: 8300000, guid: 107d4c00e75eba24ca9ee1c0a1ac7625, type: 3}
-  - {fileID: 8300000, guid: 0c3a18e5206a0e44c9dac3479305d17e, type: 3}
-  - {fileID: 8300000, guid: b4999bb7c2a11f249b47d7b56676da49, type: 3}
-  - {fileID: 8300000, guid: f5c3f309677a77241a49dc565b4b1eec, type: 3}
-  - {fileID: 8300000, guid: 2023aac9c1a58704bba3f3515349ba19, type: 3}
-  - {fileID: 8300000, guid: 7e456b6bd17f9de40b58d55c6c78fc37, type: 3}
-  - {fileID: 8300000, guid: 2730702782923b445a1345b045269046, type: 3}
-  - {fileID: 8300000, guid: b5162d4458d9fb84b8a96af16b67ee42, type: 3}
-  - {fileID: 8300000, guid: 272d55b0a2e5e1949a6a7d15c73ad24b, type: 3}
-  - {fileID: 8300000, guid: 6f61190d56175f647ae90ce9b16901ec, type: 3}
-  - {fileID: 8300000, guid: 429fb18915f1c93458b47d390090b302, type: 3}
-  - {fileID: 8300000, guid: ddd4edd8982df2e49a129ff580fb2021, type: 3}
-  - {fileID: 8300000, guid: ed976e92aa5a0454fa73c9cfe6c37598, type: 3}
-  - {fileID: 8300000, guid: 35e87c32ae1478649b9595f8f52e78f9, type: 3}
-  - {fileID: 8300000, guid: 85e467d18b2a911459f3422bf128a80c, type: 3}
 --- !u!95 &6293058727956807477
 Animator:
   serializedVersion: 5
@@ -10313,12 +10294,12 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.45
 --- !u!50 &2507313614820374473
 Rigidbody2D:
   serializedVersion: 4
@@ -10327,15 +10308,15 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7702380380235115669}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: 3c87d550b6d24c049b7723369504b6b6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -10345,7 +10326,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!82 &4602171877370105091
 AudioSource:
   m_ObjectHideFlags: 0

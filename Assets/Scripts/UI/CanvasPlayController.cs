@@ -19,6 +19,14 @@ public class CanvasPlayController : MonoBehaviour
         private set;
     }
 
+    public Joystick Joystick
+    {
+        get
+        {
+            return _joystick;
+        }
+    }
+
 
 
     /* ==================== Public Methods ==================== */

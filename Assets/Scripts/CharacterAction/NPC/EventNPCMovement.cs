@@ -10,11 +10,9 @@ public class EventNPCMovement : HorizontalMovement
     [SerializeField] private float _acceleration = 0.05f;
     [Header("References")]
     [SerializeField] private SpriteRenderer _sprite = null;
-    [SerializeField] private Animator _animator = null;
     private GameDelegate _behavDel = null;
     private float _velocity = 0.0f;
     private float _goalPosX = 0.0f;
-    private bool _isGroundedMem = true;
 
     public override bool Flip
     {
@@ -74,6 +72,38 @@ public class EventNPCMovement : HorizontalMovement
 
 
 
+    /* ==================== Protected Methods ==================== */
+
+    protected override void Update()
+    {
+        base.Update();
+
+        // Moving stop
+        if (_velocity != 0.0f)
+        {
+            switch (IsFlipNum)
+            {
+                case -1:
+                    if (transform.position.x <= _goalPosX)
+                    {
+                        _behavDel = null;
+                        StopMovingLeft();
+                    }
+                    break;
+
+                case 1:
+                    if (transform.position.x >= _goalPosX)
+                    {
+                        _behavDel = null;
+                        StopMovingRight();
+                    }
+                    break;
+            }
+        }
+    }
+
+
+
     /* ==================== Private Methods ==================== */
 
     private void MoveLeft()
@@ -116,52 +146,6 @@ public class EventNPCMovement : HorizontalMovement
         {
             _velocity = 0.0f;
             _behavDel = null;
-        }
-    }
-
-
-    private void Update()
-    {
-        // Moving stop
-        if (_velocity != 0.0f)
-        {
-            switch (IsFlipNum)
-            {
-                case -1:
-                    if (transform.position.x <= _goalPosX)
-                    {
-                        _behavDel = null;
-                        StopMovingLeft();
-                    }
-                    break;
-
-                case 1:
-                    if (transform.position.x >= _goalPosX)
-                    {
-                        _behavDel = null;
-                        StopMovingRight();
-                    }
-                    break;
-            }
-        }
-
-        // Animation
-        if (_isGroundedMem)
-        {
-            if (IsGrounded)
-            {
-                _animator.SetFloat("Velocity", Mathf.Abs(_velocity * ENEMY_ANIM_MULT));
-            }
-            else
-            {
-                _animator.SetBool("IsGrounded", false);
-                _isGroundedMem = false;
-            }
-        }
-        else if (IsGrounded)
-        {
-            _animator.SetBool("IsGrounded", true);
-            _isGroundedMem = true;
         }
     }
 
