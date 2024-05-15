@@ -43,6 +43,7 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     protected Transform Player = null;
     private GameDelegate _behavDel = null;
     private BehaviourTree _behav = new BehaviourTree();
+    private Transform _cam = null;
     private Vector2 _playerDir = Vector2.zero;
     private byte _enemyState = ENEMY_SILENCE;
     private float _playerDis = 0.0f;
@@ -291,6 +292,9 @@ public abstract class EnemyBase : HorizontalMovement, IHit
         // Player Transform
         Player = HorizontalPlayerControl.Instance.transform;
 
+        // Camera Transform
+        _cam = CameraHorizontalMovement.Instance.transform;
+
         // ObjectPool Prepare
         StageManagerBase.ObjectPool.PoolPreparing(_hitEffect);
     }
@@ -300,6 +304,13 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     {
         // Active check
         if (Paused)
+        {
+            return;
+        }
+
+        // Distance check
+        Vector2 dis = (Vector2)_cam.position - (Vector2)transform.position;
+        if (dis.x * dis.x + dis.y * dis.y > ENEMY_ACTIVE_DIS_SQR)
         {
             return;
         }

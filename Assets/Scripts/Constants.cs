@@ -21,7 +21,6 @@ public class Constants
     public const float ENEMY_SILENCE_TIMER = 3.0f;
     public const float ENEMY_URGENT_TIMER = 0.5f;
     public const float ENEMY_MOVE_POSI = 0.1f;
-    public const float ENEMY_JUMP_POSI = 0.03f;
     public const float ENEMY_MOVESTOP_POSI = 0.4f;
     public const float ENEMY_URGENT_ACC_MULT = 5.0f;
     public const float ENEMY_URGENT_MOVE_POSI = 0.6f;
@@ -31,6 +30,8 @@ public class Constants
     public const float ENEMY_URGENT_SPEED = 3.0f;
     public const float ENEMY_SUSPICIOUS_TIME = 30.0f;
     public const float ENEMY_SUSPICIOUS_RANGE = 2.0f;
+    private const float ENEMY_JUMP_POSI = 0.03f;
+    private const float ENEMY_ACTIVE_DISTANCE = 10.0f;
 
     // Camera Settings
     public const float HOR_CAM_SPEED = 0.03f;
@@ -161,4 +162,5 @@ public class Constants
     public const float CHARSEL_ANCHOR_MULT = -0.5f * (CHARSEL_MAX_ANCHOR - CHARSEL_MIN_ANCHOR);
     public const float CHARSEL_ANCHOR_ADD = CHARSEL_MIN_ANCHOR - CHARSEL_ANCHOR_MULT;
     public const float RAD_TO_DEG = 180.0f / Mathf.PI;
+    public const float ENEMY_ACTIVE_DIS_SQR = ENEMY_ACTIVE_DISTANCE * ENEMY_ACTIVE_DISTANCE;
 }

@@ -28,7 +28,7 @@ public class ObjectPool
         {
             GameObject ob = Object.Instantiate(prefab, _parent);
             ob.SetActive(false);
-            ob.GetComponent<PoolObject>().InitializeEffect(prefab);
+            ob.GetComponent<PoolObject>().SetPoolType(prefab);
             _pools.Add(prefab, new Queue<GameObject>());
             _pools[prefab].Enqueue(ob);
         }
@@ -48,7 +48,7 @@ public class ObjectPool
         else
         {
             GameObject ob = Object.Instantiate(prefab, _parent);
-            ob.GetComponent<PoolObject>().InitializeEffect(prefab);
+            ob.GetComponent<PoolObject>().SetPoolType(prefab);
             return ob.transform;
         }
     }
@@ -72,7 +72,7 @@ public class ObjectPool
         private GameObject _prefab = null;
 
 
-        public void InitializeEffect(GameObject prefab)
+        public void SetPoolType(GameObject prefab)
         {
             _prefab = prefab;
         }
