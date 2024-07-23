@@ -192,6 +192,7 @@ public abstract class StageManagerBase : WorldManagerBase
             _objectiveArrow.localRotation = rot;
             _objectiveArrow.localPosition = rot * new Vector3(PLAYER_OBJARROW_DISTANCE, 0.0f, 0.0f);
         }
+
         base.Update();
     }
 

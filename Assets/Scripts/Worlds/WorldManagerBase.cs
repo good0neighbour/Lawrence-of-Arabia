@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System;
 
 public abstract class WorldManagerBase : MonoBehaviour
 {
@@ -12,7 +11,6 @@ public abstract class WorldManagerBase : MonoBehaviour
     [Header("Reference")]
     [SerializeField] private Image _blackScreen = null;
     [SerializeField] private TextMeshProUGUI _mapNameText = null;
-    [SerializeField] private Joystick _joystick = null;
     protected GameDelegate Delegate = null;
     protected string SceneToLoad = null;
     protected float Timer = 0.0f;
@@ -68,14 +66,13 @@ public abstract class WorldManagerBase : MonoBehaviour
         _mapNameText.text = _worldName;
 
         // Delegate
-        Delegate += _joystick.JoystickUpdate;
         Delegate += BlackScreenFadeOut;
     }
 
 
     protected virtual void Update()
     {
-        Delegate.Invoke();
+        Delegate?.Invoke();
     }
 
 

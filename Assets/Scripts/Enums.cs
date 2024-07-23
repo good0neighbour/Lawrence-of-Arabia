@@ -1,3 +1,17 @@
+public enum TouchInput
+{
+    F,
+    E,
+    Q,
+    Z,
+    X,
+    Num1,
+    Num2,
+    Num3,
+    End
+}
+
+
 public enum DialogueTypes
 {
     Narration,

@@ -1,10 +1,16 @@
 using UnityEngine;
 
-public class SimpleParticleEffect : ObjectPool.PoolObject
+public class SimpleParticleEffect : MonoBehaviour, ObjectPool.PoolObject
 {
     /* ==================== Fields ==================== */
 
     [SerializeField] private ParticleSystem _particleSystem = null;
+
+    public GameObject PrefabType
+    {
+        get;
+        set;
+    }
 
 
 
@@ -14,7 +20,7 @@ public class SimpleParticleEffect : ObjectPool.PoolObject
     {
         if (_particleSystem.isStopped)
         {
-            ReturnObject();
+            StageManagerBase.ObjectPool.ReturnObject(PrefabType, gameObject);
         }
     }
 }

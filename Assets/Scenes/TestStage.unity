@@ -12667,7 +12667,6 @@ MonoBehaviour:
   _worldName: TestStage
   _blackScreen: {fileID: 6677295559509775653}
   _mapNameText: {fileID: 6677295559509775652}
-  _joystick: {fileID: 826337707}
   _failureScreen: {fileID: 1802292800}
   _objectiveText: {fileID: 6677295559509775655}
   _objectiveArrow: {fileID: 1816991755337950026}

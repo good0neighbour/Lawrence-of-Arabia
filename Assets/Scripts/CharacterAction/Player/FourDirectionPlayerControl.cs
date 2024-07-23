@@ -9,7 +9,6 @@ public class FourDirectionPlayerControl : MonoBehaviour
 
     [SerializeField] private Animator _animator = null;
     [SerializeField] private NavMeshAgent _agent = null;
-    [SerializeField] private Joystick _joystick = null;
     [SerializeField] private Transform _sprite = null;
     [SerializeField] private Transform _camPos = null;
     private GameDelegate _interaction = null;
@@ -169,19 +168,19 @@ public class FourDirectionPlayerControl : MonoBehaviour
         // Destination
         if (_joystickControl)
         {
-            if (_joystick.JoystickDistance > 0.0f)
+            if (UserControl.JoystickDistance > 0.0f)
             {
                 if (!_isReserved)
                 {
                     // Joystick control
-                    Vector2 weight = _joystick.JoystickWeight.normalized;
+                    Vector2 weight = UserControl.JoystickWeight.normalized;
                     _agent.ResetPath();
                     _agent.SetDestination(new Vector3(
                         weight.x + transform.position.x,
                         0.0f,
                         weight.y + transform.position.z
                     ));
-                    _agent.speed = _joystick.JoystickDistance * _defaultSpeed;
+                    _agent.speed = UserControl.JoystickDistance * _defaultSpeed;
                 }
             }
             else
@@ -191,7 +190,7 @@ public class FourDirectionPlayerControl : MonoBehaviour
                 _agent.ResetPath();
             }
         }
-        else if (_joystick.JoystickPressing)
+        else if (UserControl.JoystickPressing)
         {
             // Start joystick control
             _joystickControl = true;

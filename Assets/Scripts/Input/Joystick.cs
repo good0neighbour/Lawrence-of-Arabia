@@ -11,32 +11,12 @@ public class Joystick : MonoBehaviour
     private Vector2 _initialPosition = Vector2.zero;
     private Vector2 _initialHandlePosition = Vector2.zero;
     private Vector2 _joystickControl = Vector2.zero;
+    private Vector2 _weight = Vector2.zero;
     private sbyte _directionX = 0;
     private sbyte _directionY = 0;
     private byte _joystickState = JOYSTICK_UNAVAILABLE;
     private float _handleDistance = 0.0f;
-
-    public Vector2 JoystickWeight
-    {
-        get;
-        private set;
-    }
-
-    /// <summary>
-    /// Normalized distance
-    /// </summary>
-    public float JoystickDistance
-    {
-        get;
-        private set;
-    }
-
-
-    public bool JoystickPressing
-    {
-        get;
-        private set;
-    }
+    private bool _isPressing = false;
 
 
 
@@ -48,7 +28,7 @@ public class Joystick : MonoBehaviour
         _initialHandlePosition = _handle.localPosition;
         _joystickStateDel = JoystickDrag;
         _joystickState = JOYSTICK_DRAGGING;
-        JoystickPressing = true;
+        _isPressing = true;
     }
 
 
@@ -58,7 +38,7 @@ public class Joystick : MonoBehaviour
         if (_handleDistance < Mathf.Epsilon)
         {
             _handle.localPosition = Vector3.zero;
-            JoystickWeight = Vector2.zero;
+            _weight = Vector2.zero;
             _joystickStateDel = JoystickStandby;
         }
         // Dragged
@@ -69,7 +49,7 @@ public class Joystick : MonoBehaviour
         }
 
         _joystickState = JOYSTICK_STANDINGBY;
-        JoystickPressing = false;
+        _isPressing = false;
     }
 
 
@@ -94,7 +74,9 @@ public class Joystick : MonoBehaviour
     /// <summary>
     /// Functions in Update
     /// </summary>
-    public void JoystickUpdate()
+    /// <param name="isPressing">Bool value if it is being pressing</param>
+    /// <returns>Normalized joystick weight</returns>
+    public Vector2 JoystickUpdate(out bool isPressing)
     {
         #region Joystick controlled by Keyboard
         if (Input.GetKeyDown(KeyCode.A))
@@ -140,7 +122,9 @@ public class Joystick : MonoBehaviour
         #endregion
 
         _joystickStateDel.Invoke();
-        JoystickDistance = Mathf.Sqrt(JoystickWeight.x * JoystickWeight.x + JoystickWeight.y * JoystickWeight.y);
+
+        isPressing = _isPressing;
+        return _weight;
     }
 
 
@@ -150,21 +134,21 @@ public class Joystick : MonoBehaviour
     private void JoystickDrag()
     {
         // User darg
-        JoystickWeight = (Vector2)Input.mousePosition - _initialPosition + _initialHandlePosition;
-        _handleDistance = Mathf.Sqrt(JoystickWeight.x * JoystickWeight.x + JoystickWeight.y * JoystickWeight.y);
+        _weight = (Vector2)Input.mousePosition - _initialPosition + _initialHandlePosition;
+        _handleDistance = Mathf.Sqrt(_weight.x * _weight.x + _weight.y * _weight.y);
 
         // Drag limit
         if (_handleDistance > _radius)
         {
-            JoystickWeight = JoystickWeight / _handleDistance * _radius;
+            _weight = _weight / _handleDistance * _radius;
             _handleDistance = _radius;
         }
 
         // Set handle position;
-        _handle.localPosition = JoystickWeight;
+        _handle.localPosition = _weight;
 
         // Normalize joystick weight
-        JoystickWeight /= _radius;
+        _weight /= _radius;
     }
 
 
@@ -193,7 +177,7 @@ public class Joystick : MonoBehaviour
                 }
 
                 // Joystick weight change
-                JoystickWeight = (Vector2)_handle.localPosition / _radius;
+                _weight = (Vector2)_handle.localPosition / _radius;
                 return;
         }
     }
@@ -205,21 +189,21 @@ public class Joystick : MonoBehaviour
         {
             case JOYSTICK_KEYBOARD:
                 // Joystick weight change
-                JoystickWeight = new Vector3(
-                    JoystickWeight.x + _initialPosition.x / _handleDistance * JOYSTICK_CONTROL_SPEED * Time.deltaTime,
-                    JoystickWeight.y + _initialPosition.y / _handleDistance * JOYSTICK_CONTROL_SPEED * Time.deltaTime,
+                _weight = new Vector3(
+                    _weight.x + _initialPosition.x / _handleDistance * JOYSTICK_CONTROL_SPEED * Time.deltaTime,
+                    _weight.y + _initialPosition.y / _handleDistance * JOYSTICK_CONTROL_SPEED * Time.deltaTime,
                     0.0f
                 );
 
                 // Change end
-                if (_initialPosition.x * (_joystickControl.x - JoystickWeight.x) < 0.0f || _initialPosition.y * (_joystickControl.y - JoystickWeight.y) < 0.0f)
+                if (_initialPosition.x * (_joystickControl.x - _weight.x) < 0.0f || _initialPosition.y * (_joystickControl.y - _weight.y) < 0.0f)
                 {
-                    JoystickWeight = _joystickControl;
+                    _weight = _joystickControl;
                     _joystickState = JOYSTICK_STANDINGBY;
                 }
 
                 // Handle Position
-                _handle.localPosition = (Vector3)(JoystickWeight * _radius);
+                _handle.localPosition = (Vector3)(_weight * _radius);
                 return;
         }
     }
@@ -236,7 +220,7 @@ public class Joystick : MonoBehaviour
             default:
                 if (x == 0 && y == 0)
                 {
-                    _handleDistance = Mathf.Sqrt(JoystickWeight.x * JoystickWeight.x + JoystickWeight.y * JoystickWeight.y) * _radius;
+                    _handleDistance = Mathf.Sqrt(_weight.x * _weight.x + _weight.y * _weight.y) * _radius;
                     OnTouchUp();
                     return;
                 }
@@ -249,10 +233,10 @@ public class Joystick : MonoBehaviour
                     _joystickControl /= length;
                 }
 
-                _initialPosition = _joystickControl - JoystickWeight;
+                _initialPosition = _joystickControl - _weight;
                 _handleDistance = length;
                 _joystickState = JOYSTICK_KEYBOARD;
-                JoystickPressing = true;
+                _isPressing = true;
                 return;
         }
     }

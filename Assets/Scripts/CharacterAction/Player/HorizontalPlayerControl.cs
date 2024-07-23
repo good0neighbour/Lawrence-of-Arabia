@@ -318,15 +318,6 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
-    protected override void Start()
-    {
-        base.Start();
-
-        // ObjectPool Prepare
-        StageManagerBase.ObjectPool.PoolPreparing(_bloodEftPrefab);
-    }
-
-
     protected override void Update()
     {
         base.Update();
@@ -372,36 +363,36 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
 
         #region Input
         // Character actions
-        if (Input.GetKey(KeyCode.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
+        if (UserControl.GetKey(TouchInput.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
         {
             Attack();
         }
-        else if (Input.GetKeyUp(KeyCode.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
+        else if (UserControl.GetKeyUp(TouchInput.F) && _characters[_curChar].Weapon != CharacterWeapons.None)
         {
             AttackKeyUp();
         }
-        else if (Input.GetKeyDown(KeyCode.Q))
+        else if (UserControl.GetKeyDown(TouchInput.Q))
         {
             Extra();
         }
-        else if (_interaction && Input.GetKeyDown(KeyCode.E))
+        else if (_interaction && UserControl.GetKeyDown(TouchInput.E))
         {
             Interact();
         }
 
         // Switch character
-        else if (Input.GetKeyDown(KeyCode.Alpha1)
+        else if (UserControl.GetKeyDown(TouchInput.Num1)
             && _characters[0].Health > 0)
         {
             CharacterChange(0);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)
+        else if (UserControl.GetKeyDown(TouchInput.Num2)
             && _characters.Length > 1
             && _characters[1].Health > 0)
         {
             CharacterChange(1);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3)
+        else if (UserControl.GetKeyDown(TouchInput.Num3)
             && _characters.Length > 2
             && _characters[2].Health > 0)
         {
@@ -409,26 +400,26 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
         }
 
         // Camera zoom in, out
-        else if (Input.GetKeyDown(KeyCode.Z))
+        else if (UserControl.GetKeyDown(TouchInput.Z))
         {
             CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMOUT_SIZE);
         }
-        else if (Input.GetKeyUp(KeyCode.Z))
+        else if (UserControl.GetKeyUp(TouchInput.Z))
         {
             CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if (UserControl.GetKeyDown(TouchInput.X))
         {
             CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_ZOOMIN_SIZE);
         }
-        else if (Input.GetKeyUp(KeyCode.X))
+        else if (UserControl.GetKeyUp(TouchInput.X))
         {
             CameraHorizontalMovement.Instance.SetTargetSize(HOR_CAM_DEFAULT_SIZE);
         }
         #endregion
 
         // Jump
-        float yWeight = Joystick.JoystickWeight.y;
+        float yWeight = UserControl.JoystickWeight.y;
         if (_jumpAvailable)
         {
             if (JOYSTICK_JUMP_WEIGHT <= yWeight)
@@ -552,10 +543,17 @@ public class HorizontalPlayerControl : HorizontalMovement, IHit
     }
 
 
+    private void Start()
+    {
+        // ObjectPool Prepare
+        StageManagerBase.ObjectPool.PoolPreparing(_bloodEftPrefab);
+    }
+
+
     private void FixedUpdate()
     {
         // Sprite flip, position
-        SetPositionWithFlip(Joystick.JoystickWeight.x);
+        SetPositionWithFlip(UserControl.JoystickWeight.x);
     }
 
 

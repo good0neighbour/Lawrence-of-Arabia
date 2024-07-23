@@ -1,12 +1,18 @@
 using UnityEngine;
 
-public class LineRendererAttackEffect : ObjectPool.PoolObject
+public class LineRendererAttackEffect : MonoBehaviour, ObjectPool.PoolObject
 {
     /* ==================== Fields ==================== */
 
     [SerializeField] private LineRenderer _lineRenderer = null;
     [SerializeField] private float _effectFadeOutSpeed = 1.0f;
     private float _alpha = 1.0f;
+
+    public GameObject PrefabType
+    {
+        get;
+        set;
+    }
 
 
 
@@ -49,7 +55,7 @@ public class LineRendererAttackEffect : ObjectPool.PoolObject
     {
         if (_alpha <= 0.0f)
         {
-            ReturnObject();
+            StageManagerBase.ObjectPool.ReturnObject(PrefabType, gameObject);
         }
         // Set color
         SetColor();

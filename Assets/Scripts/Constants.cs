@@ -76,6 +76,8 @@ public class Constants
 
     // Horizontal Stage Settings
     public const byte HS_MAX_CHARACTER = 3;
+    public const float HS_MIN_ENEMY_SPAWN_DIS = 5.0f;
+    public const float HS_MAX_ENEMY_SPAWN_DIS = 10.0f;
 
     // Stage Message Settings
     public const float STGMSG_SPEED = 2.0f;
@@ -140,6 +142,12 @@ public class Constants
     public const byte CUTSCENE_FADEIN = 0;
     public const byte CUTSCENE_ACTION = 1;
     public const byte CUTSCENE_FADEOUT = 2;
+
+    // Key State
+    public const byte TOUCH_NONE = 0;
+    public const byte TOUCH_DOWN = 1;
+    public const byte TOUCH_PRESSING = 2;
+    public const byte TOUCH_UP = 3;
 
     // Behaviour Tree
     public const byte SUCCESS = 1;

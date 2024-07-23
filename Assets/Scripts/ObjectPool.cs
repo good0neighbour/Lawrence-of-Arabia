@@ -28,7 +28,7 @@ public class ObjectPool
         {
             GameObject ob = Object.Instantiate(prefab, _parent);
             ob.SetActive(false);
-            ob.GetComponent<PoolObject>().SetPoolType(prefab);
+            ob.GetComponent<PoolObject>().PrefabType = prefab;
             _pools.Add(prefab, new Queue<GameObject>());
             _pools[prefab].Enqueue(ob);
         }
@@ -48,7 +48,7 @@ public class ObjectPool
         else
         {
             GameObject ob = Object.Instantiate(prefab, _parent);
-            ob.GetComponent<PoolObject>().SetPoolType(prefab);
+            ob.GetComponent<PoolObject>().PrefabType = prefab;
             return ob.transform;
         }
     }
@@ -62,25 +62,17 @@ public class ObjectPool
 
 
 
-    /* ==================== Class ==================== */
+    /* ==================== Interface ==================== */
 
     /// <summary>
-    /// All pool objects must inherit this class.
+    /// All pool objects must inherit this interface.
     /// </summary>
-    public abstract class PoolObject : MonoBehaviour
+    public interface PoolObject
     {
-        private GameObject _prefab = null;
-
-
-        public void SetPoolType(GameObject prefab)
+        public GameObject PrefabType
         {
-            _prefab = prefab;
-        }
-
-
-        protected void ReturnObject()
-        {
-            StageManagerBase.ObjectPool.ReturnObject(_prefab, gameObject);
+            get;
+            set;
         }
     }
 }

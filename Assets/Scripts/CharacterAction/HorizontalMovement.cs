@@ -7,7 +7,6 @@ public class HorizontalMovement : MonoBehaviour
 
     [SerializeField, HideInInspector] protected sbyte IsFlipNum = 1;
     [SerializeField, HideInInspector] private bool _isFlip = false;
-    protected Joystick Joystick = null;
     protected Animator Animator = null;
     protected bool IsGrounded = true;
     protected bool Paused = true;
@@ -109,12 +108,6 @@ public class HorizontalMovement : MonoBehaviour
 
         // Initial jump action
         _jumpState = JumpNone;
-    }
-
-
-    protected virtual void Start()
-    {
-        Joystick = CanvasPlayController.Instance.Joystick;
     }
 
 

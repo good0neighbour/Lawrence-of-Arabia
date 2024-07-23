@@ -285,10 +285,8 @@ public abstract class EnemyBase : HorizontalMovement, IHit
     }
 
 
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
-
         // Player Transform
         Player = HorizontalPlayerControl.Instance.transform;
 
@@ -319,53 +317,6 @@ public abstract class EnemyBase : HorizontalMovement, IHit
 
         // Enemy behaviour
         _behav.Execute();
-    }
-
-
-    private void FixedUpdate()
-    {
-        // Active check
-        if (Paused)
-        {
-            return;
-        }
-
-        // Move direction deligate
-        _behavDel?.Invoke();
-
-        // Position, Flip
-        SetPositionWithFlip(_velocity);
-
-        // KnockBack
-        switch (_knockback)
-        {
-            case 0.0f:
-                break;
-
-            default:
-                transform.localPosition = new Vector3(
-                    transform.localPosition.x + _knockback * Time.fixedDeltaTime,
-                    transform.localPosition.y,
-                    0.0f
-                );
-                if (_knockback > 0.0f)
-                {
-                    _knockback -= PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
-                    if (_knockback < 0.0f)
-                    {
-                        _knockback = 0.0f;
-                    }
-                }
-                else
-                {
-                    _knockback += PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
-                    if (_knockback > 0.0f)
-                    {
-                        _knockback = 0.0f;
-                    }
-                }
-                break;
-        }
     }
 
 
@@ -727,5 +678,52 @@ public abstract class EnemyBase : HorizontalMovement, IHit
             _urgentMeter = 1.0f;
         }
         _notice.fillAmount = _urgentMeter;
+    }
+
+
+    private void FixedUpdate()
+    {
+        // Active check
+        if (Paused)
+        {
+            return;
+        }
+
+        // Move direction deligate
+        _behavDel?.Invoke();
+
+        // Position, Flip
+        SetPositionWithFlip(_velocity);
+
+        // KnockBack
+        switch (_knockback)
+        {
+            case 0.0f:
+                break;
+
+            default:
+                transform.localPosition = new Vector3(
+                    transform.localPosition.x + _knockback * Time.fixedDeltaTime,
+                    transform.localPosition.y,
+                    0.0f
+                );
+                if (_knockback > 0.0f)
+                {
+                    _knockback -= PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
+                    if (_knockback < 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                else
+                {
+                    _knockback += PLAYER_KNOCKBACK_ACC * Time.fixedDeltaTime;
+                    if (_knockback > 0.0f)
+                    {
+                        _knockback = 0.0f;
+                    }
+                }
+                break;
+        }
     }
 }

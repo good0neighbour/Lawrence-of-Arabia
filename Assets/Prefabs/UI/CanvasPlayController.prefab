@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8974038556934729928}
   - component: {fileID: 4729476085742544938}
   - component: {fileID: 2143916540102401403}
+  - component: {fileID: 7599188687428941578}
   - component: {fileID: 1219459810963546873}
   m_Layer: 5
   m_Name: ButtonChar
@@ -80,6 +81,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7599188687428941578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46281352432863638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1997c0551327d624b9187dcf806a5b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetKey: 5
 --- !u!114 &1219459810963546873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,14 +107,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 4
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonCharacter
-          m_Mode: 3
+        - m_Target: {fileID: 7599188687428941578}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7599188687428941578}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchUp
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -120,6 +150,7 @@ GameObject:
   - component: {fileID: 5248447352152556360}
   - component: {fileID: 7850394675460769261}
   - component: {fileID: 4612336445245880836}
+  - component: {fileID: 1574226627029489912}
   - component: {fileID: 3952612270920523440}
   m_Layer: 5
   m_Name: ButtonZoomOut
@@ -135,12 +166,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110585489907576512}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4229854900293147763}
+  m_Father: {fileID: 1475517690581247632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -185,6 +216,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1574226627029489912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110585489907576512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1997c0551327d624b9187dcf806a5b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetKey: 4
 --- !u!114 &3952612270920523440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,10 +246,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonDown
-          m_Mode: 3
+        - m_Target: {fileID: 1574226627029489912}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchDown
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -218,10 +262,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonUp
-          m_Mode: 3
+        - m_Target: {fileID: 1574226627029489912}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchUp
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -751,13 +795,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989871148363610338}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3902936802555301265}
-  m_Father: {fileID: 4229854900293147763}
+  m_Father: {fileID: 1475517690581247632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1658,6 +1702,7 @@ GameObject:
   - component: {fileID: 1407882907260695438}
   - component: {fileID: 4911830607135726901}
   - component: {fileID: 1914920781446150353}
+  - component: {fileID: 3081482631818063601}
   - component: {fileID: 90024442907651879}
   m_Layer: 5
   m_Name: ButtonInteract
@@ -1673,12 +1718,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4526359070971297873}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4229854900293147763}
+  m_Father: {fileID: 1475517690581247632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1723,6 +1768,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3081482631818063601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526359070971297873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1997c0551327d624b9187dcf806a5b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetKey: 1
 --- !u!114 &90024442907651879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1736,18 +1794,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 4
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonClick
-          m_Mode: 3
+        - m_Target: {fileID: 3081482631818063601}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchDown
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3081482631818063601}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -1839,6 +1913,7 @@ GameObject:
   - component: {fileID: 2159236636958046975}
   - component: {fileID: 6291959877940934344}
   - component: {fileID: 2111109212475054256}
+  - component: {fileID: 3012386415300390701}
   - component: {fileID: 1759420915892295283}
   m_Layer: 5
   m_Name: ButtonExtra
@@ -1854,12 +1929,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4863303324229019368}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4229854900293147763}
+  m_Father: {fileID: 1475517690581247632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1904,6 +1979,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3012386415300390701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4863303324229019368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1997c0551327d624b9187dcf806a5b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetKey: 2
 --- !u!114 &1759420915892295283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1917,18 +2005,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 4
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonClick
-          m_Mode: 3
+        - m_Target: {fileID: 3012386415300390701}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchDown
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 2
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3012386415300390701}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -2304,6 +2408,7 @@ GameObject:
   - component: {fileID: 1861340244099227979}
   - component: {fileID: 2563012497794853950}
   - component: {fileID: 3666254316348620750}
+  - component: {fileID: 9172578603689409870}
   - component: {fileID: 7547745656961988762}
   m_Layer: 5
   m_Name: ButtonZoomIn
@@ -2319,12 +2424,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5777155955092726550}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4229854900293147763}
+  m_Father: {fileID: 1475517690581247632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2369,6 +2474,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9172578603689409870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5777155955092726550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1997c0551327d624b9187dcf806a5b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetKey: 3
 --- !u!114 &7547745656961988762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2386,10 +2504,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonDown
-          m_Mode: 3
+        - m_Target: {fileID: 9172578603689409870}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchDown
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2402,10 +2520,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonUp
-          m_Mode: 3
+        - m_Target: {fileID: 9172578603689409870}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchUp
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2424,6 +2542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4229854900293147763}
   - component: {fileID: 6636362913922744925}
+  - component: {fileID: 3766068767478744904}
   - component: {fileID: 6375764228802010397}
   - component: {fileID: 919958807011607750}
   - component: {fileID: 2993820049338111328}
@@ -2446,12 +2565,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3664473582445095711}
-  - {fileID: 5248447352152556360}
-  - {fileID: 1861340244099227979}
-  - {fileID: 5545144614819437176}
-  - {fileID: 1407882907260695438}
-  - {fileID: 2159236636958046975}
+  - {fileID: 1475517690581247632}
   - {fileID: 559662893111533505}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2487,6 +2601,18 @@ MonoBehaviour:
   - HealthGage: {fileID: 7768478039730924680}
     KIA: {fileID: 9032124706899796360}
     Button: {fileID: 7388157894566787298}
+--- !u!114 &3766068767478744904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6092938329398049202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4475ed887ef28c846956f6a251915990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!223 &6375764228802010397
 Canvas:
   m_ObjectHideFlags: 0
@@ -2637,6 +2763,7 @@ GameObject:
   - component: {fileID: 8616117985045132988}
   - component: {fileID: 6122819661331856601}
   - component: {fileID: 6542302572156812725}
+  - component: {fileID: 2863456677805683502}
   - component: {fileID: 5471572415311299343}
   m_Layer: 5
   m_Name: ButtonChar (1)
@@ -2706,6 +2833,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2863456677805683502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433844596434566649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1997c0551327d624b9187dcf806a5b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetKey: 6
 --- !u!114 &5471572415311299343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2719,18 +2859,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 4
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonCharacter
-          m_Mode: 3
+        - m_Target: {fileID: 2863456677805683502}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchDown
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2863456677805683502}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -2746,6 +2902,7 @@ GameObject:
   - component: {fileID: 5545144614819437176}
   - component: {fileID: 6175047482563493473}
   - component: {fileID: 1997924814716464989}
+  - component: {fileID: 4124582263517226728}
   - component: {fileID: 6762652606926496320}
   m_Layer: 5
   m_Name: ButtonAttack
@@ -2761,12 +2918,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6655038916916559655}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4229854900293147763}
+  m_Father: {fileID: 1475517690581247632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -2811,6 +2968,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4124582263517226728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6655038916916559655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1997c0551327d624b9187dcf806a5b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetKey: 0
 --- !u!114 &6762652606926496320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2828,10 +2998,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonDown
-          m_Mode: 3
+        - m_Target: {fileID: 4124582263517226728}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchDown
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2844,10 +3014,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonUp
-          m_Mode: 3
+        - m_Target: {fileID: 4124582263517226728}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchUp
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2990,6 +3160,47 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &7422150352815623415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1475517690581247632}
+  m_Layer: 5
+  m_Name: MobileUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1475517690581247632
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7422150352815623415}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3664473582445095711}
+  - {fileID: 5248447352152556360}
+  - {fileID: 1861340244099227979}
+  - {fileID: 5545144614819437176}
+  - {fileID: 1407882907260695438}
+  - {fileID: 2159236636958046975}
+  m_Father: {fileID: 4229854900293147763}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7898783613547866935
 GameObject:
   m_ObjectHideFlags: 0
@@ -3077,6 +3288,7 @@ GameObject:
   - component: {fileID: 7388157894566787298}
   - component: {fileID: 4752922846196051603}
   - component: {fileID: 2479117091403324122}
+  - component: {fileID: 64758840231717265}
   - component: {fileID: 8798611621823243585}
   m_Layer: 5
   m_Name: ButtonChar (2)
@@ -3146,6 +3358,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &64758840231717265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874069208245864978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1997c0551327d624b9187dcf806a5b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetKey: 7
 --- !u!114 &8798611621823243585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3159,18 +3384,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 4
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6636362913922744925}
-          m_TargetAssemblyTypeName: CanvasPlayController, Assembly-CSharp
-          m_MethodName: ButtonCharacter
-          m_Mode: 3
+        - m_Target: {fileID: 64758840231717265}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchDown
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 2
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 64758840231717265}
+          m_TargetAssemblyTypeName: TouchButton, Assembly-CSharp
+          m_MethodName: TouchUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
